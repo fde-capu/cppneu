@@ -3,59 +3,74 @@
 #include <cstdlib>
 #include <random>
 #include <climits>
+#include <thread>
+#include <chrono>
+#include <mutex>
+#include <future>
+#include <atomic>
+#include <cstdio>
 
 #define MEMORY_TYPE_SIZE unsigned char
-#define THRESHOLD_DECAY 0.4
-#define OUTPUT_VALUE_DECAY 0.8
-#define ASCII_BAR_LENGTH 32
+#define ASCII_BAR_LENGTH 48
 
 template <typename T = MEMORY_TYPE_SIZE>
 T randomValue() {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> dist(std::numeric_limits<T>::min(), std::numeric_limits<T>::max());
+    std::uniform_int_distribution<typename std::make_unsigned<T>::type> dist(std::numeric_limits<T>::min(), std::numeric_limits<T>::max());
     return static_cast<T>(dist(gen));
 }
 
 template <typename T = MEMORY_TYPE_SIZE>
+T variateValue(T value, float band = 1.0) {
+	T random = randomValue<T>();
+	T diff = (random - value) * band;
+	value += diff;
+	return value;
+}
+
+template <typename T = MEMORY_TYPE_SIZE>
 class Neuron {
-private:
-    T threshold;
-    T originalThreshold;
-    T* inputAddress;
-    T* outputAddress;
-    double thresholdDecay; // New member variable for threshold decay
-    double outputValueDecay; // New member variable for output value decay
+	private:
+		T threshold;
+		T originalThreshold;
+		T* inputAddress;
+		T* outputAddress;
 
-public:
-    Neuron(T* inputAddress, T* outputAddress, double thresholdDecay = THRESHOLD_DECAY, double outputValueDecay = OUTPUT_VALUE_DECAY)
-        : inputAddress(inputAddress), outputAddress(outputAddress), thresholdDecay(thresholdDecay), outputValueDecay(outputValueDecay) {
-        threshold = randomValue<T>();
-        originalThreshold = threshold;
-    }
+	public:
+		Neuron(T* inputMemory, T* outputMemory)
+			: threshold(rand() % std::numeric_limits<T>::max()), originalThreshold(threshold), inputAddress(inputMemory), outputAddress(outputMemory) {}
 
-    T getThreshold() const {
-        return threshold;
-    }
+		T getThreshold() const {
+			return threshold;
+		}
 
-    T getOriginalThreshold() const {
-        return originalThreshold;
-    }
+		T getOriginalThreshold() const {
+			return originalThreshold;
+		}
 
-    void writeRandomInputValue() {
-        *inputAddress = randomValue<T>();
-    }
+		void readRandomInputValue() {
+			*inputAddress = variateValue<T>(*inputAddress, 0.4);
+		}
 
-    void process() {
-        if (*inputAddress > threshold) {
-            threshold = *inputAddress;
-            *outputAddress = *inputAddress;
-        } else {
-            *outputAddress *= outputValueDecay;
-        }
-        threshold = originalThreshold + ((threshold - originalThreshold) * thresholdDecay); // Updated threshold update line
-        *inputAddress = 0;
-    }
+		void updateInternals() {
+			T diff;
+			diff = threshold - originalThreshold;
+			threshold -= (diff * diff) / 2 / std::numeric_limits<T>::max();
+			if (threshold > originalThreshold)
+				threshold -= 1;
+		}
+
+		void process() {
+			updateInternals();
+			if (*inputAddress >= threshold) {
+				*outputAddress = 1;
+				threshold = *inputAddress;
+			} else {
+				*outputAddress = 0;
+			}
+
+		}
 };
 
 template <typename T>
@@ -65,42 +80,89 @@ void printAsciiBar(T inputValue, T threshold, T originalThreshold, int length) {
     int scaledThreshold = static_cast<int>(threshold * scaleFactor);
     int scaledOriginalThreshold = static_cast<int>(originalThreshold * scaleFactor);
 
+		std::cout << "[";
     for (int i = 0; i < length; i++) {
-        if (i == scaledThreshold) {
-            std::cout << '|';
+        if (i == scaledOriginalThreshold && i == scaledThreshold) {
+            std::cout << '!';
         } else if (i == scaledOriginalThreshold) {
-            std::cout << '*';
+            std::cout << '|';
+        } else if (i == scaledThreshold) {
+            std::cout << '+';
         } else if (i < scaledInputValue) {
-            std::cout << '=';
-        } else {
             std::cout << '-';
+        } else {
+            std::cout << ' ';
         }
     }
-    std::cout << std::endl;
+		std::cout << "]";
+
+		if (inputValue >= threshold)
+			std::cout << " *";
+		else
+			std::cout << "  ";
+
+		std::cout << "\t" << static_cast<int>(inputValue) << "\t" << static_cast<int>(threshold) << "\t" << static_cast<int>(originalThreshold);
+		std::cout << "        ";
+}
+
+std::mutex mtx; // Mutex for synchronizing access to inputMemory
+std::atomic<bool> running(true);
+
+void neuronThread(Neuron<MEMORY_TYPE_SIZE>* neuron, MEMORY_TYPE_SIZE* inputMemory, MEMORY_TYPE_SIZE* outputMemory) {
+    while (running) {
+        mtx.lock();
+        neuron->readRandomInputValue();
+        mtx.unlock();
+
+        printf("\r"); // Move cursor to the beginning of the line
+        fflush(stdout); // Flush the output buffer to ensure the cursor is moved
+
+        printAsciiBar(*inputMemory, neuron->getThreshold(), neuron->getOriginalThreshold(), ASCII_BAR_LENGTH); // Update to use new printAsciiBar() function
+        (void)outputMemory;
+
+        neuron->process();
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+}
+
+void biasNeuronThread(MEMORY_TYPE_SIZE* inputMemory) {
+    Neuron<MEMORY_TYPE_SIZE> biasNeuron(inputMemory, nullptr);
+
+    while (running) {
+        mtx.lock();
+        biasNeuron.readRandomInputValue();
+        mtx.unlock();
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+}
+
+void userInputThread() {
+    char c;
+    while (running) {
+        c = getchar();
+        if (c == 'q' || c == 'Q') {
+            running = false;
+        }
+    }
 }
 
 int main() {
     srand(time(NULL));
 
-    MEMORY_TYPE_SIZE inputMemory; // Removed the initialization
+    MEMORY_TYPE_SIZE inputMemory;
     MEMORY_TYPE_SIZE outputMemory = 0;
 
     Neuron<MEMORY_TYPE_SIZE> neuron(&inputMemory, &outputMemory);
 
-    for (int i = 0; i < 3; i++) {
-        neuron.writeRandomInputValue();
+    std::thread neuron_thread(neuronThread, &neuron, &inputMemory, &outputMemory);
+    std::thread bias_neuron_thread(biasNeuronThread, &inputMemory);
+    std::thread user_input_thread(userInputThread);
 
-        std::cout << "Run " << i + 1 << std::endl;
-        std::cout << "Threshold: " << static_cast<int>(neuron.getThreshold()) << std::endl;
-        std::cout << "Input value: " << static_cast<int>(inputMemory) << std::endl;
-
-        printAsciiBar(inputMemory, neuron.getThreshold(), neuron.getOriginalThreshold(), ASCII_BAR_LENGTH);
-
-        neuron.process();
-
-        std::cout << "Output value: " << static_cast<int>(outputMemory) << std::endl;
-        std::cout << std::endl;
-    }
+    neuron_thread.join();
+    bias_neuron_thread.join();
+    user_input_thread.join();
 
     return 0;
 }

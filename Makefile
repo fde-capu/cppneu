@@ -7,7 +7,7 @@ ARGS	=
 SRCS	=	main.cpp
 HEAD	=	Makefile
 SHELL	=	/bin/sh
-CC		=	clang++ -Wfatal-errors -std=c++20 -Wc++20-extensions
+CC		=	clang++ -Wfatal-errors -std=c++20 -Wc++20-extensions -pthread
 CCFLAGS	=	-Wall -Werror -Wextra -g
 CCFLAGS	=	-Wall -Werror -Wextra -g -Wfatal-errors
 CCLINKS	=	#-Llibft -lft
