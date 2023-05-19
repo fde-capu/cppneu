@@ -24,8 +24,6 @@ T randomValue() {
 
 template <typename T = MEMORY_TYPE_SIZE>
 T variateValue(T value, float band = 1.0) {
-	if (!(rand() % 30))
-		return std::numeric_limits<T>::max();
 	T newValue = randomValue<T>();
 	value = ((float)newValue - (float)value) * band + (float)value;
 	return value;
@@ -113,6 +111,7 @@ void printAsciiBar(T inputValue, T threshold, T originalThreshold, float thresho
 			std::cout << "  ";
 
 		std::cout << "\t" << static_cast<T>(inputValue) << "\t" << static_cast<T>(threshold) << "\t" << static_cast<T>(originalThreshold) << "\t" << thresholdDecreaseFactor;
+		std::cout << std::endl;
 }
 
 std::mutex mtx; // Mutex for synchronizing access to inputMemory
@@ -123,9 +122,6 @@ void neuronThread(Neuron<MEMORY_TYPE_SIZE>* neuron, MEMORY_TYPE_SIZE* inputMemor
         mtx.lock();
         neuron->readRandomInputValue();
         mtx.unlock();
-
-        printf("\r"); // Move cursor to the beginning of the line
-        fflush(stdout); // Flush the output buffer to ensure the cursor is moved
 
         printAsciiBar(*inputMemory, neuron->getThreshold(), neuron->getOriginalThreshold(), neuron->getThresholdDecFactor(), ASCII_BAR_LENGTH); // Update to use new printAsciiBar() function
         (void)outputMemory;
