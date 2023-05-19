@@ -10,8 +10,9 @@
 #include <atomic>
 #include <cstdio>
 
-#define MEMORY_TYPE_SIZE unsigned char
+#define MEMORY_TYPE_SIZE unsigned int
 #define ASCII_BAR_LENGTH 48
+#define STEP_MS 100
 
 template <typename T = MEMORY_TYPE_SIZE>
 T randomValue() {
@@ -23,9 +24,10 @@ T randomValue() {
 
 template <typename T = MEMORY_TYPE_SIZE>
 T variateValue(T value, float band = 1.0) {
-	T random = randomValue<T>();
-	T diff = (random - value) * band;
-	value += diff;
+	if (!(rand() % 30))
+		return std::numeric_limits<T>::max();
+	T newValue = randomValue<T>();
+	value = ((float)newValue - (float)value) * band + (float)value;
 	return value;
 }
 
@@ -36,10 +38,12 @@ class Neuron {
 		T originalThreshold;
 		T* inputAddress;
 		T* outputAddress;
+		float thresholdDecreaseFactor;
 
 	public:
 		Neuron(T* inputMemory, T* outputMemory)
-			: threshold(rand() % std::numeric_limits<T>::max()), originalThreshold(threshold), inputAddress(inputMemory), outputAddress(outputMemory) {}
+			:	threshold(randomValue<T>()),
+				originalThreshold(threshold), inputAddress(inputMemory), outputAddress(outputMemory) {}
 
 		T getThreshold() const {
 			return threshold;
@@ -49,22 +53,29 @@ class Neuron {
 			return originalThreshold;
 		}
 
+		float getThresholdDecFactor() const {
+			return thresholdDecreaseFactor;
+		}
+
 		void readRandomInputValue() {
-			*inputAddress = variateValue<T>(*inputAddress, 0.4);
+			*inputAddress = variateValue<T>(*inputAddress, 0.1);
 		}
 
 		void updateInternals() {
-			T diff;
-			diff = threshold - originalThreshold;
-			threshold -= (diff * diff) / 2 / std::numeric_limits<T>::max();
-			if (threshold > originalThreshold)
-				threshold -= 1;
+			T diff = threshold - originalThreshold;
+			threshold -= diff * thresholdDecreaseFactor;
+			thresholdDecreaseFactor *= 1.01;
+//			if (threshold > originalThreshold)
+//				threshold -= std::numeric_limits<T>::max() / 100;
+				if (threshold < originalThreshold)
+					threshold = originalThreshold;
 		}
 
 		void process() {
 			updateInternals();
 			if (*inputAddress >= threshold) {
 				*outputAddress = 1;
+				thresholdDecreaseFactor = static_cast<float>(*inputAddress - threshold) / static_cast<float>(std::numeric_limits<T>::max());
 				threshold = *inputAddress;
 			} else {
 				*outputAddress = 0;
@@ -74,7 +85,7 @@ class Neuron {
 };
 
 template <typename T>
-void printAsciiBar(T inputValue, T threshold, T originalThreshold, int length) {
+void printAsciiBar(T inputValue, T threshold, T originalThreshold, float thresholdDecreaseFactor, int length) {
     double scaleFactor = static_cast<double>(length) / std::numeric_limits<T>::max();
     int scaledInputValue = static_cast<int>(inputValue * scaleFactor);
     int scaledThreshold = static_cast<int>(threshold * scaleFactor);
@@ -101,8 +112,7 @@ void printAsciiBar(T inputValue, T threshold, T originalThreshold, int length) {
 		else
 			std::cout << "  ";
 
-		std::cout << "\t" << static_cast<int>(inputValue) << "\t" << static_cast<int>(threshold) << "\t" << static_cast<int>(originalThreshold);
-		std::cout << "        ";
+		std::cout << "\t" << static_cast<T>(inputValue) << "\t" << static_cast<T>(threshold) << "\t" << static_cast<T>(originalThreshold) << "\t" << thresholdDecreaseFactor;
 }
 
 std::mutex mtx; // Mutex for synchronizing access to inputMemory
@@ -117,12 +127,12 @@ void neuronThread(Neuron<MEMORY_TYPE_SIZE>* neuron, MEMORY_TYPE_SIZE* inputMemor
         printf("\r"); // Move cursor to the beginning of the line
         fflush(stdout); // Flush the output buffer to ensure the cursor is moved
 
-        printAsciiBar(*inputMemory, neuron->getThreshold(), neuron->getOriginalThreshold(), ASCII_BAR_LENGTH); // Update to use new printAsciiBar() function
+        printAsciiBar(*inputMemory, neuron->getThreshold(), neuron->getOriginalThreshold(), neuron->getThresholdDecFactor(), ASCII_BAR_LENGTH); // Update to use new printAsciiBar() function
         (void)outputMemory;
 
         neuron->process();
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(STEP_MS));
     }
 }
 
@@ -134,7 +144,7 @@ void biasNeuronThread(MEMORY_TYPE_SIZE* inputMemory) {
         biasNeuron.readRandomInputValue();
         mtx.unlock();
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(STEP_MS));
     }
 }
 
