@@ -9,7 +9,7 @@
 # include "graphics.hpp"
 
 class Neuron {
-	private:
+	public:
 		MEMORY_TYPE_SIZE threshold;
 		MEMORY_TYPE_SIZE originalThreshold;
 		MEMORY_TYPE_SIZE inputValue;
@@ -17,54 +17,36 @@ class Neuron {
 		ZERO_ONE_SIZE thresholdPull;
 		size_t UID;
 		std::string name;
+		int type;
+		size_t slotIn;
+		size_t slotOut;
+		ZERO_ONE_SIZE multiplyer;
 
-	public:
 		static size_t globalUID;
 		static std::vector<Neuron> table;
 		static std::vector<ZERO_ONE_SIZE> out;
+		static std::vector<ZERO_ONE_SIZE> axonOut;
 		static std::vector<std::string> actions;
 		static ZERO_ONE_SIZE actionScore;
 		static std::string bestAction;
 
-		Neuron(std::string name);
-		MEMORY_TYPE_SIZE getInputValue() const;
-		MEMORY_TYPE_SIZE getThreshold() const;
-		MEMORY_TYPE_SIZE getOriginalThreshold() const;
-		size_t getUID() const;
-		MEMORY_TYPE_SIZE getOutputValue() const;
-		std::string getName() const;
+		Neuron(int type, std::string name);
+		Neuron(int type);
+
 		void process();
 		static void processAll();
-		ZERO_ONE_SIZE getThresholdDecFactor() const;
+		static void processAxons();
 		void readAxons();
 		void updateInternals();
 		static size_t size();
 		static void printAllCharacters();
 		static void printAllBars();
+		static void printAllAxons();
 		static void printOuts();
 		static void printFile();
 		void printAsciiBar();
 		void printCharacter();
-};
-
-class Axon {
-	private:
-		size_t UID;
-		size_t slotIn;
-		size_t slotOut;
-		ZERO_ONE_SIZE multiplyer;
-
-	public:
-		static std::vector<Axon> table;
-		static std::vector<ZERO_ONE_SIZE> out;
-
-		Axon();
-		size_t getUID() const;
-		size_t getSlotIn() const;
-		size_t getSlotOut() const;
-		ZERO_ONE_SIZE getMultiplyer() const;
-		static void printAll();
-		static void processAll();
+		size_t randomNeuron();
 };
 
 #endif

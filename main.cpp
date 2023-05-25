@@ -7,12 +7,12 @@ void run()
 		clear();
 
 		Neuron::processAll();
-		Axon::processAll();
 
 		Neuron::printAllCharacters();
 		Neuron::printAllBars();
 		Neuron::printOuts();
-		Axon::printAll();
+		Neuron::printAllAxons();
+//		Axon::printAll();
 
 		refresh();
 
@@ -30,23 +30,15 @@ void prepare()
 int main() {
 	prepare();
 
-  Neuron("Hungry");
-	Neuron("Eat");
-	Neuron("Satisfied");
-	Neuron("Thristy");
-	Neuron("Drink");
-	Neuron("Do nothing");
+  Neuron(T_MEASURE, "Breath");
+  Neuron(T_MEASURE, "Heart");
 
-	Axon();
-	Axon();
-	Axon();
-	Axon();
-	Axon();
-	Axon();
-	Axon();
-	Axon();
-	Axon();
-	Axon();
+	Neuron(T_ACTION, "Drop");
+
+	Neuron(T_AXON);
+	Neuron(T_AXON);
+
+//	Axon();
 
 	run();
 	return 0;
