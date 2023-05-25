@@ -1,6 +1,6 @@
 #ifndef GRAPHICS_HPP
 # define GRAPHICS_HPP
-# include <ncurses.h>
+# include "header.hpp"
 
 template <typename T>
 void printAsciiBar(Neuron<T>* neuron) {

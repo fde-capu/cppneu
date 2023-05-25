@@ -1,9 +1,6 @@
 #ifndef NEURON_HPP
 # define NEURON_HPP
-# include <string>
 # include "header.hpp"
-# include "defines.hpp"
-# include "randoms.hpp"
 
 template <typename T = MEMORY_TYPE_SIZE>
 class Neuron

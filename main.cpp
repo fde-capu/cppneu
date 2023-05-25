@@ -1,11 +1,4 @@
 #include "header.hpp"
-#include "Neuron.hpp"
-#include <iostream>
-#include <ctime>
-#include <cstdlib>
-#include <climits>
-#include <thread>
-#include <chrono>
 
 void runProcess()
 {
