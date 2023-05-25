@@ -1,5 +1,12 @@
 #ifndef NEURON_HPP
 # define NEURON_HPP
+# include "defines.hpp"
+# include <cstdlib>
+# include <string>
+# include <vector>
+# include "randoms.hpp"
+# include <ncurses.h>
+# include "graphics.hpp"
 
 class Neuron {
 	private:
@@ -13,32 +20,51 @@ class Neuron {
 
 	public:
 		static size_t globalUID;
-		static std::vector<Neuron> neuronVector;
-		static std::vector<ZERO_ONE_SIZE> neuronOut;
+		static std::vector<Neuron> table;
+		static std::vector<ZERO_ONE_SIZE> out;
+		static std::vector<std::string> actions;
+		static ZERO_ONE_SIZE actionScore;
+		static std::string bestAction;
 
+		Neuron(std::string name);
 		MEMORY_TYPE_SIZE getInputValue() const;
 		MEMORY_TYPE_SIZE getThreshold() const;
 		MEMORY_TYPE_SIZE getOriginalThreshold() const;
-		int getUID() const;
+		size_t getUID() const;
 		MEMORY_TYPE_SIZE getOutputValue() const;
 		std::string getName() const;
 		void process();
+		static void processAll();
 		ZERO_ONE_SIZE getThresholdDecFactor() const;
 		void readAxons();
 		void updateInternals();
+		static size_t size();
+		static void printAllCharacters();
+		static void printAllBars();
+		static void printOuts();
+		static void printFile();
+		void printAsciiBar();
+		void printCharacter();
+};
 
-		Neuron(std::string name)
-			:	threshold(randomValue<MEMORY_TYPE_SIZE>()),
-			originalThreshold(threshold),
-			inputValue(0),
-			outputValue(0),
-			thresholdPull(1.0),
-			UID(Neuron::globalUID++),
-			name(name)
-	{
-		Neuron::neuronVector.push_back(*this);
-		Neuron::neuronOut.resize(Neuron::neuronVector.size());
-	}
+class Axon {
+	private:
+		size_t UID;
+		size_t slotIn;
+		size_t slotOut;
+		ZERO_ONE_SIZE multiplyer;
+
+	public:
+		static std::vector<Axon> table;
+		static std::vector<ZERO_ONE_SIZE> out;
+
+		Axon();
+		size_t getUID() const;
+		size_t getSlotIn() const;
+		size_t getSlotOut() const;
+		ZERO_ONE_SIZE getMultiplyer() const;
+		static void printAll();
+		static void processAll();
 };
 
 #endif

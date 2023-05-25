@@ -1,20 +1,33 @@
 #ifndef RANDOMS_HPP
 # define RANDOMS_HPP
-# include "randoms.hpp"
 # include <random>
+# include "defines.hpp"
+# include <ncurses.h>
+
+ZERO_ONE_SIZE randomZeroOne();
 
 template <typename T = MEMORY_TYPE_SIZE>
 T randomValue(T min = T(), T max = std::numeric_limits<T>::max()) {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<typename std::make_unsigned<T>::type> dist(min, max);
+    typename std::conditional<std::is_integral<T>::value,
+                              std::uniform_int_distribution<typename std::make_unsigned<T>::type>,
+                              std::uniform_real_distribution<T>>::type dist(min, max);
     return static_cast<T>(dist(gen));
 }
 
 template <typename T = MEMORY_TYPE_SIZE>
-T variateValue(T& value, float band = 1.0) {
-	T newValue = randomValue<T>();
-	value = ((float)newValue - (float)value) * band + (float)value;
+T variateValue(T& value, ZERO_ONE_SIZE band = 1.0) {
+	T valBand = (static_cast<ZERO_ONE_SIZE>(std::numeric_limits<T>::max()) * band) / 2;
+	T min = 
+		value - valBand < value ?
+		value - valBand : 0;
+	T max =
+		value + valBand > value ?
+		value + valBand : std::numeric_limits<T>::max();
+//	printw("preval %u, max * band %u , min %u, max %u, ", value, valBand, min, max);
+	value = randomValue<T>(min, max);
+//	printw("val %u\n", value);
 	return value;
 }
 
