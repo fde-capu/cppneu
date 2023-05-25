@@ -21,6 +21,9 @@ class Neuron {
 		size_t slotIn;
 		size_t slotOut;
 		ZERO_ONE_SIZE multiplyer;
+		int scaleMin;
+		int scaleMax;
+		std::string unit;
 		std::vector<std::string> scale;
 
 		static size_t globalUID;
@@ -32,7 +35,8 @@ class Neuron {
 		static std::string bestAction;
 
 		Neuron(int type, std::string name);
-		Neuron(int type, std::string name, std::vector<std::string>);
+		Neuron(int type, std::string name, std::vector<std::string> scale);
+		Neuron(int type, std::string name, int scaleMin, int scaleMax, std::string unit, std::vector<std::string> scale);
 		Neuron(int type);
 
 		void process();
@@ -48,6 +52,7 @@ class Neuron {
 		static void printFile();
 		void printAsciiBar();
 		void printCharacter();
+		void printDescription();
 		size_t randomNeuron();
 };
 

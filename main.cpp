@@ -27,15 +27,34 @@ void prepare()
 	set_tabsize(12);
 }
 
+std::vector<int> intVector(int min, int max)
+{
+	std::vector<int> myVector(max - min); //initialize a vector with 256 elements
+	for (int i = 0; i <= max - min - 1; i++)
+		myVector[i] = i + min; //fill the elements with values ranging from 25 to 280 (inclusive)
+	return myVector;
+}
+
 int main() {
 	prepare();
 
   Neuron(T_MEASURE, "Breath", {"Empty", "Medium", "Full"});
-  Neuron(T_MEASURE, "Heart");
+  Neuron(T_MEASURE, "Heart", 25, 220, "bpm", {"Icy", "Slow", "Peaced", "Fast", "Hyper"});
+  Neuron(T_MEASURE, "Tired");
 
 	Neuron(T_ACTION, "Drop");
 	Neuron(T_ACTION, "Clench");
+	Neuron(T_ACTION, "Sleep");
 
+	Neuron(T_AXON);
+	Neuron(T_AXON);
+	Neuron(T_AXON);
+	Neuron(T_AXON);
+	Neuron(T_AXON);
+	Neuron(T_AXON);
+	Neuron(T_AXON);
+	Neuron(T_AXON);
+	Neuron(T_AXON);
 	Neuron(T_AXON);
 	Neuron(T_AXON);
 

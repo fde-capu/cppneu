@@ -24,6 +24,27 @@ Neuron::Neuron(int type, std::string name, std::vector<std::string> scale)
 	UID(Neuron::globalUID++),
 	name(name),
 	type(type),
+	scaleMin(0),
+	scaleMax(0),
+	scale(scale)
+{
+	table.push_back(*this);
+	Neuron::out.resize(table.size());
+	Neuron::axonOut.resize(table.size());
+}
+
+Neuron::Neuron(int type, std::string name, int scaleMin, int scaleMax, std::string unit, std::vector<std::string> scale = {})
+	:	threshold(randomValue<MEMORY_TYPE_SIZE>()),
+	originalThreshold(threshold),
+	inputValue(0),
+	outputValue(0),
+	thresholdPull(1.0),
+	UID(Neuron::globalUID++),
+	name(name),
+	type(type),
+	scaleMin(scaleMin),
+	scaleMax(scaleMax),
+	unit(unit),
 	scale(scale)
 {
 	table.push_back(*this);
@@ -254,6 +275,20 @@ void Neuron::printAsciiBar() {
 	}
 	printw("]");
 
+	printDescription();
+
+	printw("\n");
+}
+
+void Neuron::printDescription()
+{
+	double scaleFactor;
+	size_t scaledInputValue;
+	size_t scaledThreshold;
+	size_t scaledOriginalThreshold;
+	(void)scaledOriginalThreshold;
+	(void)scaledInputValue;
+
 	if (outputValue)
 		printw(" * ");
 	else
@@ -261,11 +296,23 @@ void Neuron::printAsciiBar() {
 	printw("%s", name.c_str());
 	if (type == T_MEASURE)
 	{
-		if (scale.size())
+		if (!scaleMax && scale.size())
 		{
 			scaleFactor = static_cast<double>(scale.size()) / std::numeric_limits<MEMORY_TYPE_SIZE>::max();
 			scaledThreshold = static_cast<int>(threshold * scaleFactor);
 			printw(": %s", scale[scaledThreshold].c_str());
+		}
+		else if (scaleMax)
+		{
+			scaleFactor = static_cast<double>(scaleMax - scaleMin) / std::numeric_limits<MEMORY_TYPE_SIZE>::max();
+			scaledThreshold = static_cast<int>(threshold * scaleFactor) + scaleMin;
+			printw(": %d %s", scaledThreshold, unit.c_str());
+			if (scale.size())
+			{
+				scaleFactor = static_cast<double>(scale.size()) / std::numeric_limits<MEMORY_TYPE_SIZE>::max();
+				scaledThreshold = static_cast<int>(threshold * scaleFactor);
+				printw(": %s", scale[scaledThreshold].c_str());
+			}
 		}
 		else
 		{
@@ -274,7 +321,6 @@ void Neuron::printAsciiBar() {
 			printw(": %f", scaleFactor);
 		}
 	}
-	printw("\n");
 }
 
 size_t Neuron::globalUID = 0;
