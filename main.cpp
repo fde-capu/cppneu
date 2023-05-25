@@ -39,21 +39,32 @@ class Neuron {
 		T threshold;
 		T originalThreshold;
 		T* inputValue;
-		T* outputAddress;
+		T* outputValue;
 		float thresholdPull;
 		int UID;
+		std::string name;
 
 	public:
-		Neuron(T* inputMemory, T* outputMemory)
+		Neuron(std::string name, T* inputMemory, T* outputMemory)
 			:	threshold(randomValue<T>()),
 				originalThreshold(threshold),
 				inputValue(inputMemory),
-				outputAddress(outputMemory),
-				thresholdPull(1),
-				UID(globalUID++) {}
+				outputValue(outputMemory),
+				thresholdPull(1.0),
+				UID(globalUID++),
+				name(name)
+				{}
+
+		std::string getName() const {
+			return name;
+		}
 
 		int getUID() const {
 			return UID;
+		}
+
+		T getOutputValue() const {
+			return *outputValue;
 		}
 
 		T getInputValue() const {
@@ -95,13 +106,12 @@ class Neuron {
 			readAxons();
 			updateInternals();
 			if (*inputValue >= threshold) {
-				*outputAddress = 1;
 				float force = static_cast<float>(*inputValue - threshold) / static_cast<float>(std::numeric_limits<T>::max());
-				//threshold = *inputValue;
+				*outputValue = std::numeric_limits<T>::max();
 				threshold += (*inputValue - threshold) * force;
 				thresholdPull = 1 - (force * 0.1);
 			} else {
-				*outputAddress = 0;
+				*outputValue = 0;
 			}
 
 			printAsciiBar(this);
@@ -116,7 +126,7 @@ void printAsciiBar(Neuron<T>* neuron) {
 	int scaledThreshold = static_cast<int>(neuron->getThreshold() * scaleFactor);
 	int scaledOriginalThreshold = static_cast<int>(neuron->getOriginalThreshold() * scaleFactor);
 
-	std::cout << neuron->getUID() << "  [";
+	std::cout << neuron->getUID() << " " << neuron->getName() << " [";
 	for (int i = 0; i < length; i++) {
 		if (i == scaledOriginalThreshold && i == scaledThreshold) {
 			std::cout << '!';
@@ -132,8 +142,8 @@ void printAsciiBar(Neuron<T>* neuron) {
 	}
 	std::cout << "]";
 
-	if (neuron->getInputValue() >= neuron->getThreshold())
-		std::cout << " *";
+	if (neuron->getOutputValue())
+		std::cout << " * " << neuron->getOutputValue();
 	else
 		std::cout << "  ";
 
@@ -174,7 +184,7 @@ int main() {
 	MEMORY_TYPE_SIZE inputMemory;
 	MEMORY_TYPE_SIZE outputMemory = 0;
 
-	Neuron<MEMORY_TYPE_SIZE> neuron(&inputMemory, &outputMemory);
+	Neuron<MEMORY_TYPE_SIZE> neuron("haha", &inputMemory, &outputMemory);
 
 	std::thread neuron_thread(neuronThread, &neuron, &inputMemory, &outputMemory);
 	std::thread user_input_thread(userInputThread);
