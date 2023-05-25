@@ -21,6 +21,7 @@ class Neuron {
 		size_t slotIn;
 		size_t slotOut;
 		ZERO_ONE_SIZE multiplyer;
+		std::vector<std::string> scale;
 
 		static size_t globalUID;
 		static std::vector<Neuron> table;
@@ -31,6 +32,7 @@ class Neuron {
 		static std::string bestAction;
 
 		Neuron(int type, std::string name);
+		Neuron(int type, std::string name, std::vector<std::string>);
 		Neuron(int type);
 
 		void process();

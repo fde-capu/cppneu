@@ -15,12 +15,20 @@ Neuron::Neuron(int type, std::string name)
 	Neuron::axonOut.resize(table.size());
 }
 
-size_t Neuron::randomNeuron() {
-	size_t neuronI = randomValue<size_t>(0, size() - 1);
-	if (table[neuronI].type != T_ACTION
-		&& table[neuronI].type != T_MEASURE)
-		return randomNeuron();
-	return neuronI;
+Neuron::Neuron(int type, std::string name, std::vector<std::string> scale)
+	:	threshold(randomValue<MEMORY_TYPE_SIZE>()),
+	originalThreshold(threshold),
+	inputValue(0),
+	outputValue(0),
+	thresholdPull(1.0),
+	UID(Neuron::globalUID++),
+	name(name),
+	type(type),
+	scale(scale)
+{
+	table.push_back(*this);
+	Neuron::out.resize(table.size());
+	Neuron::axonOut.resize(table.size());
 }
 
 Neuron::Neuron(int type)
@@ -42,6 +50,14 @@ Neuron::Neuron(int type)
 	table.push_back(*this);
 	Neuron::out.resize(table.size());
 	Neuron::axonOut.resize(table.size());
+}
+
+size_t Neuron::randomNeuron() {
+	size_t neuronI = randomValue<size_t>(0, size() - 1);
+	if (table[neuronI].type != T_ACTION
+		&& table[neuronI].type != T_MEASURE)
+		return randomNeuron();
+	return neuronI;
 }
 
 size_t Neuron::size() { return table.size(); }
@@ -157,10 +173,9 @@ void Neuron::printAllCharacters() {
 			neuron.printCharacter();
 	}
 
-	printw("\n");
-	for (auto& action : actions)
-		printw(" %s ", action.c_str());
 	printw("\n [ %s ]", bestAction.c_str());
+	for (auto& action : actions)
+		printw(" %s", action.c_str());
 	printw("\n");
 }
 
@@ -207,24 +222,24 @@ void Neuron::printCharacter() {
 	int scaledThreshold = static_cast<int>(threshold * scaleFactor);
 	int scaledOriginalThreshold = static_cast<int>(originalThreshold * scaleFactor);
 
-		printw("%c", shadowGray.at(scaledInputValue));
-		printw("%c", shadowGray.at(scaledThreshold));
-		printw("%c", shadowGray.at(scaledOriginalThreshold));
-		if (outputValue)
-			printw("!");
-		else
-			printw(" ");
+	printw("%c", shadowGray.at(scaledInputValue));
+	printw("%c", shadowGray.at(scaledThreshold));
+	printw("%c", shadowGray.at(scaledOriginalThreshold));
+	if (outputValue)
+		printw("!");
+	else
+		printw(" ");
 }
 
 void Neuron::printAsciiBar() {
-	int length = ASCII_BAR_LENGTH;
+	size_t length = ASCII_BAR_LENGTH;
 	double scaleFactor = static_cast<double>(length) / std::numeric_limits<MEMORY_TYPE_SIZE>::max();
-	int scaledInputValue = static_cast<int>(inputValue * scaleFactor);
-	int scaledThreshold = static_cast<int>(threshold * scaleFactor);
-	int scaledOriginalThreshold = static_cast<int>(originalThreshold * scaleFactor);
+	size_t scaledInputValue = static_cast<int>(inputValue * scaleFactor);
+	size_t scaledThreshold = static_cast<int>(threshold * scaleFactor);
+	size_t scaledOriginalThreshold = static_cast<int>(originalThreshold * scaleFactor);
 
 	printw("%u [", UID);
-	for (int i = 0; i < length; i++) {
+	for (size_t i = 0; i < length; i++) {
 		if (i == scaledOriginalThreshold && i == scaledThreshold) {
 			printw("!");
 		} else if (i == scaledOriginalThreshold) {
@@ -244,6 +259,21 @@ void Neuron::printAsciiBar() {
 	else
 		printw("   ");
 	printw("%s", name.c_str());
+	if (type == T_MEASURE)
+	{
+		if (scale.size())
+		{
+			scaleFactor = static_cast<double>(scale.size()) / std::numeric_limits<MEMORY_TYPE_SIZE>::max();
+			scaledThreshold = static_cast<int>(threshold * scaleFactor);
+			printw(": %s", scale[scaledThreshold].c_str());
+		}
+		else
+		{
+			scaleFactor = static_cast<double>(1.0) / std::numeric_limits<MEMORY_TYPE_SIZE>::max();
+			scaleFactor = static_cast<double>(threshold * scaleFactor);
+			printw(": %f", scaleFactor);
+		}
+	}
 	printw("\n");
 }
 

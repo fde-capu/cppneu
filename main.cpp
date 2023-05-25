@@ -30,10 +30,11 @@ void prepare()
 int main() {
 	prepare();
 
-  Neuron(T_MEASURE, "Breath");
+  Neuron(T_MEASURE, "Breath", {"Empty", "Medium", "Full"});
   Neuron(T_MEASURE, "Heart");
 
 	Neuron(T_ACTION, "Drop");
+	Neuron(T_ACTION, "Clench");
 
 	Neuron(T_AXON);
 	Neuron(T_AXON);
