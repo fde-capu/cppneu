@@ -1,0 +1,10 @@
+#ifndef DEFINES_HPP
+# define DEFINES_HPP
+
+# define MEMORY_TYPE_SIZE unsigned int
+# define ASCII_BAR_LENGTH 32
+# define STEP_MS 100
+# define RANDOM_VARIATION 0.2
+# define THRESHOLD_STABILITY 0.999
+
+#endif
