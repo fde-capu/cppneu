@@ -9,6 +9,7 @@
 # include <thread>
 # include <chrono>
 # include <ncurses.h>
+# include <cmath>
 # include "defines.hpp"
 # include "randoms.hpp"
 # include "Neuron.hpp"

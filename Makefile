@@ -4,8 +4,8 @@ endif
 
 NAME	=	neupp
 ARGS	=	
-SRCS	=	main.cpp
-HEAD	=	Makefile header.hpp Neuron.hpp defines.hpp randoms.hpp
+SRCS	=	main.cpp Neuron.cpp
+HEAD	=	Makefile header.hpp Neuron.hpp defines.hpp randoms.hpp graphics.hpp
 SHELL	=	/bin/sh
 CC		=	clang++ -Wfatal-errors -std=c++20 -Wc++20-extensions -pthread
 CCFLAGS	=	-Wall -Werror -Wextra -g

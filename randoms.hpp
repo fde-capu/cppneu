@@ -4,11 +4,11 @@
 # include <random>
 
 template <typename T = MEMORY_TYPE_SIZE>
-T randomValue() {
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_int_distribution<typename std::make_unsigned<T>::type> dist(std::numeric_limits<T>::min(), std::numeric_limits<T>::max());
-	return static_cast<T>(dist(gen));
+T randomValue(T min = T(), T max = std::numeric_limits<T>::max()) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<typename std::make_unsigned<T>::type> dist(min, max);
+    return static_cast<T>(dist(gen));
 }
 
 template <typename T = MEMORY_TYPE_SIZE>

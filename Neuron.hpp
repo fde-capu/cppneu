@@ -1,99 +1,44 @@
 #ifndef NEURON_HPP
 # define NEURON_HPP
-# include "header.hpp"
 
-template <typename T = MEMORY_TYPE_SIZE>
-class Neuron
-{
+class Neuron {
 	private:
-		T threshold;
-		T originalThreshold;
-		T inputValue;
-		T outputValue;
-		float thresholdPull;
-		int UID;
+		MEMORY_TYPE_SIZE threshold;
+		MEMORY_TYPE_SIZE originalThreshold;
+		MEMORY_TYPE_SIZE inputValue;
+		MEMORY_TYPE_SIZE outputValue;
+		ZERO_ONE_SIZE thresholdPull;
+		size_t UID;
 		std::string name;
 
 	public:
-		static int globalUID;
+		static size_t globalUID;
+		static std::vector<Neuron> neuronVector;
+		static std::vector<ZERO_ONE_SIZE> neuronOut;
+
+		MEMORY_TYPE_SIZE getInputValue() const;
+		MEMORY_TYPE_SIZE getThreshold() const;
+		MEMORY_TYPE_SIZE getOriginalThreshold() const;
+		int getUID() const;
+		MEMORY_TYPE_SIZE getOutputValue() const;
+		std::string getName() const;
+		void process();
+		ZERO_ONE_SIZE getThresholdDecFactor() const;
+		void readAxons();
+		void updateInternals();
+
 		Neuron(std::string name)
-			:	threshold(randomValue<T>()),
-				originalThreshold(threshold),
-				inputValue(0),
-				outputValue(0),
-				thresholdPull(1.0),
-				UID(Neuron::globalUID++),
-				name(name)
-				{}
-
-		std::string getName() const {
-			return name;
-		}
-
-		int getUID() const {
-			return UID;
-		}
-
-		T getOutputValue() const {
-			return outputValue;
-		}
-
-		T getInputValue() const {
-			return inputValue;
-		}
-
-		T getThreshold() const {
-			return threshold;
-		}
-
-		T getOriginalThreshold() const {
-			return originalThreshold;
-		}
-
-		float getThresholdDecFactor() const {
-			return thresholdPull;
-		}
-
-		void readAxons() {
-			variateValue<T>(inputValue, RANDOM_VARIATION);
-		}
-
-		void updateInternals() {
-			if (threshold >= originalThreshold) {
-				thresholdPull *= THRESHOLD_STABILITY;
-			} else if (threshold < originalThreshold) {
-				thresholdPull *= 1 + (1 - THRESHOLD_STABILITY);
-			}
-			if (thresholdPull > 1.0 && static_cast<T>(threshold * thresholdPull) < threshold)
-			{
-				threshold = std::numeric_limits<T>::max();
-				thresholdPull = 1.0;
-			}
-			else
-				threshold *= thresholdPull;
-		}
-
-		void process() {
-			updateInternals();
-			readAxons();
-			if (inputValue >= threshold) {
-				float force = static_cast<float>(inputValue - threshold) / static_cast<float>(std::numeric_limits<T>::max());
-				outputValue = std::numeric_limits<T>::max();
-				threshold += (inputValue - threshold) * force;
-				thresholdPull = 1 - (force * 0.1);
-			} else {
-				outputValue = 0;
-			}
-
-			printAsciiBar(this);
-		}
+			:	threshold(randomValue<MEMORY_TYPE_SIZE>()),
+			originalThreshold(threshold),
+			inputValue(0),
+			outputValue(0),
+			thresholdPull(1.0),
+			UID(Neuron::globalUID++),
+			name(name)
+	{
+		Neuron::neuronVector.push_back(*this);
+		Neuron::neuronOut.resize(Neuron::neuronVector.size());
+	}
 };
-
-
-template <typename T>
-int Neuron<T>::globalUID = 0;
-
-template <typename T>
-static std::vector<Neuron<T> > neuronVector;
 
 #endif

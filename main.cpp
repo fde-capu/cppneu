@@ -1,36 +1,34 @@
 #include "header.hpp"
 
-void runProcess()
+void run()
 {
 	while (true) {
 
 		clear();
-		for (auto& neuron : neuronVector<MEMORY_TYPE_SIZE>) {
+		for (auto& neuron : Neuron::neuronVector) {
 			neuron.process();
+			printAsciiBar<MEMORY_TYPE_SIZE>(&neuron);
 		}
+		printOutTable<MEMORY_TYPE_SIZE>();
 		refresh();
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(STEP_MS));
 	}
 }
 
-
-void makeNeuron(std::string name)
+void prepare()
 {
-	Neuron<MEMORY_TYPE_SIZE> neuron(name);
-	neuronVector<MEMORY_TYPE_SIZE>.push_back(neuron);
+	srand(time(NULL));
+	initscr();
 }
 
 int main() {
-	srand(time(NULL));
-	initscr();
-	cbreak();
-	noecho();
- 
-  makeNeuron("haha");
-	makeNeuron("HAHA");
-	makeNeuron("KIKI");
+	prepare();
 
-	runProcess();
+  Neuron("haha");
+	Neuron("HAHA");
+	Neuron("KIKI");
+
+	run();
 	return 0;
 }
