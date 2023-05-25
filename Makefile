@@ -4,7 +4,7 @@ endif
 
 NAME	=	neupp
 ARGS	=	
-SRCS	=	main.cpp Neuron.cpp randoms.cpp
+SRCS	=	main.cpp Neuron.cpp randoms.cpp NeuronPrints.cpp
 HEAD	=	Makefile header.hpp Neuron.hpp defines.hpp randoms.hpp \
 				graphics.hpp
 SHELL	=	/bin/sh
