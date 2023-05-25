@@ -11,10 +11,10 @@
 #include <cstdio>
 
 #define MEMORY_TYPE_SIZE unsigned int
-#define ASCII_BAR_LENGTH 16
+#define ASCII_BAR_LENGTH 64
 #define STEP_MS 100
-#define RANDOM_VARIATION 0.4
-#define THRESHOLD_PULL 0.3
+#define RANDOM_VARIATION 0.8
+#define THRESHOLD_STABILITY 0.999
 
 static int globalUID = 0;
 
@@ -38,17 +38,18 @@ class Neuron {
 	private:
 		T threshold;
 		T originalThreshold;
-		T* inputAddress;
+		T* inputValue;
 		T* outputAddress;
-		float thresholdDecreaseFactor;
+		float thresholdPull;
 		int UID;
 
 	public:
 		Neuron(T* inputMemory, T* outputMemory)
 			:	threshold(randomValue<T>()),
 				originalThreshold(threshold),
-				inputAddress(inputMemory),
+				inputValue(inputMemory),
 				outputAddress(outputMemory),
+				thresholdPull(1),
 				UID(globalUID++) {}
 
 		int getUID() const {
@@ -56,7 +57,7 @@ class Neuron {
 		}
 
 		T getInputValue() const {
-			return *inputAddress;
+			return *inputValue;
 		}
 
 		T getThreshold() const {
@@ -68,28 +69,37 @@ class Neuron {
 		}
 
 		float getThresholdDecFactor() const {
-			return thresholdDecreaseFactor;
+			return thresholdPull;
 		}
 
 		void readAxons() {
-			*inputAddress = variateValue<T>(*inputAddress, RANDOM_VARIATION);
+			*inputValue = variateValue<T>(*inputValue, RANDOM_VARIATION);
 		}
 
 		void updateInternals() {
-			T diff = threshold - originalThreshold;
-			threshold -= diff * thresholdDecreaseFactor;
-			thresholdDecreaseFactor *= 1.0 + THRESHOLD_PULL;
-			if (threshold < originalThreshold)
-				threshold = originalThreshold;
+			if (threshold >= originalThreshold) {
+				thresholdPull *= THRESHOLD_STABILITY;
+			} else if (threshold < originalThreshold) {
+				thresholdPull *= 1 + (1 - THRESHOLD_STABILITY);
+			}
+			if (thresholdPull > 1.0 && static_cast<T>(threshold * thresholdPull) < threshold)
+			{
+				threshold = std::numeric_limits<T>::max();
+				thresholdPull = 1.0;
+			}
+			else
+				threshold *= thresholdPull;
 		}
 
 		void process() {
 			readAxons();
 			updateInternals();
-			if (*inputAddress >= threshold) {
+			if (*inputValue >= threshold) {
 				*outputAddress = 1;
-				thresholdDecreaseFactor = static_cast<float>(*inputAddress - threshold) / static_cast<float>(std::numeric_limits<T>::max());
-				threshold = *inputAddress;
+				float force = static_cast<float>(*inputValue - threshold) / static_cast<float>(std::numeric_limits<T>::max());
+				//threshold = *inputValue;
+				threshold += (*inputValue - threshold) * force;
+				thresholdPull = 1 - (force * 0.1);
 			} else {
 				*outputAddress = 0;
 			}
@@ -115,7 +125,7 @@ void printAsciiBar(Neuron<T>* neuron) {
 		} else if (i == scaledThreshold) {
 			std::cout << '+';
 		} else if (i < scaledInputValue) {
-			std::cout << '-';
+			std::cout << '.';
 		} else {
 			std::cout << ' ';
 		}
@@ -127,7 +137,10 @@ void printAsciiBar(Neuron<T>* neuron) {
 	else
 		std::cout << "  ";
 
-	//		std::cout << "\t" << static_cast<T>(neuron->getInputValue()) << "\t" << static_cast<T>(neuron->getThreshold()) << "\t" << static_cast<T>(neuron->getOriginalThreshold()) << "\t" << neuron->getThresholdDecFactor();
+//	std::cout << "\t" << static_cast<T>(neuron->getInputValue()) \
+//			<< "\t" << static_cast<T>(neuron->getThreshold()) << \
+//			"\t" << static_cast<T>(neuron->getOriginalThreshold()) << \
+//			"\t" << neuron->getThresholdDecFactor();
 	std::cout << std::endl;
 }
 
