@@ -5,15 +5,12 @@
 #include <climits>
 #include <thread>
 #include <chrono>
-#include <mutex>
-#include <future>
-#include <atomic>
-#include <cstdio>
+#include <ncurses.h>
 
 #define MEMORY_TYPE_SIZE unsigned int
-#define ASCII_BAR_LENGTH 64
+#define ASCII_BAR_LENGTH 32
 #define STEP_MS 100
-#define RANDOM_VARIATION 0.8
+#define RANDOM_VARIATION 0.2
 #define THRESHOLD_STABILITY 0.999
 
 static int globalUID = 0;
@@ -27,7 +24,7 @@ T randomValue() {
 }
 
 template <typename T = MEMORY_TYPE_SIZE>
-T variateValue(T value, float band = 1.0) {
+T variateValue(T& value, float band = 1.0) {
 	T newValue = randomValue<T>();
 	value = ((float)newValue - (float)value) * band + (float)value;
 	return value;
@@ -38,18 +35,18 @@ class Neuron {
 	private:
 		T threshold;
 		T originalThreshold;
-		T* inputValue;
-		T* outputValue;
+		T inputValue;
+		T outputValue;
 		float thresholdPull;
 		int UID;
 		std::string name;
 
 	public:
-		Neuron(std::string name, T* inputMemory, T* outputMemory)
+		Neuron(std::string name)
 			:	threshold(randomValue<T>()),
 				originalThreshold(threshold),
-				inputValue(inputMemory),
-				outputValue(outputMemory),
+				inputValue(0),
+				outputValue(0),
 				thresholdPull(1.0),
 				UID(globalUID++),
 				name(name)
@@ -64,11 +61,11 @@ class Neuron {
 		}
 
 		T getOutputValue() const {
-			return *outputValue;
+			return outputValue;
 		}
 
 		T getInputValue() const {
-			return *inputValue;
+			return inputValue;
 		}
 
 		T getThreshold() const {
@@ -84,7 +81,7 @@ class Neuron {
 		}
 
 		void readAxons() {
-			*inputValue = variateValue<T>(*inputValue, RANDOM_VARIATION);
+			variateValue<T>(inputValue, RANDOM_VARIATION);
 		}
 
 		void updateInternals() {
@@ -105,13 +102,13 @@ class Neuron {
 		void process() {
 			readAxons();
 			updateInternals();
-			if (*inputValue >= threshold) {
-				float force = static_cast<float>(*inputValue - threshold) / static_cast<float>(std::numeric_limits<T>::max());
-				*outputValue = std::numeric_limits<T>::max();
-				threshold += (*inputValue - threshold) * force;
+			if (inputValue >= threshold) {
+				float force = static_cast<float>(inputValue - threshold) / static_cast<float>(std::numeric_limits<T>::max());
+				outputValue = std::numeric_limits<T>::max();
+				threshold += (inputValue - threshold) * force;
 				thresholdPull = 1 - (force * 0.1);
 			} else {
-				*outputValue = 0;
+				outputValue = 0;
 			}
 
 			printAsciiBar(this);
@@ -126,71 +123,62 @@ void printAsciiBar(Neuron<T>* neuron) {
 	int scaledThreshold = static_cast<int>(neuron->getThreshold() * scaleFactor);
 	int scaledOriginalThreshold = static_cast<int>(neuron->getOriginalThreshold() * scaleFactor);
 
-	std::cout << neuron->getUID() << " " << neuron->getName() << " [";
+	printw("%u %s [", neuron->getUID(), neuron->getName().c_str());
 	for (int i = 0; i < length; i++) {
 		if (i == scaledOriginalThreshold && i == scaledThreshold) {
-			std::cout << '!';
+			printw("!");
 		} else if (i == scaledOriginalThreshold) {
-			std::cout << '|';
+			printw("|");
 		} else if (i == scaledThreshold) {
-			std::cout << '+';
+			printw("+");
 		} else if (i < scaledInputValue) {
-			std::cout << '.';
+			printw(".");
 		} else {
-			std::cout << ' ';
+			printw(" ");
 		}
 	}
-	std::cout << "]";
+	printw("]");
 
 	if (neuron->getOutputValue())
-		std::cout << " * " << neuron->getOutputValue();
+		printw(" * %u",  neuron->getOutputValue());
 	else
-		std::cout << "  ";
-
-//	std::cout << "\t" << static_cast<T>(neuron->getInputValue()) \
-//			<< "\t" << static_cast<T>(neuron->getThreshold()) << \
-//			"\t" << static_cast<T>(neuron->getOriginalThreshold()) << \
-//			"\t" << neuron->getThresholdDecFactor();
-	std::cout << std::endl;
+		printw("  ");
+	printw("\n");
 }
 
-std::atomic<bool> running(true);
+std::vector<Neuron<MEMORY_TYPE_SIZE> > neuronVector;
 
-void neuronThread(Neuron<MEMORY_TYPE_SIZE>* neuron, MEMORY_TYPE_SIZE* inputMemory, MEMORY_TYPE_SIZE* outputMemory) {
-	while (running) {
+void runProcess()
+{
+	while (true) {
 
-		(void)outputMemory;
-		(void)inputMemory;
-
-		neuron->process();
+		clear();
+		for (auto& neuron : neuronVector) {
+			neuron.process();
+		}
+		refresh();
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(STEP_MS));
 	}
 }
 
-void userInputThread() {
-	char c;
-	while (running) {
-		c = getchar();
-		if (c == 'q' || c == 'Q') {
-			running = false;
-		}
-	}
+
+void makeNeuron(std::string name)
+{
+	Neuron<MEMORY_TYPE_SIZE> neuron(name);
+	neuronVector.push_back(neuron);
 }
 
 int main() {
 	srand(time(NULL));
+	initscr();
+	cbreak();
+	noecho();
+ 
+  makeNeuron("haha");
+	makeNeuron("HAHA");
+	makeNeuron("KIKI");
 
-	MEMORY_TYPE_SIZE inputMemory;
-	MEMORY_TYPE_SIZE outputMemory = 0;
-
-	Neuron<MEMORY_TYPE_SIZE> neuron("haha", &inputMemory, &outputMemory);
-
-	std::thread neuron_thread(neuronThread, &neuron, &inputMemory, &outputMemory);
-	std::thread user_input_thread(userInputThread);
-
-	neuron_thread.join();
-	user_input_thread.join();
-
+	runProcess();
 	return 0;
 }

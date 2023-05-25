@@ -20,7 +20,7 @@ VALFLAG	=	--tool=memcheck \
 			--show-reachable=yes
 all:		$(NAME)
 $(NAME):	$(OBJS)
-	$(CC) $(CCFLAGS) $(OBJS) -o $(NAME) $(CCLINKS)
+	$(CC) $(CCFLAGS) $(OBJS) -o $(NAME) $(CCLINKS) -lncurses
 $(OBJS):	%.o : %.cpp $(HEAD)
 	$(CC) $(CCFLAGS) -o $@ -c $< $(CCLINKS)
 clean:
