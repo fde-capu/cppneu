@@ -3,7 +3,7 @@
 void Neuron::printAllCharacters() {
 	for (auto& neuron : table)
 	{
-		if (neuron.type == T_ACTION || neuron.type == T_MEASURE)
+		if (neuron.isNeuron())
 			neuron.printCharacter();
 	}
 
@@ -16,7 +16,7 @@ void Neuron::printAllCharacters() {
 void Neuron::printAllBars() {
 		for (auto& neuron : table)
 		{
-			if (neuron.type == T_ACTION || neuron.type == T_MEASURE)
+			if (neuron.isNeuron())
 				neuron.printAsciiBar();
 		}
 }
@@ -24,7 +24,7 @@ void Neuron::printAllBars() {
 void Neuron::printAllAxons() {
 		for (auto& neuron : table)
 		{
-			if (neuron.type == T_AXON)
+			if (neuron.isAxon())
 			{
 				printw("%u [ %d -(%f)-> %d ]\n", neuron.UID,
 					neuron.slotIn, neuron.multiplyer,
@@ -37,7 +37,7 @@ void Neuron::printOuts() {
 		printw("\nNeuron Outputs:\t|");
 		for (auto& neuron : table)
 		{
-			if (neuron.type == T_ACTION || neuron.type == T_MEASURE)
+			if (neuron.isNeuron())
 			{
 				if (!std::isinf(out[neuron.UID]))
 					printw("*|", out[neuron.UID]);
@@ -107,27 +107,22 @@ void Neuron::printDescription()
 	else
 		printw("   ");
 	printw("%s", name.c_str());
-	if (type == T_MEASURE)
+	if (isNeuron())
 	{
-		if (!scaleMax && scale.size())
-		{
-			scaleFactor = static_cast<double>(scale.size()) / std::numeric_limits<MEMORY_TYPE_SIZE>::max();
-			scaledThreshold = static_cast<int>(threshold * scaleFactor);
-			printw(": %s", scale[scaledThreshold].c_str());
-		}
-		else if (scaleMax)
+		if (scaleMax)
 		{
 			scaleFactor = static_cast<double>(scaleMax - scaleMin) / std::numeric_limits<MEMORY_TYPE_SIZE>::max();
 			scaledThreshold = static_cast<int>(threshold * scaleFactor) + scaleMin;
 			printw(": %d %s", scaledThreshold, unit.c_str());
-			if (scale.size())
-			{
-				scaleFactor = static_cast<double>(scale.size()) / std::numeric_limits<MEMORY_TYPE_SIZE>::max();
-				scaledThreshold = static_cast<int>(threshold * scaleFactor);
-				printw(": %s", scale[scaledThreshold].c_str());
-			}
 		}
-		else
+		if (scale.size())
+		{
+			scaleFactor = static_cast<double>(scale.size()) / std::numeric_limits<MEMORY_TYPE_SIZE>::max();
+			scaledThreshold = static_cast<int>(threshold * scaleFactor);
+			if (scaledThreshold > scale.size() - 1) scaledThreshold = scale.size() - 1;
+			printw(": %s", scale[scaledThreshold].c_str());
+		}
+		if (!scale.size() && !scaleMax && isStatsVisible())
 		{
 			scaleFactor = static_cast<double>(1.0) / std::numeric_limits<MEMORY_TYPE_SIZE>::max();
 			scaleFactor = static_cast<double>(threshold * scaleFactor);

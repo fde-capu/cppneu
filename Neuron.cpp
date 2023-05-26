@@ -1,14 +1,62 @@
 #include "Neuron.hpp"
 
+void Neuron::Measure(std::string name, std::vector<std::string> scale, int scaleMin, int scaleMax, std::string unit)
+{
+  Neuron({
+		.type = T_MEASURE,
+		.name = name,
+		.scaleMin = scaleMin,
+		.scaleMax = scaleMax,
+		.unit = unit,
+		.scale = scale
+	});
+}
+
+void Neuron::Oscil(std::string name, std::vector<std::string> scale)
+{
+  Neuron({
+		.type = T_OSCIL,
+		.name = name,
+		.scaleMin = 0,
+		.scaleMax = 0,
+		.unit = "",
+		.scale = scale
+	});
+}
+
+Neuron::Neuron(const t_config& u_)
+: type(u_.type),
+	name(u_.name),
+	scaleMin(u_.scaleMin),
+	scaleMax(u_.scaleMax),
+	unit(u_.unit),
+	scale(u_.scale)
+{
+	UID = Neuron::globalUID++;
+	threshold = randomValue<MEMORY_TYPE_SIZE>();
+	originalThreshold = threshold;
+	inputValue = 0;
+	outputValue = 0;
+	thresholdPull = 1.0;
+	speed = SPEED;
+	if (type == T_OSCIL)
+		speed *= 20;
+
+	table.push_back(*this);
+	Neuron::out.resize(table.size());
+	Neuron::axonOut.resize(table.size());
+}
+
 Neuron::Neuron(int type, std::string name)
 	:	threshold(randomValue<MEMORY_TYPE_SIZE>()),
 	originalThreshold(threshold),
 	inputValue(0),
 	outputValue(0),
 	thresholdPull(1.0),
+	speed(SPEED),
 	UID(Neuron::globalUID++),
-	name(name),
-	type(type)
+	type(type),
+	name(name)
 {
 	table.push_back(*this);
 	Neuron::out.resize(table.size());
@@ -21,9 +69,10 @@ Neuron::Neuron(int type, std::string name, std::vector<std::string> scale)
 	inputValue(0),
 	outputValue(0),
 	thresholdPull(1.0),
+	speed(SPEED),
 	UID(Neuron::globalUID++),
-	name(name),
 	type(type),
+	name(name),
 	scaleMin(0),
 	scaleMax(0),
 	scale(scale)
@@ -39,9 +88,10 @@ Neuron::Neuron(int type, std::string name, int scaleMin, int scaleMax, std::stri
 	inputValue(0),
 	outputValue(0),
 	thresholdPull(1.0),
+	speed(SPEED),
 	UID(Neuron::globalUID++),
-	name(name),
 	type(type),
+	name(name),
 	scaleMin(scaleMin),
 	scaleMax(scaleMax),
 	unit(unit),
@@ -58,9 +108,10 @@ Neuron::Neuron(int type)
 	inputValue(0),
 	outputValue(0),
 	thresholdPull(1.0),
+	speed(SPEED),
 	UID(Neuron::globalUID++),
-	name(type == T_AXON ? "axon" : ""),
-	type(type)
+	type(type),
+	name(type == T_AXON ? "axon" : "")
 {
 	if (type == T_AXON)
 	{
@@ -75,8 +126,7 @@ Neuron::Neuron(int type)
 
 size_t Neuron::randomNeuron() {
 	size_t neuronI = randomValue<size_t>(0, size() - 1);
-	if (table[neuronI].type != T_ACTION
-		&& table[neuronI].type != T_MEASURE)
+	if (!table[neuronI].isNeuron())
 		return randomNeuron();
 	return neuronI;
 }
@@ -90,13 +140,13 @@ void Neuron::readAxons() {
 
 void Neuron::updateInternals() {
 	variateValue<MEMORY_TYPE_SIZE>(inputValue, RANDOM_VARIATION);
-	if (type == T_ACTION || type == T_MEASURE)
+	if (isNeuron())
 	{
-		if (threshold >= originalThreshold) {
-			thresholdPull *= THRESHOLD_STABILITY;
-		} else if (threshold < originalThreshold) {
-			thresholdPull *= 1 + (1 - THRESHOLD_STABILITY);
-		}
+		if (threshold >= originalThreshold)
+			thresholdPull -= speed;
+		else
+			thresholdPull += speed;
+
 		if (thresholdPull > 1.0 && static_cast<MEMORY_TYPE_SIZE>(threshold * thresholdPull) < threshold)
 		{
 			threshold = std::numeric_limits<MEMORY_TYPE_SIZE>::max();
@@ -110,14 +160,14 @@ void Neuron::updateInternals() {
 void Neuron::process() {
 	readAxons();
 	updateInternals();
-	if (type == T_ACTION || type == T_MEASURE)
+	if (type != T_AXON)
 	{
 		if (inputValue >= threshold)
 		{
 			ZERO_ONE_SIZE force = static_cast<ZERO_ONE_SIZE>(inputValue - threshold) / static_cast<ZERO_ONE_SIZE>(std::numeric_limits<MEMORY_TYPE_SIZE>::max());
 			outputValue = std::numeric_limits<MEMORY_TYPE_SIZE>::max();
 			threshold += (inputValue - threshold) * force;
-			thresholdPull = 1 - (force * 0.05);
+//			thresholdPull = 1 - (force * speed);
 			if (type == T_ACTION)
 			{
 				actions.push_back(name);
@@ -187,6 +237,14 @@ void Neuron::processAxons()
 	}
 }
 
+bool Neuron::isNeuron()
+{ return type != T_AXON; }
+
+bool Neuron::isAxon()
+{ return type == T_AXON; }
+
+bool Neuron::isStatsVisible()
+{ return type == T_MEASURE || type == T_OSCIL; }
 
 size_t Neuron::globalUID = 0;
 std::vector<Neuron> Neuron::table;

@@ -8,16 +8,32 @@
 # include <ncurses.h>
 # include "graphics.hpp"
 
+typedef struct TypeNeuronConfig
+{
+	int type;
+	std::string name;
+	int scaleMin;
+	int scaleMax;
+	std::string unit;
+	std::vector<std::string> scale;
+} t_config;
+
 class Neuron {
 	public:
+		static void Measure(std::string, std::vector<std::string>, int = 0, int = 0, std::string = "");
+		static void Oscil(std::string, std::vector<std::string>);
+
 		MEMORY_TYPE_SIZE threshold;
 		MEMORY_TYPE_SIZE originalThreshold;
 		MEMORY_TYPE_SIZE inputValue;
 		MEMORY_TYPE_SIZE outputValue;
 		ZERO_ONE_SIZE thresholdPull;
+		ZERO_ONE_SIZE thresholdStability;
+		ZERO_ONE_SIZE speed;
+
 		size_t UID;
-		std::string name;
 		int type;
+		std::string name;
 		size_t slotIn;
 		size_t slotOut;
 		ZERO_ONE_SIZE multiplyer;
@@ -34,6 +50,7 @@ class Neuron {
 		static ZERO_ONE_SIZE actionScore;
 		static std::string bestAction;
 
+		Neuron(const t_config& u_);
 		Neuron(int type, std::string name);
 		Neuron(int type, std::string name, std::vector<std::string> scale);
 		Neuron(int type, std::string name, int scaleMin, int scaleMax, std::string unit, std::vector<std::string> scale);
@@ -54,6 +71,9 @@ class Neuron {
 		void printCharacter();
 		void printDescription();
 		size_t randomNeuron();
+		bool isNeuron();
+		bool isAxon();
+		bool isStatsVisible();
 };
 
 #endif

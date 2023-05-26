@@ -10,8 +10,8 @@ void run()
 
 		Neuron::printAllCharacters();
 		Neuron::printAllBars();
-		Neuron::printOuts();
-		Neuron::printAllAxons();
+//		Neuron::printOuts();
+//		Neuron::printAllAxons();
 //		Axon::printAll();
 
 		refresh();
@@ -38,14 +38,26 @@ std::vector<int> intVector(int min, int max)
 int main() {
 	prepare();
 
-  Neuron(T_MEASURE, "Breath", {"Empty", "Medium", "Full"});
-  Neuron(T_MEASURE, "Heart", 25, 220, "bpm", {"Icy", "Slow", "Peaced", "Fast", "Hyper"});
+  Neuron::Measure("Humor", {"Bad", "Medium", "Ok", "Good", "Incredible"});
+	Neuron::Oscil("Breath", {"Empty", "Neutral", "Full"});
+
+  Neuron::Measure("Heart", {"Stoped", "Icy", "Slow", "Peaced", "Fast", "Hyper"}, 0, 220, "bpm");
   Neuron(T_MEASURE, "Tired");
 
 	Neuron(T_ACTION, "Drop");
 	Neuron(T_ACTION, "Clench");
 	Neuron(T_ACTION, "Sleep");
 
+	Neuron(T_AXON);
+	Neuron(T_AXON);
+	Neuron(T_AXON);
+	Neuron(T_AXON);
+	Neuron(T_AXON);
+	Neuron(T_AXON);
+	Neuron(T_AXON);
+	Neuron(T_AXON);
+	Neuron(T_AXON);
+	Neuron(T_AXON);
 	Neuron(T_AXON);
 	Neuron(T_AXON);
 	Neuron(T_AXON);
