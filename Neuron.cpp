@@ -82,6 +82,7 @@ Neuron::Neuron(const t_config& u_)
 	speed = SPEED;
 	if (type == T_OSCIL)
 		speed *= 20;
+	variateZeroOne(speed, 0.01);
 	if (type == T_AXON)
 	{
 		slotIn = randomNeuron();
@@ -92,6 +93,13 @@ Neuron::Neuron(const t_config& u_)
 	table.push_back(*this);
 	Neuron::out.resize(table.size());
 	Neuron::axonOut.resize(table.size());
+}
+
+void Neuron::reset()
+{
+	table.clear();
+	out.clear();
+	axonOut.clear();
 }
 
 size_t Neuron::randomNeuron() {

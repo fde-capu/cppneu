@@ -5,19 +5,28 @@
 # include <ncurses.h>
 
 ZERO_ONE_SIZE randomZeroOne();
+ZERO_ONE_SIZE variateZeroOne(ZERO_ONE_SIZE & value, ZERO_ONE_SIZE band = 1.0);
 
-template <typename T = MEMORY_TYPE_SIZE>
+template <typename T, typename std::enable_if<std::is_integral<T>::value, int>::type = 0>
 T randomValue(T min = T(), T max = std::numeric_limits<T>::max()) {
     std::random_device rd;
     std::mt19937 gen(rd());
-    typename std::conditional<std::is_integral<T>::value,
-                              std::uniform_int_distribution<typename std::make_unsigned<T>::type>,
-                              std::uniform_real_distribution<T>>::type dist(min, max);
+    std::uniform_int_distribution<typename std::make_unsigned<T>::type> dist(min, max);
+    return static_cast<T>(dist(gen));
+}
+
+template <typename T, typename std::enable_if<std::is_floating_point<T>::value, int>::type = 0>
+T randomValue(T min = T(), T max = std::numeric_limits<T>::max())
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<T> dist(min, max);
     return static_cast<T>(dist(gen));
 }
 
 template <typename T = MEMORY_TYPE_SIZE>
-T variateValue(T& value, ZERO_ONE_SIZE band = 1.0) {
+T variateValue(T& value, ZERO_ONE_SIZE band = 1.0)
+{
 	T valBand = (static_cast<ZERO_ONE_SIZE>(std::numeric_limits<T>::max()) * band) / 2;
 	T min = 
 		value - valBand < value ?

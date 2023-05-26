@@ -25,6 +25,7 @@ class Neuron {
 		static void Action(std::string, std::vector<std::string> = {});
 		static void Axon(int amount = 1);
 		static void Bias(int amount = 1);
+		static void reset();
 
 		MEMORY_TYPE_SIZE threshold;
 		MEMORY_TYPE_SIZE originalThreshold;

@@ -4,7 +4,7 @@
 # define MEMORY_TYPE_SIZE unsigned int
 # define ZERO_ONE_SIZE float
 # define ASCII_BAR_LENGTH 32
-# define STEP_MS 100
+# define STEP_MS 50
 # define RANDOM_VARIATION 0.05
 # define BIAS_VARIATION 0.5
 # define SPEED 0.005
