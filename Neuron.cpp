@@ -24,6 +24,46 @@ void Neuron::Oscil(std::string name, std::vector<std::string> scale)
 	});
 }
 
+void Neuron::Action(std::string name, std::vector<std::string> scale)
+{
+  Neuron({
+		.type = T_ACTION,
+		.name = name,
+		.scaleMin = 0,
+		.scaleMax = 0,
+		.unit = "",
+		.scale = scale
+	});
+}
+
+void Neuron::Axon(int amount)
+{
+  Neuron({
+		.type = T_AXON,
+		.name = "",
+		.scaleMin = 0,
+		.scaleMax = 0,
+		.unit = "",
+		.scale = {}
+	});
+	if (--amount > 0)
+		Neuron::Axon(amount);
+}
+
+void Neuron::Bias(int amount)
+{
+  Neuron({
+		.type = T_BIAS,
+		.name = "bias",
+		.scaleMin = 0,
+		.scaleMax = 0,
+		.unit = "",
+		.scale = {}
+	});
+	if (--amount > 0)
+		Neuron::Bias(amount);
+}
+
 Neuron::Neuron(const t_config& u_)
 : type(u_.type),
 	name(u_.name),
@@ -33,92 +73,22 @@ Neuron::Neuron(const t_config& u_)
 	scale(u_.scale)
 {
 	UID = Neuron::globalUID++;
-	threshold = randomValue<MEMORY_TYPE_SIZE>();
-	originalThreshold = threshold;
+	originalThreshold = randomValue<MEMORY_TYPE_SIZE>();
+	threshold = originalThreshold;
+	variateValue<MEMORY_TYPE_SIZE>(threshold, 0.1);
 	inputValue = 0;
 	outputValue = 0;
 	thresholdPull = 1.0;
 	speed = SPEED;
 	if (type == T_OSCIL)
 		speed *= 20;
-
-	table.push_back(*this);
-	Neuron::out.resize(table.size());
-	Neuron::axonOut.resize(table.size());
-}
-
-Neuron::Neuron(int type, std::string name)
-	:	threshold(randomValue<MEMORY_TYPE_SIZE>()),
-	originalThreshold(threshold),
-	inputValue(0),
-	outputValue(0),
-	thresholdPull(1.0),
-	speed(SPEED),
-	UID(Neuron::globalUID++),
-	type(type),
-	name(name)
-{
-	table.push_back(*this);
-	Neuron::out.resize(table.size());
-	Neuron::axonOut.resize(table.size());
-}
-
-Neuron::Neuron(int type, std::string name, std::vector<std::string> scale)
-	:	threshold(randomValue<MEMORY_TYPE_SIZE>()),
-	originalThreshold(threshold),
-	inputValue(0),
-	outputValue(0),
-	thresholdPull(1.0),
-	speed(SPEED),
-	UID(Neuron::globalUID++),
-	type(type),
-	name(name),
-	scaleMin(0),
-	scaleMax(0),
-	scale(scale)
-{
-	table.push_back(*this);
-	Neuron::out.resize(table.size());
-	Neuron::axonOut.resize(table.size());
-}
-
-Neuron::Neuron(int type, std::string name, int scaleMin, int scaleMax, std::string unit, std::vector<std::string> scale = {})
-	:	threshold(randomValue<MEMORY_TYPE_SIZE>()),
-	originalThreshold(threshold),
-	inputValue(0),
-	outputValue(0),
-	thresholdPull(1.0),
-	speed(SPEED),
-	UID(Neuron::globalUID++),
-	type(type),
-	name(name),
-	scaleMin(scaleMin),
-	scaleMax(scaleMax),
-	unit(unit),
-	scale(scale)
-{
-	table.push_back(*this);
-	Neuron::out.resize(table.size());
-	Neuron::axonOut.resize(table.size());
-}
-
-Neuron::Neuron(int type)
-	:	threshold(type == T_AXON ? 0 : randomValue<MEMORY_TYPE_SIZE>()),
-	originalThreshold(threshold),
-	inputValue(0),
-	outputValue(0),
-	thresholdPull(1.0),
-	speed(SPEED),
-	UID(Neuron::globalUID++),
-	type(type),
-	name(type == T_AXON ? "axon" : "")
-{
 	if (type == T_AXON)
 	{
 		slotIn = randomNeuron();
 		slotOut = randomNeuron();
 		multiplyer = randomZeroOne();
 	}
+
 	table.push_back(*this);
 	Neuron::out.resize(table.size());
 	Neuron::axonOut.resize(table.size());
@@ -139,13 +109,22 @@ void Neuron::readAxons() {
 }
 
 void Neuron::updateInternals() {
+	if (type == T_BIAS)
+		variateValue<MEMORY_TYPE_SIZE>(inputValue, BIAS_VARIATION);
 	variateValue<MEMORY_TYPE_SIZE>(inputValue, RANDOM_VARIATION);
 	if (isNeuron())
 	{
 		if (threshold >= originalThreshold)
+		{
 			thresholdPull -= speed;
+		}
 		else
+		{
 			thresholdPull += speed;
+		}
+
+		if (thresholdPull < 0)
+			thresholdPull = 0;
 
 		if (thresholdPull > 1.0 && static_cast<MEMORY_TYPE_SIZE>(threshold * thresholdPull) < threshold)
 		{
@@ -160,7 +139,7 @@ void Neuron::updateInternals() {
 void Neuron::process() {
 	readAxons();
 	updateInternals();
-	if (type != T_AXON)
+	if (isNeuron())
 	{
 		if (inputValue >= threshold)
 		{
@@ -203,22 +182,6 @@ void Neuron::processAxons()
 			inCount[table[i].slotOut]++;
 	}
 
-//	printw("inCount\t");
-//	for (auto& v : inCount)
-//	{
-//		if (v != 0.0)
-//			printw("%d\t", v);
-//	}
-//	printw("\n");
-//	
-//	printw("Neuron::out\t");
-//	for (auto& v : Neuron::out)
-//	{
-//		if (v != 0.0)
-//			printw("%f\t", v);
-//	}
-//	printw("\n");
-
 	for (auto& v : axonOut)
 		v = 0.0;
 
@@ -228,11 +191,8 @@ void Neuron::processAxons()
 		{
 			size_t slotI = table[i].slotIn;
 			size_t slotO = table[i].slotOut;
-			// printw("\ni %u, slotI %u, slotO %u\n", i, slotI, slotO);
-			// printw("%f += %f * %f / %u", axonOut[slotO], out[slotI], table[i].multiplyer, inCount[slotO]);
 			if (!std::isinf(out[slotI]))
 				axonOut[slotO] += out[slotI] * table[i].multiplyer / inCount[slotO];
-			// printw(" = %f\n", axonOut[slotO]);
 		}
 	}
 }
@@ -245,6 +205,9 @@ bool Neuron::isAxon()
 
 bool Neuron::isStatsVisible()
 { return type == T_MEASURE || type == T_OSCIL; }
+
+bool Neuron::isBarVisible()
+{ return isNeuron() && type != T_BIAS; }
 
 size_t Neuron::globalUID = 0;
 std::vector<Neuron> Neuron::table;

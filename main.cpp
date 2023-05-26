@@ -27,50 +27,26 @@ void prepare()
 	set_tabsize(12);
 }
 
-std::vector<int> intVector(int min, int max)
-{
-	std::vector<int> myVector(max - min); //initialize a vector with 256 elements
-	for (int i = 0; i <= max - min - 1; i++)
-		myVector[i] = i + min; //fill the elements with values ranging from 25 to 280 (inclusive)
-	return myVector;
-}
-
 int main() {
 	prepare();
 
-  Neuron::Measure("Humor", {"Bad", "Medium", "Ok", "Good", "Incredible"});
+  Neuron::Measure("Humor",
+		{"Crappy", "Bad", "Medium", "Ok", "Good", "Enthusiastic", "Incredible"});
+
 	Neuron::Oscil("Breath", {"Empty", "Neutral", "Full"});
 
-  Neuron::Measure("Heart", {"Stoped", "Icy", "Slow", "Peaced", "Fast", "Hyper"}, 0, 220, "bpm");
-  Neuron(T_MEASURE, "Tired");
+  Neuron::Measure("Heart",
+		{"Slow", "Normal", "Peaced", "Accelerated", "Fast", "Hyper"},
+		0, 260, "bpm");
 
-	Neuron(T_ACTION, "Drop");
-	Neuron(T_ACTION, "Clench");
-	Neuron(T_ACTION, "Sleep");
+  Neuron::Measure("Tired");
+  Neuron::Measure("Eyes", {"Closed", "Normal", "Wide Open"});
 
-	Neuron(T_AXON);
-	Neuron(T_AXON);
-	Neuron(T_AXON);
-	Neuron(T_AXON);
-	Neuron(T_AXON);
-	Neuron(T_AXON);
-	Neuron(T_AXON);
-	Neuron(T_AXON);
-	Neuron(T_AXON);
-	Neuron(T_AXON);
-	Neuron(T_AXON);
-	Neuron(T_AXON);
-	Neuron(T_AXON);
-	Neuron(T_AXON);
-	Neuron(T_AXON);
-	Neuron(T_AXON);
-	Neuron(T_AXON);
-	Neuron(T_AXON);
-	Neuron(T_AXON);
-	Neuron(T_AXON);
-	Neuron(T_AXON);
-
-//	Axon();
+	Neuron::Action("Drop");
+	Neuron::Action("Clench", {"Softly", "Moderate", "Hard"});
+	Neuron::Action("Sleep");
+	Neuron::Bias(4);
+	Neuron::Axon(50);
 
 	run();
 	return 0;

@@ -20,8 +20,11 @@ typedef struct TypeNeuronConfig
 
 class Neuron {
 	public:
-		static void Measure(std::string, std::vector<std::string>, int = 0, int = 0, std::string = "");
+		static void Measure(std::string, std::vector<std::string> = {}, int = 0, int = 0, std::string = "");
 		static void Oscil(std::string, std::vector<std::string>);
+		static void Action(std::string, std::vector<std::string> = {});
+		static void Axon(int amount = 1);
+		static void Bias(int amount = 1);
 
 		MEMORY_TYPE_SIZE threshold;
 		MEMORY_TYPE_SIZE originalThreshold;
@@ -74,6 +77,7 @@ class Neuron {
 		bool isNeuron();
 		bool isAxon();
 		bool isStatsVisible();
+		bool isBarVisible();
 };
 
 #endif

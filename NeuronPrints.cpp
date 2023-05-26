@@ -16,7 +16,7 @@ void Neuron::printAllCharacters() {
 void Neuron::printAllBars() {
 		for (auto& neuron : table)
 		{
-			if (neuron.isNeuron())
+			if (neuron.isBarVisible())
 				neuron.printAsciiBar();
 		}
 }
@@ -100,7 +100,7 @@ void Neuron::printDescription()
 	size_t scaledThreshold;
 	size_t scaledOriginalThreshold;
 	(void)scaledOriginalThreshold;
-	(void)scaledInputValue;
+	(void)scaledThreshold;
 
 	if (outputValue)
 		printw(" * ");
@@ -112,20 +112,20 @@ void Neuron::printDescription()
 		if (scaleMax)
 		{
 			scaleFactor = static_cast<double>(scaleMax - scaleMin) / std::numeric_limits<MEMORY_TYPE_SIZE>::max();
-			scaledThreshold = static_cast<int>(threshold * scaleFactor) + scaleMin;
-			printw(": %d %s", scaledThreshold, unit.c_str());
+			scaledInputValue = static_cast<int>(inputValue * scaleFactor) + scaleMin;
+			printw(": %d %s", scaledInputValue, unit.c_str());
 		}
 		if (scale.size())
 		{
 			scaleFactor = static_cast<double>(scale.size()) / std::numeric_limits<MEMORY_TYPE_SIZE>::max();
-			scaledThreshold = static_cast<int>(threshold * scaleFactor);
-			if (scaledThreshold > scale.size() - 1) scaledThreshold = scale.size() - 1;
-			printw(": %s", scale[scaledThreshold].c_str());
+			scaledInputValue = static_cast<int>(inputValue * scaleFactor);
+			if (scaledInputValue > scale.size() - 1) scaledInputValue = scale.size() - 1;
+			printw(": %s", scale[scaledInputValue].c_str());
 		}
 		if (!scale.size() && !scaleMax && isStatsVisible())
 		{
 			scaleFactor = static_cast<double>(1.0) / std::numeric_limits<MEMORY_TYPE_SIZE>::max();
-			scaleFactor = static_cast<double>(threshold * scaleFactor);
+			scaleFactor = static_cast<double>(inputValue * scaleFactor);
 			printw(": %f", scaleFactor);
 		}
 	}
