@@ -55,33 +55,23 @@ void makeBrain()
 {
 	Neuron::reset();
 
+	Neuron::Vital("Breath", {"Empty", "Neutral", "Full"},
+		0, 0, "", 0.0, EXPRESSOR_THRESHOLD);
 	Neuron::Physical("Nose", {"Short", "Medium", "Long"});
-
   Neuron::Measure("Eyes", {"Closed", "Normal", "Wide Open"}, EXPRESSOR_THRESHOLD);
-
   Neuron::Measure("Humor",
 		{"Crappy", "Bad", "Medium", "Ok", "Good", "Enthusiastic", "Incredible"},
 		EXPRESSOR_THRESHOLD);
-
-	Neuron::Vital("Breath", {"Empty", "Neutral", "Full"},
-		0, 0, "", 0.0, EXPRESSOR_THRESHOLD);
-
-  Neuron::Vital("Heart 2",
-		{"Frozen", "Slow", "Normal", "Peaced", "Accelerated", "Fast", "Hyper"},
-		0, 260, "bpm", 0.4);
-
   Neuron::Vital("Heart",
 		{"Frozen", "Slow", "Normal", "Peaced", "Accelerated", "Fast", "Hyper"},
-		0, 260, "bpm", 0.4);
-
+		0, 260, "bpm", 0.8);
   Neuron::Measure("Tired", {}, EXPRESSOR_CURRENT);
-
 	Neuron::Action("Drop");
 	Neuron::Action("Clench", {"Softly", "Moderate", "Hard"});
 	Neuron::Action("Sleep");
 
-	Neuron::Axon(20);
-	Neuron::Bias(3);
+	Neuron::Bias(5);
+	Neuron::Axon(100);
 }
 
 

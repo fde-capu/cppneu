@@ -51,6 +51,7 @@ class Neuron {
 		std::string unit;
 		std::vector<std::string> scale;
 		ZERO_ONE_SIZE dump;
+		ZERO_ONE_SIZE thresholdDecay;
 
 		static size_t globalUID;
 		static std::vector<Neuron> table;
@@ -59,6 +60,7 @@ class Neuron {
 		static std::vector<std::string> actions;
 		static ZERO_ONE_SIZE actionScore;
 		static std::string bestAction;
+		static MEMORY_TYPE_SIZE max();
 
 		static size_t count_neuron;
 		static size_t count_axon;
@@ -90,12 +92,17 @@ class Neuron {
 		void printAsciiBar();
 		void printCharacter();
 		std::string printDescription(bool silent = false);
-		size_t randomNeuron();
+		size_t randomNeuronWithOutput();
+		size_t randomNeuronWithInput();
 		bool isNeuron();
 		bool isAxon();
 		bool isBias();
 		bool isStatsVisible();
 		bool isBarVisible();
+		bool isCharacterVisible();
+		bool isOutBlockVisible();
+		bool hasInput();
+		bool hasOutput();
 };
 
 #endif

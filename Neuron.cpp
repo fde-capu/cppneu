@@ -108,14 +108,13 @@ Neuron::Neuron(const t_config& u_)
 	UID = Neuron::globalUID++;
 	originalThreshold = randomValue<MEMORY_TYPE_SIZE>();
 	threshold = originalThreshold;
-	variateValue<MEMORY_TYPE_SIZE>(threshold, 0.1);
+	thresholdDecay = THRESHOLD_DECAY;
 	inputValue = 0;
 	outputValue = 0;
-	thresholdPull = 1.0;
 	if (type == T_AXON)
 	{
-		slotIn = randomNeuron();
-		slotOut = randomNeuron();
+		slotIn = randomNeuronWithOutput();
+		slotOut = randomNeuronWithInput();
 		multiplyer = randomZeroOne();
 	}
 	if (isNeuron()) count_neuron++;
@@ -134,61 +133,65 @@ void Neuron::reset()
 	axonOut.clear();
 }
 
-size_t Neuron::randomNeuron() {
+size_t Neuron::randomNeuronWithOutput() {
 	size_t neuronI = randomValue<size_t>(0, size() - 1);
-	if (!table[neuronI].isNeuron())
-		return randomNeuron();
+	if (!table[neuronI].hasOutput())
+		return randomNeuronWithOutput();
+	return neuronI;
+}
+
+size_t Neuron::randomNeuronWithInput() {
+	size_t neuronI = randomValue<size_t>(0, size() - 1);
+	if (!table[neuronI].hasInput())
+		return randomNeuronWithInput();
 	return neuronI;
 }
 
 size_t Neuron::size() { return table.size(); }
 
 void Neuron::readAxons() {
+	MEMORY_TYPE_SIZE newInputValue;
 	if (axonOut[UID])
-		inputValue = axonOut[UID] * static_cast<ZERO_ONE_SIZE>(std::numeric_limits<MEMORY_TYPE_SIZE>::max());
+	{
+		newInputValue = axonOut[UID] * \
+			static_cast<ZERO_ONE_SIZE>(max());
+		if (newInputValue > inputValue)
+		{
+			if (inputValue + newInputValue < inputValue)
+				inputValue = max();
+			else
+				inputValue += newInputValue;
+		}
+	}
 }
 
 void Neuron::updateInternals() {
 	if (type == T_BIAS)
-		variateValue<MEMORY_TYPE_SIZE>(inputValue, BIAS_VARIATION);
-	variateValue<MEMORY_TYPE_SIZE>(inputValue, RANDOM_VARIATION * (1.0 - dump));
+		inputValue = randomValue<MEMORY_TYPE_SIZE>();
 
 	if (isNeuron())
 	{
-		if (threshold >= originalThreshold)
-			thresholdPull -= 0.005;
-		else
-			thresholdPull += 0.005;
-		if (threshold >= inputValue)
-			thresholdPull -= 0.005;
-		else
-			thresholdPull += 0.005;
-		if (thresholdPull < 0)
-			thresholdPull = 0;
-
-		long long newThreshold = threshold * thresholdPull;
-		if (newThreshold > std::numeric_limits<MEMORY_TYPE_SIZE>::max())
-			newThreshold = std::numeric_limits<MEMORY_TYPE_SIZE>::max();
-		if (newThreshold < 0)
-			newThreshold = 0;
-
-		long long diff = newThreshold - threshold;
-		diff *= (1.0 - dump);
-		threshold += diff;
 	}
 }
 
 void Neuron::process() {
+	ZERO_ONE_SIZE force = 0.0;
+	long long newThreshold = threshold;
+
+	inputValue -= (inputValue * INPUT_DECAY); 
 	readAxons();
 	updateInternals();
 	if (isNeuron())
 	{
 		if (inputValue >= threshold)
 		{
-			ZERO_ONE_SIZE force = static_cast<ZERO_ONE_SIZE>(inputValue - threshold) / static_cast<ZERO_ONE_SIZE>(std::numeric_limits<MEMORY_TYPE_SIZE>::max());
-			threshold += ((inputValue - threshold) * ((1.0 - dump)));
-			thresholdPull -= force * 0.005;
-			outputValue = std::numeric_limits<MEMORY_TYPE_SIZE>::max();
+			force = static_cast<ZERO_ONE_SIZE>(inputValue - threshold) /
+				static_cast<ZERO_ONE_SIZE>(max());
+			newThreshold += ((inputValue - threshold) * ((1.0 - dump)));
+//			thresholdDecay += (force - thresholdDecay) * (1.0 - THRESHOLD_DECAY);
+			thresholdDecay += force;
+			outputValue = max();
+
 			if (type == T_ACTION)
 			{
 				actions.push_back(name);
@@ -203,7 +206,14 @@ void Neuron::process() {
 		{
 			outputValue = 0.0;
 		}
-		Neuron::out[UID] = static_cast<ZERO_ONE_SIZE>(std::numeric_limits<MEMORY_TYPE_SIZE>::max()) / static_cast<ZERO_ONE_SIZE>(outputValue);
+		newThreshold -= (((long long)threshold - (long long)originalThreshold) * thresholdDecay);
+		thresholdDecay -= (thresholdDecay - THRESHOLD_DECAY) * thresholdDecay;
+		if (thresholdDecay > 1.0) thresholdDecay = 1.0;
+		if (thresholdDecay < 0.0) thresholdDecay = 0.0;
+		if (newThreshold > max()) newThreshold = max();
+		if (newThreshold < 0) newThreshold = 0;
+		threshold = newThreshold;
+		Neuron::out[UID] = static_cast<ZERO_ONE_SIZE>(max()) / static_cast<ZERO_ONE_SIZE>(outputValue);
 	}
 }
 
@@ -239,12 +249,16 @@ void Neuron::processAxons()
 	}
 }
 
+MEMORY_TYPE_SIZE Neuron::max()
+{ return std::numeric_limits<MEMORY_TYPE_SIZE>::max(); }
+
 bool Neuron::isNeuron()
 { return
 				type == T_PHYSICAL
 		||	type == T_VITAL
 		||	type == T_ACTION
 		||	type == T_MEASURE
+		||	type == T_BIAS
 ;}
 
 bool Neuron::isAxon()
@@ -259,12 +273,38 @@ bool Neuron::isStatsVisible()
 
 bool Neuron::isBarVisible()
 { return
+				type == T_VITAL
+		||	type == T_ACTION
+		||	type == T_MEASURE
+//		||	type == T_BIAS
+;}
+
+bool Neuron::isCharacterVisible()
+{	return
+				type == T_VITAL
+		||	type == T_MEASURE
+		||	type == T_BIAS
+;}
+
+bool Neuron::isOutBlockVisible()
+{	return
 				type == T_PHYSICAL
 		||	type == T_VITAL
 		||	type == T_ACTION
 		||	type == T_MEASURE
 		||	type == T_BIAS
 ;}
+
+bool Neuron::hasInput()
+{ return
+				type == T_PHYSICAL
+		||	type == T_VITAL
+		||	type == T_ACTION
+		||	type == T_MEASURE
+;}
+
+bool Neuron::hasOutput()
+{ return isNeuron(); }
 
 size_t Neuron::globalUID = 0;
 std::vector<Neuron> Neuron::table;

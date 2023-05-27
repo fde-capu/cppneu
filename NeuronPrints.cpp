@@ -8,7 +8,7 @@ void Neuron::printScreen()
 	Neuron::printWantedActions();
 	 Neuron::printAllBars();
 	//		Neuron::printOuts();
-	Neuron::printAllAxons();
+	//Neuron::printAllAxons();
 }
 
 void Neuron::printHeader()
@@ -19,10 +19,7 @@ void Neuron::printHeader()
 void Neuron::printAllCharacters()
 {
 	for (auto& neuron : table)
-	{
-		if (neuron.isNeuron())
 			neuron.printCharacter();
-	}
 	printw("\n");
 }
 
@@ -37,10 +34,7 @@ void Neuron::printWantedActions()
 void Neuron::printAllBars()
 {
 		for (auto& neuron : table)
-		{
-			if (neuron.isBarVisible())
 				neuron.printAsciiBar();
-		}
 }
 
 void Neuron::printAllAxons()
@@ -62,7 +56,7 @@ void Neuron::printOuts()
 {
 		for (auto& neuron : table)
 		{
-			if (neuron.isNeuron())
+			if (neuron.isOutBlockVisible())
 			{
 				if (!std::isinf(out[neuron.UID]))
 					printw("*|", out[neuron.UID]);
@@ -75,8 +69,11 @@ void Neuron::printOuts()
 
 void Neuron::printCharacter()
 {
+	if (!isCharacterVisible())
+		return;
+
 	std::string shadowGray(" -~=+*oO&#%@");
-	double scaleFactor = static_cast<double>(shadowGray.length() - 1) / std::numeric_limits<MEMORY_TYPE_SIZE>::max();
+	double scaleFactor = static_cast<double>(shadowGray.length() - 1) / max();
 	int scaledInputValue = static_cast<int>(inputValue * scaleFactor);
 	int scaledThreshold = static_cast<int>(threshold * scaleFactor);
 	int scaledOriginalThreshold = static_cast<int>(originalThreshold * scaleFactor);
@@ -92,8 +89,10 @@ void Neuron::printCharacter()
 
 void Neuron::printAsciiBar()
 {
+	if (!isBarVisible())
+		return ;
 	size_t length = ASCII_BAR_LENGTH;
-	double scaleFactor = static_cast<double>(length) / std::numeric_limits<MEMORY_TYPE_SIZE>::max();
+	double scaleFactor = static_cast<double>(length) / max();
 	size_t scaledInputValue = static_cast<int>(inputValue * scaleFactor);
 	size_t scaledThreshold = static_cast<int>(threshold * scaleFactor);
 	size_t scaledOriginalThreshold = static_cast<int>(originalThreshold * scaleFactor);
@@ -126,16 +125,13 @@ void Neuron::printAllDescriptions()
 
 	for (auto& neuron : table)
 	{
-		if (neuron.isBarVisible())
+		tmp = neuron.printDescription(true);
+		switch (neuron.type)
 		{
-			tmp = neuron.printDescription(true);
-			switch (neuron.type)
-			{
-				case T_PHYSICAL: physical += tmp; break;
-				case T_VITAL: vital += tmp; break;
-				case T_ACTION: action += tmp; break;
-				case T_MEASURE: measure += tmp; break;
-			}
+			case T_PHYSICAL: physical += tmp; break;
+			case T_VITAL: vital += tmp; break;
+			case T_ACTION: action += tmp; break;
+			case T_MEASURE: measure += tmp; break;
 		}
 	}
 
@@ -174,23 +170,24 @@ std::string Neuron::printDescription(bool silent)
 	{
 		if (scaleMax)
 		{
-			scaleFactor = static_cast<double>(scaleMax - scaleMin) / std::numeric_limits<MEMORY_TYPE_SIZE>::max();
+			scaleFactor = static_cast<double>(scaleMax - scaleMin) / max();
 			scaledExpressor = static_cast<int>(getExpressor * scaleFactor) + scaleMin;
 			ss << ": " << scaledExpressor << unit.c_str();
 		}
 		if (scale.size())
 		{
-			scaleFactor = static_cast<double>(scale.size()) / std::numeric_limits<MEMORY_TYPE_SIZE>::max();
+			scaleFactor = static_cast<double>(scale.size()) / max();
 			scaledExpressor = static_cast<int>(getExpressor * scaleFactor);
 			if (scaledExpressor > scale.size() - 1) scaledExpressor = scale.size() - 1;
 			ss << ": " << scale[scaledExpressor];
 		}
 		if (!scale.size() && !scaleMax && isStatsVisible())
 		{
-			scaleFactor = static_cast<double>(1.0) / std::numeric_limits<MEMORY_TYPE_SIZE>::max();
+			scaleFactor = static_cast<double>(1.0) / max();
 			scaleFactor = static_cast<double>(getExpressor * scaleFactor);
 			ss << ": " << scaleFactor;
 		}
+		ss << "\t> " << thresholdDecay;
 		ss << std::endl;
 	}
 	std::string outStr = (ss.str());
