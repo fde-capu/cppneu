@@ -1,26 +1,66 @@
 #include "Neuron.hpp"
 
-void Neuron::Measure(std::string name, std::vector<std::string> scale, int scaleMin, int scaleMax, std::string unit)
+size_t Neuron::count_neuron = 0;
+size_t Neuron::count_axon = 0;
+size_t Neuron::count_bias = 0;
+
+
+void Neuron::Physical(std::string name, std::vector<std::string> scale, int expressor)
+{
+  Neuron({
+		.type = T_PHYSICAL,
+		.name = name,
+		.expressor = expressor,
+		.scaleMin = 0,
+		.scaleMax = 0,
+		.unit = "",
+		.scale = scale,
+		.dump = 1.0
+	});
+}
+
+void Neuron::Vital(std::string name, std::vector<std::string> scale,
+	int scaleMin, int scaleMax, std::string unit, ZERO_ONE_SIZE dump)
+{
+  Neuron({
+		.type = T_VITAL,
+		.name = name,
+		.expressor = EXPRESSOR_THRESHOLD,
+		.scaleMin = scaleMin,
+		.scaleMax = scaleMax,
+		.unit = unit,
+		.scale = scale,
+		.dump = dump
+	});
+}
+
+void Neuron::Measure(std::string name, std::vector<std::string> scale,
+	int scaleMin, int scaleMax, std::string unit, int expressor)
 {
   Neuron({
 		.type = T_MEASURE,
 		.name = name,
+		.expressor = expressor,
 		.scaleMin = scaleMin,
 		.scaleMax = scaleMax,
 		.unit = unit,
-		.scale = scale
+		.scale = scale,
+		.dump = 0.0
 	});
 }
 
-void Neuron::Oscil(std::string name, std::vector<std::string> scale)
+void Neuron::Oscil(std::string name, std::vector<std::string> scale,
+	int expressor, ZERO_ONE_SIZE dump)
 {
   Neuron({
 		.type = T_OSCIL,
 		.name = name,
+		.expressor = expressor,
 		.scaleMin = 0,
 		.scaleMax = 0,
 		.unit = "",
-		.scale = scale
+		.scale = scale,
+		.dump = dump
 	});
 }
 
@@ -29,10 +69,12 @@ void Neuron::Action(std::string name, std::vector<std::string> scale)
   Neuron({
 		.type = T_ACTION,
 		.name = name,
+		.expressor = EXPRESSOR_CURRENT,
 		.scaleMin = 0,
 		.scaleMax = 0,
 		.unit = "",
-		.scale = scale
+		.scale = scale,
+		.dump = 0.0
 	});
 }
 
@@ -41,10 +83,12 @@ void Neuron::Axon(int amount)
   Neuron({
 		.type = T_AXON,
 		.name = "",
+		.expressor = EXPRESSOR_CURRENT,
 		.scaleMin = 0,
 		.scaleMax = 0,
 		.unit = "",
-		.scale = {}
+		.scale = {},
+		.dump = 0.0
 	});
 	if (--amount > 0)
 		Neuron::Axon(amount);
@@ -55,6 +99,7 @@ void Neuron::Bias(int amount)
   Neuron({
 		.type = T_BIAS,
 		.name = "bias",
+		.expressor = EXPRESSOR_CURRENT,
 		.scaleMin = 0,
 		.scaleMax = 0,
 		.unit = "",
@@ -67,10 +112,12 @@ void Neuron::Bias(int amount)
 Neuron::Neuron(const t_config& u_)
 : type(u_.type),
 	name(u_.name),
+	expressor(u_.expressor),
 	scaleMin(u_.scaleMin),
 	scaleMax(u_.scaleMax),
 	unit(u_.unit),
-	scale(u_.scale)
+	scale(u_.scale),
+	dump(u_.dump)
 {
 	UID = Neuron::globalUID++;
 	originalThreshold = randomValue<MEMORY_TYPE_SIZE>();
@@ -89,6 +136,9 @@ Neuron::Neuron(const t_config& u_)
 		slotOut = randomNeuron();
 		multiplyer = randomZeroOne();
 	}
+	if (isNeuron()) count_neuron++;
+	if (isAxon()) count_axon++;
+	if (isBias()) count_bias++;
 
 	table.push_back(*this);
 	Neuron::out.resize(table.size());
@@ -119,7 +169,7 @@ void Neuron::readAxons() {
 void Neuron::updateInternals() {
 	if (type == T_BIAS)
 		variateValue<MEMORY_TYPE_SIZE>(inputValue, BIAS_VARIATION);
-	variateValue<MEMORY_TYPE_SIZE>(inputValue, RANDOM_VARIATION);
+	variateValue<MEMORY_TYPE_SIZE>(inputValue, RANDOM_VARIATION * (1.0 - dump));
 	if (isNeuron())
 	{
 		if (threshold >= originalThreshold)
@@ -134,13 +184,21 @@ void Neuron::updateInternals() {
 		if (thresholdPull < 0)
 			thresholdPull = 0;
 
-		if (thresholdPull > 1.0 && static_cast<MEMORY_TYPE_SIZE>(threshold * thresholdPull) < threshold)
+		long long newThreshold = threshold * thresholdPull;
+		if (newThreshold > std::numeric_limits<MEMORY_TYPE_SIZE>::max())
 		{
-			threshold = std::numeric_limits<MEMORY_TYPE_SIZE>::max();
 			thresholdPull = 1.0;
+			newThreshold = std::numeric_limits<MEMORY_TYPE_SIZE>::max();
 		}
-		else
-			threshold *= thresholdPull;
+		if (newThreshold < 0)
+		{
+			thresholdPull = 1.0;
+			newThreshold = 0;
+		}
+		long long diff = newThreshold - threshold;
+		diff *= (1.0 - dump);
+
+		threshold += diff;
 	}
 }
 
@@ -152,9 +210,9 @@ void Neuron::process() {
 		if (inputValue >= threshold)
 		{
 			ZERO_ONE_SIZE force = static_cast<ZERO_ONE_SIZE>(inputValue - threshold) / static_cast<ZERO_ONE_SIZE>(std::numeric_limits<MEMORY_TYPE_SIZE>::max());
+			threshold += ((inputValue - threshold) * ((1.0 - dump)));
+			thresholdPull -= force * speed;
 			outputValue = std::numeric_limits<MEMORY_TYPE_SIZE>::max();
-			threshold += (inputValue - threshold) * force;
-//			thresholdPull = 1 - (force * speed);
 			if (type == T_ACTION)
 			{
 				actions.push_back(name);
@@ -210,6 +268,9 @@ bool Neuron::isNeuron()
 
 bool Neuron::isAxon()
 { return type == T_AXON; }
+
+bool Neuron::isBias()
+{ return type == T_BIAS; }
 
 bool Neuron::isStatsVisible()
 { return type == T_MEASURE || type == T_OSCIL; }

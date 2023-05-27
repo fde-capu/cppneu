@@ -27,6 +27,8 @@ T randomValue(T min = T(), T max = std::numeric_limits<T>::max())
 template <typename T = MEMORY_TYPE_SIZE>
 T variateValue(T& value, ZERO_ONE_SIZE band = 1.0)
 {
+	if (band == 0.0)
+		return value;
 	T valBand = (static_cast<ZERO_ONE_SIZE>(std::numeric_limits<T>::max()) * band) / 2;
 	T min = 
 		value - valBand < value ?

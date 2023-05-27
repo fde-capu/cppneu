@@ -20,13 +20,10 @@ void run()
 	{
 		if (g_running)
 		{
-			clear();
 			Neuron::processAll();
 
-			Neuron::printAllCharacters();
-			Neuron::printAllBars();
-			//		Neuron::printOuts();
-			Neuron::printAllAxons();
+			clear();
+			Neuron::printScreen();
 			refresh();
 		}
 
@@ -58,24 +55,28 @@ void makeBrain()
 {
 	Neuron::reset();
 
+	Neuron::Physical("Nose", {"Short", "Medium", "Long"});
+
+  Neuron::Measure("Eyes", {"Closed", "Normal", "Wide Open"}, EXPRESSOR_THRESHOLD);
+
   Neuron::Measure("Humor",
-		{"Crappy", "Bad", "Medium", "Ok", "Good", "Enthusiastic", "Incredible"});
+		{"Crappy", "Bad", "Medium", "Ok", "Good", "Enthusiastic", "Incredible"},
+		EXPRESSOR_THRESHOLD);
 
-	Neuron::Oscil("Breath", {"Empty", "Neutral", "Full"});
+	Neuron::Oscil("Breath", {"Empty", "Neutral", "Full"}, EXPRESSOR_THRESHOLD, 0.0);
 
-  Neuron::Measure("Heart",
-		{"Slow", "Normal", "Peaced", "Accelerated", "Fast", "Hyper"},
-		0, 260, "bpm");
+  Neuron::Vital("Heart",
+		{"Frozen", "Slow", "Normal", "Peaced", "Accelerated", "Fast", "Hyper"},
+		0, 260, "bpm", 0.4);
 
-  Neuron::Measure("Tired");
-  Neuron::Measure("Eyes", {"Closed", "Normal", "Wide Open"});
+  Neuron::Measure("Tired", {}, EXPRESSOR_CURRENT);
 
 	Neuron::Action("Drop");
 	Neuron::Action("Clench", {"Softly", "Moderate", "Hard"});
 	Neuron::Action("Sleep");
 
-	Neuron::Bias(3);
-	Neuron::Axon(10);
+	Neuron::Axon(20);
+	Neuron::Bias(1);
 }
 
 
