@@ -122,7 +122,6 @@ void Neuron::printAllDescriptions()
 	std::string vital("");
 	std::string action("");
 	std::string measure("");
-	std::string oscil("");
 	std::string tmp;
 
 	for (auto& neuron : table)
@@ -136,7 +135,6 @@ void Neuron::printAllDescriptions()
 				case T_VITAL: vital += tmp; break;
 				case T_ACTION: action += tmp; break;
 				case T_MEASURE: measure += tmp; break;
-				case T_OSCIL: oscil += tmp; break;
 			}
 		}
 	}
@@ -145,19 +143,16 @@ void Neuron::printAllDescriptions()
 	if (vital.length()) vital = "vital:\t" + vital;
 	if (action.length()) action = "action:\t" + action;
 	if (measure.length()) measure = "measure:\t" + measure;
-	if (oscil.length()) oscil = "oscil:\t" + oscil;
 
 //	if (physical.length()) physical += "\n";
 //	if (vital.length()) vital += "\n";
 //	if (action.length()) action += "\n";
 //	if (measure.length()) measure += "\n";
-//	if (oscil.length()) oscil += "\n";
 	
 	printw(physical.c_str());
 	printw(vital.c_str());
 	printw(action.c_str());
 	printw(measure.c_str());
-	printw(oscil.c_str());
 }
 
 std::string Neuron::printDescription(bool silent)
@@ -194,7 +189,7 @@ std::string Neuron::printDescription(bool silent)
 		{
 			scaleFactor = static_cast<double>(1.0) / std::numeric_limits<MEMORY_TYPE_SIZE>::max();
 			scaleFactor = static_cast<double>(getExpressor * scaleFactor);
-			ss << ": " << scaleFactor << "!!";
+			ss << ": " << scaleFactor;
 		}
 		ss << std::endl;
 	}

@@ -24,9 +24,8 @@ typedef struct TypeNeuronConfig
 class Neuron {
 	public:
 		static void Physical(std::string, std::vector<std::string>, int expressor = EXPRESSOR_ORIGINAL_THRESHOLD);
-		static void Vital(std::string, std::vector<std::string> = {}, int = 0, int = 0, std::string = "", ZERO_ONE_SIZE dump = 0.5);
-		static void Measure(std::string, std::vector<std::string> = {}, int = 0, int = 0, std::string = "", int expressor = EXPRESSOR_THRESHOLD);
-		static void Oscil(std::string, std::vector<std::string> = {}, int expressor = EXPRESSOR_CURRENT, ZERO_ONE_SIZE dump = 0.0);
+		static void Measure(std::string, std::vector<std::string> = {}, int expressor = EXPRESSOR_THRESHOLD);
+		static void Vital(std::string, std::vector<std::string> = {}, int = 0, int = 0, std::string = "", ZERO_ONE_SIZE dump = 0.5, int expressor = EXPRESSOR_THRESHOLD);
 		static void Action(std::string, std::vector<std::string> = {});
 		static void Axon(int amount = 1);
 		static void Bias(int amount = 1);

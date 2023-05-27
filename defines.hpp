@@ -7,13 +7,11 @@
 # define STEP_MS 100
 # define RANDOM_VARIATION 0.05
 # define BIAS_VARIATION 0.5
-# define SPEED 0.005
 
 # define T_PHYSICAL 0
 # define T_VITAL 1
 # define T_ACTION 2
 # define T_MEASURE 3
-# define T_OSCIL 4
 # define T_AXON 10
 # define T_BIAS 20
 

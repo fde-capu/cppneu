@@ -63,7 +63,12 @@ void makeBrain()
 		{"Crappy", "Bad", "Medium", "Ok", "Good", "Enthusiastic", "Incredible"},
 		EXPRESSOR_THRESHOLD);
 
-	Neuron::Oscil("Breath", {"Empty", "Neutral", "Full"}, EXPRESSOR_THRESHOLD, 0.0);
+	Neuron::Vital("Breath", {"Empty", "Neutral", "Full"},
+		0, 0, "", 0.0, EXPRESSOR_THRESHOLD);
+
+  Neuron::Vital("Heart 2",
+		{"Frozen", "Slow", "Normal", "Peaced", "Accelerated", "Fast", "Hyper"},
+		0, 260, "bpm", 0.4);
 
   Neuron::Vital("Heart",
 		{"Frozen", "Slow", "Normal", "Peaced", "Accelerated", "Fast", "Hyper"},
@@ -76,7 +81,7 @@ void makeBrain()
 	Neuron::Action("Sleep");
 
 	Neuron::Axon(20);
-	Neuron::Bias(1);
+	Neuron::Bias(3);
 }
 
 
