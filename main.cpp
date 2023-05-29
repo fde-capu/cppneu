@@ -36,11 +36,11 @@ static std::map<char, KeyValue> g_menu = {
 
 void printMenu()
 {
-	printw("| ");
+	printw(":");
 	for (const auto& kv : g_menu) {
-		printw("%c %s\t", kv.first, kv.second.description.c_str());
+		printw("%c:%s ", kv.first, kv.second.description.c_str());
 	}
-	printw("\n");
+	printw(":\n");
 }
 
 void dealKeyPress(int ch)

@@ -6,9 +6,9 @@ bool Neuron::displayPhysical = false;
 bool Neuron::displayVital = false;
 bool Neuron::displayAction = false;
 bool Neuron::displayMeasure = false;
-bool Neuron::displayActionResolution = false;
+bool Neuron::displayActionResolution = true;
 bool Neuron::displayBars = true;
-bool Neuron::displayOuts = true;
+bool Neuron::displayOuts = false;
 bool Neuron::displayAxons = false;
 bool Neuron::displayBiasBars = false;
 
@@ -31,7 +31,7 @@ void Neuron::printScreen()
 
 void Neuron::printHeader()
 {
-	printw("%dN %dA %dB ", count_neuron, count_axon, count_bias);
+	printw("%dN %dA %dB\n", count_neuron, count_axon, count_bias);
 }
 
 void Neuron::printAllCharacters()
@@ -43,9 +43,7 @@ void Neuron::printAllCharacters()
 
 void Neuron::printWantedActions()
 {
-	printw("[ %s ]", bestAction.c_str());
-	for (auto& action : actions)
-		printw(" %s", action.c_str());
+	printw(">%s", bestAction.c_str());
 	printw("\n");
 }
 
@@ -132,6 +130,7 @@ void Neuron::printAsciiBar()
 	}
 	printw("]");
 	printDescription();
+	printw("\n");
 }
 
 void Neuron::printAllDescriptions()
@@ -144,7 +143,7 @@ void Neuron::printAllDescriptions()
 
 	for (auto& neuron : table)
 	{
-		tmp = neuron.printDescription(true);
+		tmp = neuron.printDescription(true) + "\n";
 		switch (neuron.type)
 		{
 			case T_PHYSICAL: physical += tmp; break;
@@ -154,10 +153,10 @@ void Neuron::printAllDescriptions()
 		}
 	}
 
-	if (physical.length()) physical = "physical:\t" + physical;
-	if (vital.length()) vital = "vital:\t" + vital;
-	if (action.length()) action = "action:\t" + action;
-	if (measure.length()) measure = "measure:\t" + measure;
+//	if (physical.length()) physical = "physical:\t" + physical;
+//	if (vital.length()) vital = "vital:\t" + vital;
+//	if (action.length()) action = "action:\t" + action;
+//	if (measure.length()) measure = "measure:\t" + measure;
 
 //	if (physical.length()) physical += "\n";
 //	if (vital.length()) vital += "\n";
@@ -210,7 +209,6 @@ std::string Neuron::printDescription(bool silent)
 			scaleFactor = static_cast<double>(getExpressor * scaleFactor);
 			ss << ": " << scaleFactor;
 		}
-		ss << std::endl;
 	}
 	std::string outStr = (ss.str());
 	if (!silent)

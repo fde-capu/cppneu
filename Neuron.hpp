@@ -39,6 +39,7 @@ class Neuron {
 		ZERO_ONE_SIZE thresholdPull;
 		ZERO_ONE_SIZE thresholdStability;
 		ZERO_ONE_SIZE speed;
+		ZERO_ONE_SIZE force;
 
 		size_t UID;
 		int type;
@@ -73,6 +74,7 @@ class Neuron {
 		Neuron(int type, std::string name, int scaleMin, int scaleMax, std::string unit, std::vector<std::string> scale);
 		Neuron(int type);
 
+		void extraProcess();
 		void process();
 		static void processAll();
 		static void processAxons();

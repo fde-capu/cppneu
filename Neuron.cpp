@@ -176,8 +176,19 @@ void Neuron::updateInternals() {
 	}
 }
 
+void Neuron::extraProcess() {
+	if (type == T_ACTION)
+	{
+		actions.push_back(printDescription());
+		if (force > actionScore)
+		{
+			actionScore = force;
+			bestAction = printDescription();
+		}
+	}
+}
+
 void Neuron::process() {
-	ZERO_ONE_SIZE force = 0.0;
 	long long newThreshold = threshold;
 
 	inputValue -= (inputValue * INPUT_DECAY); 
@@ -193,16 +204,7 @@ void Neuron::process() {
 //			thresholdDecay += (force - thresholdDecay) * (1.0 - THRESHOLD_DECAY);
 			thresholdDecay += force;
 			outputValue = max();
-
-			if (type == T_ACTION)
-			{
-				actions.push_back(name);
-				if (force > actionScore)
-				{
-					actionScore = force;
-					bestAction = name;
-				}
-			}
+			extraProcess();
 		}
 		else
 		{
