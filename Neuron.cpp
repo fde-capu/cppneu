@@ -4,65 +4,34 @@ size_t Neuron::count_neuron = 0;
 size_t Neuron::count_axon = 0;
 size_t Neuron::count_bias = 0;
 
-std::vector<bool> isDisplayable = {};
-
-void Neuron::Physical(std::string name, std::vector<std::string> scale, int expressor)
+void Neuron::Create(int type, std::string name, std::vector<std::string> scale,
+	t_scale transpose, int expressor, ZERO_ONE_SIZE dump
+	)
 {
   Neuron({
-		.type = T_PHYSICAL,
+		.type = type,
 		.name = name,
 		.expressor = expressor,
-		.scaleMin = 0,
-		.scaleMax = 0,
-		.unit = "",
-		.scale = scale,
-		.dump = 1.0
-	});
-}
-
-void Neuron::Vital(std::string name, std::vector<std::string> scale,
-	int scaleMin, int scaleMax, std::string unit, ZERO_ONE_SIZE dump,
-	int expressor)
-{
-  Neuron({
-		.type = T_VITAL,
-		.name = name,
-		.expressor = expressor,
-		.scaleMin = scaleMin,
-		.scaleMax = scaleMax,
-		.unit = unit,
+		.scaleMin = transpose.scaleMin,
+		.scaleMax = transpose.scaleMax,
+		.unit = transpose.unit,
 		.scale = scale,
 		.dump = dump
 	});
 }
-
-void Neuron::Measure(std::string name, std::vector<std::string> scale,
-	int expressor)
+void Neuron::Bias(int amount)
 {
   Neuron({
-		.type = T_MEASURE,
-		.name = name,
-		.expressor = expressor,
-		.scaleMin = 0,
-		.scaleMax = 0,
-		.unit = "",
-		.scale = scale,
-		.dump = 0.0
-	});
-}
-
-void Neuron::Action(std::string name, std::vector<std::string> scale)
-{
-  Neuron({
-		.type = T_ACTION,
-		.name = name,
+		.type = T_BIAS,
+		.name = "bias",
 		.expressor = EXPRESSOR_CURRENT,
 		.scaleMin = 0,
 		.scaleMax = 0,
 		.unit = "",
-		.scale = scale,
-		.dump = 0.0
+		.scale = {}
 	});
+	if (--amount > 0)
+		Neuron::Bias(amount);
 }
 
 void Neuron::Axon(int amount)
@@ -79,21 +48,6 @@ void Neuron::Axon(int amount)
 	});
 	if (--amount > 0)
 		Neuron::Axon(amount);
-}
-
-void Neuron::Bias(int amount)
-{
-  Neuron({
-		.type = T_BIAS,
-		.name = "bias",
-		.expressor = EXPRESSOR_CURRENT,
-		.scaleMin = 0,
-		.scaleMax = 0,
-		.unit = "",
-		.scale = {}
-	});
-	if (--amount > 0)
-		Neuron::Bias(amount);
 }
 
 Neuron::Neuron(const t_config& u_)
@@ -125,7 +79,6 @@ Neuron::Neuron(const t_config& u_)
 	table.push_back(*this);
 	out.resize(table.size());
 	axonOut.resize(table.size());
-	isDisplayable.resize(table.size());
 }
 
 void Neuron::reset()
@@ -176,14 +129,18 @@ void Neuron::updateInternals() {
 	}
 }
 
-void Neuron::extraProcess() {
-	if (type == T_ACTION)
+void Neuron::extraFiringProcess() {
+	if (!isBias())
 	{
-		actions.push_back(printDescription());
 		if (force > actionScore)
 		{
 			actionScore = force;
 			bestAction = printDescription();
+		}
+		else
+		{
+			actionScore = 0.0;
+			bestAction = " *";
 		}
 	}
 }
@@ -204,7 +161,7 @@ void Neuron::process() {
 //			thresholdDecay += (force - thresholdDecay) * (1.0 - THRESHOLD_DECAY);
 			thresholdDecay += force;
 			outputValue = max();
-			extraProcess();
+			extraFiringProcess();
 		}
 		else
 		{
@@ -223,7 +180,6 @@ void Neuron::process() {
 
 void Neuron::processAll() {
 		actions.clear();
-		actionScore = 0.0;
 		for (auto& neuron : table)
 			neuron.process();
 		processAxons();
@@ -285,7 +241,7 @@ bool Neuron::hasOutput()
 size_t Neuron::globalUID = 0;
 std::vector<Neuron> Neuron::table;
 std::vector<std::string> Neuron::actions;
-ZERO_ONE_SIZE Neuron::actionScore = 0;
+ZERO_ONE_SIZE Neuron::actionScore = 0.0;
 std::string Neuron::bestAction = "";
 std::vector<ZERO_ONE_SIZE> Neuron::out;
 std::vector<ZERO_ONE_SIZE> Neuron::axonOut;

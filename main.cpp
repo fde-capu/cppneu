@@ -11,12 +11,12 @@ void toggleRunning() { g_running = !g_running; }
 
 typedef void (*voidFuncPtr)(void);
 
-struct KeyValue {
+struct DescriptionFunction {
     std::string description;
     voidFuncPtr functionPtr;
 };
 
-static std::map<char, KeyValue> g_menu = {
+static std::map<char, DescriptionFunction> g_menu = {
 	{'?', {.description = "menu", .functionPtr = &toggleShowMenu}},
 	{'q', {.description = "quit", .functionPtr = &doQuit}},
 	{'P', {.description = "pause", .functionPtr = &toggleRunning}},
@@ -89,34 +89,37 @@ void destroy()
 	endwin();
 }
 
-void makeBrain()
-{
-	Neuron::reset();
-
-	Neuron::Vital("Breath", {"Empty", "Neutral", "Full"},
-		0, 0, "", 0.0, EXPRESSOR_THRESHOLD);
-	Neuron::Physical("Nose", {"Short", "Medium", "Long"});
-  Neuron::Measure("Eyes", {"Closed", "Normal", "Wide Open"}, EXPRESSOR_THRESHOLD);
-  Neuron::Measure("Humor",
-		{"Crappy", "Bad", "Medium", "Ok", "Good", "Enthusiastic", "Incredible"},
-		EXPRESSOR_THRESHOLD);
-  Neuron::Vital("Heart",
-		{"Frozen", "Slow", "Normal", "Peaced", "Accelerated", "Fast", "Hyper"},
-		0, 260, "bpm", 0.8);
-  Neuron::Measure("Tired", {}, EXPRESSOR_CURRENT);
-	Neuron::Action("Drop");
-	Neuron::Action("Clench", {"Softly", "Moderate", "Hard"});
-	Neuron::Action("Sleep");
-
-	Neuron::Bias(5);
-	Neuron::Axon(100);
-}
-
-
 int main() {
 	prepare();
+	Neuron::reset();
 	makeBrain();
 	run();
 	destroy();
 	return 0;
+}
+
+void makeBrain()
+{
+  Neuron::Create(T_VITAL, "Heart",
+		{"Frozen", "Slow", "Normal", "Peaced", "Accelerated", "Fast", "Hyper"},
+		{0, 260, "bpm"}, EXPRESSOR_THRESHOLD,	.8);
+	Neuron::Create(T_VITAL, "Breath",
+		{"Empty", "Neutral", "Full"});
+	Neuron::Create(T_PHYSICAL, "Nose",
+		{"Short", "Medium", "Long"},
+		{}, EXPRESSOR_ORIGINAL_THRESHOLD, 1.0);
+  Neuron::Create(T_MEASURE, "Eyes",
+		{"Closed", "Normal", "Wide Open"});
+  Neuron::Create(T_MEASURE, "Humor",
+		{"Crappy", "Bad", "Medium", "Ok", "Good", "Enthusiastic", "Incredible"});
+  Neuron::Create(T_MEASURE, "Tired",
+		{}, {}, EXPRESSOR_CURRENT);
+	Neuron::Create(T_ACTION, "Drop",
+		{}, {}, EXPRESSOR_CURRENT);
+	Neuron::Create(T_ACTION, "Clench",
+		{"Softly", "Moderate", "Hard"}, {}, EXPRESSOR_CURRENT);
+	Neuron::Create(T_ACTION, "Sleep",
+		{}, {}, EXPRESSOR_CURRENT);
+	Neuron::Bias(5);
+	Neuron::Axon(100);
 }

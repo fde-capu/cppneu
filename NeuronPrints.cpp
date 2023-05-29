@@ -19,14 +19,14 @@ void Neuron::printScreen()
 	if (displayCharacters)
 		Neuron::printAllCharacters();
 	Neuron::printAllDescriptions();
-	if (displayActionResolution)
-		Neuron::printWantedActions();
 	if (displayBars)
 		Neuron::printAllBars();
 	if (displayOuts)
 		Neuron::printOuts();
 	if (displayAxons)
 		Neuron::printAllAxons();
+	if (displayActionResolution)
+		Neuron::printWantedActions();
 }
 
 void Neuron::printHeader()
@@ -43,7 +43,7 @@ void Neuron::printAllCharacters()
 
 void Neuron::printWantedActions()
 {
-	printw(">%s", bestAction.c_str());
+	printw("%s", bestAction.c_str());
 	printw("\n");
 }
 
@@ -55,12 +55,11 @@ void Neuron::printAllBars()
 
 void Neuron::printAllAxons()
 {
-		printw("|");
 		for (auto& neuron : table)
 		{
 			if (neuron.isAxon())
 			{
-				printw("%d-%d>%d|",
+				printw("%d-%d>%d ",
 					neuron.slotIn, static_cast<int>(neuron.multiplyer * 10),
 					neuron.slotOut); 
 			}
@@ -70,12 +69,13 @@ void Neuron::printAllAxons()
 
 void Neuron::printOuts()
 {
+		printw("|");
 		for (auto& neuron : table)
 		{
 			if (neuron.isOutBlockVisible())
 			{
 				if (!std::isinf(out[neuron.UID]))
-					printw("*|", out[neuron.UID]);
+					printw("*|");
 				else
 					printw(" |");
 			}
@@ -253,6 +253,4 @@ bool Neuron::isOutBlockVisible()
 		||	type == T_VITAL
 		||	type == T_ACTION
 		||	type == T_MEASURE
-		||	type == T_BIAS
 ;}
-

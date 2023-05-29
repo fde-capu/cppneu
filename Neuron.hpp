@@ -24,9 +24,15 @@ typedef struct TypeNeuronConfig
 
 class Neuron {
 	public:
+		typedef struct Scale {
+			int scaleMin;
+			int scaleMax;
+			std::string unit;
+		} t_scale;
+			
 		static void Physical(std::string, std::vector<std::string>, int expressor = EXPRESSOR_ORIGINAL_THRESHOLD);
 		static void Measure(std::string, std::vector<std::string> = {}, int expressor = EXPRESSOR_THRESHOLD);
-		static void Vital(std::string, std::vector<std::string> = {}, int = 0, int = 0, std::string = "", ZERO_ONE_SIZE dump = 0.5, int expressor = EXPRESSOR_THRESHOLD);
+		static void Create(int = 0, std::string = "", std::vector<std::string> = {}, t_scale = {}, int = EXPRESSOR_THRESHOLD, ZERO_ONE_SIZE = 0.0);
 		static void Action(std::string, std::vector<std::string> = {});
 		static void Axon(int amount = 1);
 		static void Bias(int amount = 1);
@@ -74,7 +80,7 @@ class Neuron {
 		Neuron(int type, std::string name, int scaleMin, int scaleMax, std::string unit, std::vector<std::string> scale);
 		Neuron(int type);
 
-		void extraProcess();
+		void extraFiringProcess();
 		void process();
 		static void processAll();
 		static void processAxons();
