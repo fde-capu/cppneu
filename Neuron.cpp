@@ -4,6 +4,7 @@ size_t Neuron::count_neuron = 0;
 size_t Neuron::count_axon = 0;
 size_t Neuron::count_bias = 0;
 
+std::vector<bool> isDisplayable = {};
 
 void Neuron::Physical(std::string name, std::vector<std::string> scale, int expressor)
 {
@@ -122,8 +123,9 @@ Neuron::Neuron(const t_config& u_)
 	if (isBias()) count_bias++;
 
 	table.push_back(*this);
-	Neuron::out.resize(table.size());
-	Neuron::axonOut.resize(table.size());
+	out.resize(table.size());
+	axonOut.resize(table.size());
+	isDisplayable.resize(table.size());
 }
 
 void Neuron::reset()
@@ -266,34 +268,6 @@ bool Neuron::isAxon()
 
 bool Neuron::isBias()
 { return type == T_BIAS; }
-
-bool Neuron::isStatsVisible()
-{ return
-				type == T_MEASURE; }
-
-bool Neuron::isBarVisible()
-{ return
-				type == T_VITAL
-		||	type == T_ACTION
-		||	type == T_MEASURE
-//		||	type == T_BIAS
-;}
-
-bool Neuron::isCharacterVisible()
-{	return
-				type == T_VITAL
-		||	type == T_MEASURE
-		||	type == T_BIAS
-;}
-
-bool Neuron::isOutBlockVisible()
-{	return
-				type == T_PHYSICAL
-		||	type == T_VITAL
-		||	type == T_ACTION
-		||	type == T_MEASURE
-		||	type == T_BIAS
-;}
 
 bool Neuron::hasInput()
 { return

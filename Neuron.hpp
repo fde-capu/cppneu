@@ -5,6 +5,7 @@
 # include <string>
 # include <sstream>
 # include <vector>
+# include <map>
 # include "randoms.hpp"
 # include <ncurses.h>
 # include "graphics.hpp"
@@ -88,6 +89,30 @@ class Neuron {
 		static void printFile();
 		static void printAllDescriptions();
 		static void printWantedActions();
+
+		static void toggleDisplayHeader();
+		static void toggleDisplayCharacters();
+		static void toggleDisplayPhysical();
+		static void toggleDisplayVital();
+		static void toggleDisplayAction();
+		static void toggleDisplayMeasure();
+		static void toggleDisplayActionResolution();
+		static void toggleDisplayBars();
+		static void toggleDisplayOuts();
+		static void toggleDisplayAxons();
+		static void toggleDisplayBiasBars();
+
+		static bool displayHeader;
+		static bool displayCharacters;
+		static bool displayPhysical;
+		static bool displayVital;
+		static bool displayAction;
+		static bool displayMeasure;
+		static bool displayActionResolution;
+		static bool displayBars;
+		static bool displayOuts;
+		static bool displayAxons;
+		static bool displayBiasBars;
 
 		void printAsciiBar();
 		void printCharacter();

@@ -1,14 +1,32 @@
 #include "Neuron.hpp"
 
+bool Neuron::displayHeader = true;
+bool Neuron::displayCharacters = true;
+bool Neuron::displayPhysical = false;
+bool Neuron::displayVital = false;
+bool Neuron::displayAction = false;
+bool Neuron::displayMeasure = false;
+bool Neuron::displayActionResolution = false;
+bool Neuron::displayBars = true;
+bool Neuron::displayOuts = true;
+bool Neuron::displayAxons = false;
+bool Neuron::displayBiasBars = false;
+
 void Neuron::printScreen()
 {
-	Neuron::printHeader();
-	Neuron::printAllCharacters();
+	if (displayHeader)
+		Neuron::printHeader();
+	if (displayCharacters)
+		Neuron::printAllCharacters();
 	Neuron::printAllDescriptions();
-	Neuron::printWantedActions();
-	 Neuron::printAllBars();
-	//		Neuron::printOuts();
-	//Neuron::printAllAxons();
+	if (displayActionResolution)
+		Neuron::printWantedActions();
+	if (displayBars)
+		Neuron::printAllBars();
+	if (displayOuts)
+		Neuron::printOuts();
+	if (displayAxons)
+		Neuron::printAllAxons();
 }
 
 void Neuron::printHeader()
@@ -89,7 +107,8 @@ void Neuron::printCharacter()
 
 void Neuron::printAsciiBar()
 {
-	if (!isBarVisible())
+	if (!isBarVisible()
+		|| (isBias() && !displayBiasBars))
 		return ;
 	size_t length = ASCII_BAR_LENGTH;
 	double scaleFactor = static_cast<double>(length) / max();
@@ -145,10 +164,14 @@ void Neuron::printAllDescriptions()
 //	if (action.length()) action += "\n";
 //	if (measure.length()) measure += "\n";
 	
-	printw(physical.c_str());
-	printw(vital.c_str());
-	printw(action.c_str());
-	printw(measure.c_str());
+	if (displayPhysical)
+		printw(physical.c_str());
+	if (displayVital)
+		printw(vital.c_str());
+	if (displayAction)
+		printw(action.c_str());
+	if (displayMeasure)
+		printw(measure.c_str());
 }
 
 std::string Neuron::printDescription(bool silent)
@@ -187,7 +210,6 @@ std::string Neuron::printDescription(bool silent)
 			scaleFactor = static_cast<double>(getExpressor * scaleFactor);
 			ss << ": " << scaleFactor;
 		}
-		ss << "\t> " << thresholdDecay;
 		ss << std::endl;
 	}
 	std::string outStr = (ss.str());
@@ -195,3 +217,44 @@ std::string Neuron::printDescription(bool silent)
 		printw(outStr.c_str());
 	return outStr;
 }
+
+void Neuron::toggleDisplayHeader() { displayHeader = !displayHeader; }
+void Neuron::toggleDisplayCharacters() { displayCharacters = !displayCharacters; }
+void Neuron::toggleDisplayPhysical() { displayPhysical = !displayPhysical; }
+void Neuron::toggleDisplayVital() { displayVital = !displayVital; }
+void Neuron::toggleDisplayAction() { displayAction = !displayAction; }
+void Neuron::toggleDisplayMeasure() { displayMeasure = !displayMeasure; }
+void Neuron::toggleDisplayActionResolution() { displayActionResolution = !displayActionResolution; }
+void Neuron::toggleDisplayBars() { displayBars = !displayBars; }
+void Neuron::toggleDisplayOuts() { displayOuts = !displayOuts; }
+void Neuron::toggleDisplayAxons() { displayAxons = !displayAxons; }
+void Neuron::toggleDisplayBiasBars() { displayBiasBars = !displayBiasBars; }
+
+bool Neuron::isStatsVisible()
+{ return
+				type == T_MEASURE; }
+
+bool Neuron::isBarVisible()
+{ return
+				type == T_VITAL
+		||	type == T_ACTION
+		||	type == T_MEASURE
+		||	type == T_BIAS
+;}
+
+bool Neuron::isCharacterVisible()
+{	return
+				type == T_VITAL
+		||	type == T_MEASURE
+		||	type == T_BIAS
+;}
+
+bool Neuron::isOutBlockVisible()
+{	return
+				type == T_PHYSICAL
+		||	type == T_VITAL
+		||	type == T_ACTION
+		||	type == T_MEASURE
+		||	type == T_BIAS
+;}
+
