@@ -136,13 +136,11 @@ void Neuron::extraFiringProcess() {
 		{
 			actionScore = force;
 			bestAction = printDescription();
-		}
-		else
-		{
-			actionScore = 0.0;
-			bestAction = " *";
+			return;
 		}
 	}
+	actionScore = 0.0;
+	bestAction = " *";
 }
 
 void Neuron::process() {
