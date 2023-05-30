@@ -12,7 +12,7 @@
 # include <cmath>
 # include "defines.hpp"
 # include "randoms.hpp"
-# include "Neuron.hpp"
+# include "Being.hpp"
 # include "graphics.hpp"
 
 #endif

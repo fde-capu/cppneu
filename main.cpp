@@ -20,17 +20,17 @@ static std::map<char, DescriptionFunction> g_menu = {
 	{'?', {.description = "menu", .functionPtr = &toggleShowMenu}},
 	{'q', {.description = "quit", .functionPtr = &doQuit}},
 	{'P', {.description = "pause", .functionPtr = &toggleRunning}},
-	{'h', {.description = "header", .functionPtr = &Neuron::toggleDisplayHeader}},
-	{'c', {.description = "chars", .functionPtr = &Neuron::toggleDisplayCharacters}},
-	{'p', {.description = "physical", .functionPtr = &Neuron::toggleDisplayPhysical}},
-	{'v', {.description = "vital", .functionPtr = &Neuron::toggleDisplayVital}},
-	{'a', {.description = "action", .functionPtr = &Neuron::toggleDisplayAction}},
-	{'m', {.description = "measures", .functionPtr = &Neuron::toggleDisplayMeasure}},
-	{'w', {.description = "want", .functionPtr = &Neuron::toggleDisplayActionResolution}},
-	{'b', {.description = "bars", .functionPtr = &Neuron::toggleDisplayBars}},
-	{'o', {.description = "outs", .functionPtr = &Neuron::toggleDisplayOuts}},
-	{'x', {.description = "axons", .functionPtr = &Neuron::toggleDisplayAxons}},
-	{'B', {.description = "bias bars", .functionPtr = &Neuron::toggleDisplayBiasBars}},
+	{'h', {.description = "header", .functionPtr = &Being::toggleDisplayHeader}},
+	{'c', {.description = "chars", .functionPtr = &Being::toggleDisplayCharacters}},
+	{'p', {.description = "physical", .functionPtr = &Being::toggleDisplayPhysical}},
+	{'v', {.description = "vital", .functionPtr = &Being::toggleDisplayVital}},
+	{'a', {.description = "action", .functionPtr = &Being::toggleDisplayAction}},
+	{'m', {.description = "measures", .functionPtr = &Being::toggleDisplayMeasure}},
+	{'w', {.description = "want", .functionPtr = &Being::toggleDisplayActionResolution}},
+	{'b', {.description = "bars", .functionPtr = &Being::toggleDisplayBars}},
+	{'o', {.description = "outs", .functionPtr = &Being::toggleDisplayOuts}},
+	{'x', {.description = "axons", .functionPtr = &Being::toggleDisplayAxons}},
+	{'B', {.description = "bias bars", .functionPtr = &Being::toggleDisplayBiasBars}},
 	{' ', {.description = "new", .functionPtr = &makeBrain}},
 };
 
@@ -56,12 +56,12 @@ void run()
 	{
 		if (g_running)
 		{
-			Neuron::processAll();
+			Being::processAll();
 
 			clear();
 			if (g_showMenu)
 				printMenu();
-			Neuron::printScreen();
+			Being::printScreen();
 			refresh();
 		}
 
@@ -91,7 +91,7 @@ void destroy()
 
 int main() {
 	prepare();
-	Neuron::reset();
+	Being::reset();
 	makeBrain();
 	run();
 	destroy();
@@ -100,26 +100,26 @@ int main() {
 
 void makeBrain()
 {
-  Neuron::Create(T_VITAL, "Heart",
+  Being::Create(T_VITAL, "Heart",
 		{"Frozen", "Slow", "Normal", "Peaced", "Accelerated", "Fast", "Hyper"},
 		{0, 260, "bpm"}, EXPRESSOR_THRESHOLD,	.8);
-	Neuron::Create(T_VITAL, "Breath",
+	Being::Create(T_VITAL, "Breath",
 		{"Empty", "Neutral", "Full"});
-	Neuron::Create(T_PHYSICAL, "Nose",
+	Being::Create(T_PHYSICAL, "Nose",
 		{"Short", "Medium", "Long"},
 		{}, EXPRESSOR_ORIGINAL_THRESHOLD, 1.0);
-  Neuron::Create(T_MEASURE, "Eyes",
+  Being::Create(T_MEASURE, "Eyes",
 		{"Closed", "Normal", "Wide Open"});
-  Neuron::Create(T_MEASURE, "Humor",
+  Being::Create(T_MEASURE, "Humor",
 		{"Crappy", "Bad", "Medium", "Ok", "Good", "Enthusiastic", "Incredible"});
-  Neuron::Create(T_MEASURE, "Tired",
+  Being::Create(T_MEASURE, "Tired",
 		{}, {}, EXPRESSOR_CURRENT);
-	Neuron::Create(T_ACTION, "Drop",
+	Being::Create(T_ACTION, "Drop",
 		{}, {}, EXPRESSOR_CURRENT);
-	Neuron::Create(T_ACTION, "Clench",
+	Being::Create(T_ACTION, "Clench",
 		{"Softly", "Moderate", "Hard"}, {}, EXPRESSOR_CURRENT);
-	Neuron::Create(T_ACTION, "Sleep",
+	Being::Create(T_ACTION, "Sleep",
 		{}, {}, EXPRESSOR_CURRENT);
-	Neuron::Bias(5);
-	Neuron::Axon(100);
+	Being::Bias(5);
+	Being::Axon(100);
 }
