@@ -5,7 +5,7 @@ size_t Being::count_axon = 0;
 size_t Being::count_bias = 0;
 
 void Being::Create(int type, std::string name, std::vector<std::string> scale,
-	t_scale transpose, int expressor, ZERO_ONE_SIZE dump
+	t_scale transpose, int expressor, zo dump
 	)
 {
   Being({
@@ -61,8 +61,6 @@ Being::Being(const t_config& u_)
 	dump(u_.dump)
 {
 	UID = Being::globalUID++;
-	originalThreshold = randomValue<MEMORY_TYPE_SIZE>();
-	threshold = originalThreshold;
 	thresholdDecay = THRESHOLD_DECAY;
 	inputValue = 0;
 	outputValue = 0;
@@ -109,7 +107,7 @@ void Being::readAxons() {
 	if (axonOut[UID])
 	{
 		newInputValue = axonOut[UID] * \
-			static_cast<ZERO_ONE_SIZE>(max());
+			static_cast<zo>(max());
 		if (newInputValue > inputValue)
 		{
 			if (inputValue + newInputValue < inputValue)
@@ -153,8 +151,8 @@ void Being::process() {
 	{
 		if (inputValue >= threshold)
 		{
-			force = static_cast<ZERO_ONE_SIZE>(inputValue - threshold) /
-				static_cast<ZERO_ONE_SIZE>(max());
+			force = static_cast<zo>(inputValue - threshold) /
+				static_cast<zo>(max());
 			newThreshold += ((inputValue - threshold) * ((1.0 - dump)));
 //			thresholdDecay += (force - thresholdDecay) * (1.0 - THRESHOLD_DECAY);
 			thresholdDecay += force;
@@ -172,7 +170,7 @@ void Being::process() {
 		if (newThreshold > max()) newThreshold = max();
 		if (newThreshold < 0) newThreshold = 0;
 		threshold = newThreshold;
-		Being::out[UID] = static_cast<ZERO_ONE_SIZE>(max()) / static_cast<ZERO_ONE_SIZE>(outputValue);
+		Being::out[UID] = static_cast<zo>(max()) / static_cast<zo>(outputValue);
 	}
 }
 
@@ -239,7 +237,7 @@ bool Being::hasOutput()
 size_t Being::globalUID = 0;
 std::vector<Being> Being::table;
 std::vector<std::string> Being::actions;
-ZERO_ONE_SIZE Being::actionScore = 0.0;
+zo Being::actionScore = 0.0;
 std::string Being::bestAction = "";
-std::vector<ZERO_ONE_SIZE> Being::out;
-std::vector<ZERO_ONE_SIZE> Being::axonOut;
+std::vector<zo> Being::out;
+std::vector<zo> Being::axonOut;

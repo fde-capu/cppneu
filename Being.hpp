@@ -7,6 +7,7 @@
 # include "randoms.hpp"
 # include <ncurses.h>
 # include <sstream>
+# include "DynamicNeuron.hpp"
 
 typedef struct TypeBeingConfig
 {
@@ -17,10 +18,10 @@ typedef struct TypeBeingConfig
 	int scaleMax;
 	std::string unit;
 	std::vector<std::string> scale;
-	ZERO_ONE_SIZE dump;
+	zo dump;
 } t_config;
 
-class Being {
+class Being: public DynamicNeuron {
 	public:
 		typedef struct Scale {
 			int scaleMin;
@@ -30,20 +31,18 @@ class Being {
 			
 		static void Physical(std::string, std::vector<std::string>, int expressor = EXPRESSOR_ORIGINAL_THRESHOLD);
 		static void Measure(std::string, std::vector<std::string> = {}, int expressor = EXPRESSOR_THRESHOLD);
-		static void Create(int = 0, std::string = "", std::vector<std::string> = {}, t_scale = {}, int = EXPRESSOR_THRESHOLD, ZERO_ONE_SIZE = 0.0);
+		static void Create(int = 0, std::string = "", std::vector<std::string> = {}, t_scale = {}, int = EXPRESSOR_THRESHOLD, zo = 0.0);
 		static void Action(std::string, std::vector<std::string> = {});
 		static void Axon(int amount = 1);
 		static void Bias(int amount = 1);
 		static void reset();
 
-		MEMORY_TYPE_SIZE threshold;
-		MEMORY_TYPE_SIZE originalThreshold;
 		MEMORY_TYPE_SIZE inputValue;
 		MEMORY_TYPE_SIZE outputValue;
-		ZERO_ONE_SIZE thresholdPull;
-		ZERO_ONE_SIZE thresholdStability;
-		ZERO_ONE_SIZE speed;
-		ZERO_ONE_SIZE force;
+		zo thresholdPull;
+		zo thresholdStability;
+		zo speed;
+		zo force;
 
 		size_t UID;
 		int type;
@@ -51,20 +50,20 @@ class Being {
 		int expressor;
 		size_t slotIn;
 		size_t slotOut;
-		ZERO_ONE_SIZE multiplyer;
+		zo multiplyer;
 		int scaleMin;
 		int scaleMax;
 		std::string unit;
 		std::vector<std::string> scale;
-		ZERO_ONE_SIZE dump;
-		ZERO_ONE_SIZE thresholdDecay;
+		zo dump;
+		zo thresholdDecay;
 
 		static size_t globalUID;
 		static std::vector<Being> table;
-		static std::vector<ZERO_ONE_SIZE> out;
-		static std::vector<ZERO_ONE_SIZE> axonOut;
+		static std::vector<zo> out;
+		static std::vector<zo> axonOut;
 		static std::vector<std::string> actions;
-		static ZERO_ONE_SIZE actionScore;
+		static zo actionScore;
 		static std::string bestAction;
 		static MEMORY_TYPE_SIZE max();
 

@@ -2,7 +2,7 @@
 # define DEFINES_HPP
 
 # define MEMORY_TYPE_SIZE unsigned int
-# define ZERO_ONE_SIZE float
+# define zo float
 # define ASCII_BAR_LENGTH 32
 # define STEP_MS 100
 # define INPUT_DECAY 0.3
