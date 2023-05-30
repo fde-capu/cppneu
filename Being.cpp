@@ -1,0 +1,245 @@
+#include "Being.hpp"
+
+size_t Being::count_being = 0;
+size_t Being::count_axon = 0;
+size_t Being::count_bias = 0;
+
+void Being::Create(int type, std::string name, std::vector<std::string> scale,
+	t_scale transpose, int expressor, ZERO_ONE_SIZE dump
+	)
+{
+  Being({
+		.type = type,
+		.name = name,
+		.expressor = expressor,
+		.scaleMin = transpose.scaleMin,
+		.scaleMax = transpose.scaleMax,
+		.unit = transpose.unit,
+		.scale = scale,
+		.dump = dump
+	});
+}
+void Being::Bias(int amount)
+{
+  Being({
+		.type = T_BIAS,
+		.name = "bias",
+		.expressor = EXPRESSOR_CURRENT,
+		.scaleMin = 0,
+		.scaleMax = 0,
+		.unit = "",
+		.scale = {}
+	});
+	if (--amount > 0)
+		Being::Bias(amount);
+}
+
+void Being::Axon(int amount)
+{
+  Being({
+		.type = T_AXON,
+		.name = "",
+		.expressor = EXPRESSOR_CURRENT,
+		.scaleMin = 0,
+		.scaleMax = 0,
+		.unit = "",
+		.scale = {},
+		.dump = 0.0
+	});
+	if (--amount > 0)
+		Being::Axon(amount);
+}
+
+Being::Being(const t_config& u_)
+: type(u_.type),
+	name(u_.name),
+	expressor(u_.expressor),
+	scaleMin(u_.scaleMin),
+	scaleMax(u_.scaleMax),
+	unit(u_.unit),
+	scale(u_.scale),
+	dump(u_.dump)
+{
+	UID = Being::globalUID++;
+	originalThreshold = randomValue<MEMORY_TYPE_SIZE>();
+	threshold = originalThreshold;
+	thresholdDecay = THRESHOLD_DECAY;
+	inputValue = 0;
+	outputValue = 0;
+	if (type == T_AXON)
+	{
+		slotIn = randomBeingWithOutput();
+		slotOut = randomBeingWithInput();
+		multiplyer = randomZeroOne();
+	}
+	if (isBeing()) count_being++;
+	if (isAxon()) count_axon++;
+	if (isBias()) count_bias++;
+
+	table.push_back(*this);
+	out.resize(table.size());
+	axonOut.resize(table.size());
+}
+
+void Being::reset()
+{
+	table.clear();
+	out.clear();
+	axonOut.clear();
+}
+
+size_t Being::randomBeingWithOutput() {
+	size_t beingI = randomValue<size_t>(0, size() - 1);
+	if (!table[beingI].hasOutput())
+		return randomBeingWithOutput();
+	return beingI;
+}
+
+size_t Being::randomBeingWithInput() {
+	size_t beingI = randomValue<size_t>(0, size() - 1);
+	if (!table[beingI].hasInput())
+		return randomBeingWithInput();
+	return beingI;
+}
+
+size_t Being::size() { return table.size(); }
+
+void Being::readAxons() {
+	MEMORY_TYPE_SIZE newInputValue;
+	if (axonOut[UID])
+	{
+		newInputValue = axonOut[UID] * \
+			static_cast<ZERO_ONE_SIZE>(max());
+		if (newInputValue > inputValue)
+		{
+			if (inputValue + newInputValue < inputValue)
+				inputValue = max();
+			else
+				inputValue += newInputValue;
+		}
+	}
+}
+
+void Being::updateInternals() {
+	if (type == T_BIAS)
+		inputValue = randomValue<MEMORY_TYPE_SIZE>();
+
+	if (isBeing())
+	{
+	}
+}
+
+void Being::extraFiringProcess() {
+	if (!isBias())
+	{
+		if (force > actionScore)
+		{
+			actionScore = force;
+			bestAction = printDescription();
+			return;
+		}
+	}
+	actionScore = 0.0;
+	bestAction = " *";
+}
+
+void Being::process() {
+	long long newThreshold = threshold;
+
+	inputValue -= (inputValue * INPUT_DECAY); 
+	readAxons();
+	updateInternals();
+	if (isBeing())
+	{
+		if (inputValue >= threshold)
+		{
+			force = static_cast<ZERO_ONE_SIZE>(inputValue - threshold) /
+				static_cast<ZERO_ONE_SIZE>(max());
+			newThreshold += ((inputValue - threshold) * ((1.0 - dump)));
+//			thresholdDecay += (force - thresholdDecay) * (1.0 - THRESHOLD_DECAY);
+			thresholdDecay += force;
+			outputValue = max();
+			extraFiringProcess();
+		}
+		else
+		{
+			outputValue = 0.0;
+		}
+		newThreshold -= (((long long)threshold - (long long)originalThreshold) * thresholdDecay);
+		thresholdDecay -= (thresholdDecay - THRESHOLD_DECAY) * thresholdDecay;
+		if (thresholdDecay > 1.0) thresholdDecay = 1.0;
+		if (thresholdDecay < 0.0) thresholdDecay = 0.0;
+		if (newThreshold > max()) newThreshold = max();
+		if (newThreshold < 0) newThreshold = 0;
+		threshold = newThreshold;
+		Being::out[UID] = static_cast<ZERO_ONE_SIZE>(max()) / static_cast<ZERO_ONE_SIZE>(outputValue);
+	}
+}
+
+void Being::processAll() {
+		actions.clear();
+		for (auto& being : table)
+			being.process();
+		processAxons();
+}
+
+void Being::processAxons()
+{
+	std::vector<size_t> inCount(table.size(), 0);
+	for (size_t i = 0; i < table.size(); i++)
+	{
+		if (table[i].type == T_AXON)
+			inCount[table[i].slotOut]++;
+	}
+
+	for (auto& v : axonOut)
+		v = 0.0;
+
+	for (size_t i = 0; i < table.size(); i++)
+	{
+		if (table[i].type == T_AXON)
+		{
+			size_t slotI = table[i].slotIn;
+			size_t slotO = table[i].slotOut;
+			if (!std::isinf(out[slotI]))
+				axonOut[slotO] += out[slotI] * table[i].multiplyer / inCount[slotO];
+		}
+	}
+}
+
+MEMORY_TYPE_SIZE Being::max()
+{ return std::numeric_limits<MEMORY_TYPE_SIZE>::max(); }
+
+bool Being::isBeing()
+{ return
+				type == T_PHYSICAL
+		||	type == T_VITAL
+		||	type == T_ACTION
+		||	type == T_MEASURE
+		||	type == T_BIAS
+;}
+
+bool Being::isAxon()
+{ return type == T_AXON; }
+
+bool Being::isBias()
+{ return type == T_BIAS; }
+
+bool Being::hasInput()
+{ return
+				type == T_PHYSICAL
+		||	type == T_VITAL
+		||	type == T_ACTION
+		||	type == T_MEASURE
+;}
+
+bool Being::hasOutput()
+{ return isBeing(); }
+
+size_t Being::globalUID = 0;
+std::vector<Being> Being::table;
+std::vector<std::string> Being::actions;
+ZERO_ONE_SIZE Being::actionScore = 0.0;
+std::string Being::bestAction = "";
+std::vector<ZERO_ONE_SIZE> Being::out;
+std::vector<ZERO_ONE_SIZE> Being::axonOut;
