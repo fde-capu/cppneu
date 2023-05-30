@@ -1,8 +1,8 @@
 #ifndef RANDOMS_HPP
 # define RANDOMS_HPP
+
 # include <random>
 # include "defines.hpp"
-# include <ncurses.h>
 
 ZERO_ONE_SIZE randomZeroOne();
 ZERO_ONE_SIZE variateZeroOne(ZERO_ONE_SIZE & value, ZERO_ONE_SIZE band = 1.0);

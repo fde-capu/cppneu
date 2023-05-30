@@ -2,17 +2,10 @@
 # define HEADER_HPP
 
 # include <string>
-# include <iostream>
-# include <ctime>
-# include <cstdlib>
-# include <climits>
-# include <thread>
-# include <chrono>
-# include <ncurses.h>
-# include <cmath>
-# include "defines.hpp"
-# include "randoms.hpp"
+# include <map>
 # include "Being.hpp"
-# include "graphics.hpp"
+# include <ncurses.h>
+# include <thread>
+# include <string>
 
 #endif

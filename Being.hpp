@@ -1,14 +1,12 @@
 #ifndef BEING_HPP
 # define BEING_HPP
-# include "defines.hpp"
-# include <cstdlib>
-# include <string>
-# include <sstream>
+
 # include <vector>
-# include <map>
+# include "defines.hpp"
+# include <string>
 # include "randoms.hpp"
 # include <ncurses.h>
-# include "graphics.hpp"
+# include <sstream>
 
 typedef struct TypeBeingConfig
 {
