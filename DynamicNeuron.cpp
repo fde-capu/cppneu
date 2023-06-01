@@ -5,20 +5,27 @@ zo DynamicNeuron::default_dump = 0.5;
 
 DynamicNeuron::DynamicNeuron()
 {
+	debug("::DynamicNeuron()");
+	debug(std::to_string(originalThreshold));
+
 	threshold = originalThreshold;
 	dump = default_dump;
 	init();
 }
 
 DynamicNeuron::DynamicNeuron(zo set_threshold)
+: Neuron()
 {
+	debug("::DynamicNeuron(set_threshold)");
 	threshold = set_threshold;
 	dump = default_dump;
 	init();
 }
 
 DynamicNeuron::DynamicNeuron(zo set_threshold, zo set_dump)
+: Neuron()
 {
+	debug("::DynamicNeuron(set_threshold, set_dump)");
 	threshold = set_threshold;
 	dump = set_dump;
 	init();
@@ -38,8 +45,7 @@ void DynamicNeuron::init()
 zo DynamicNeuron::fire(zo in)
 {
 	zo out = Neuron::fire(in);
-	target = in >= threshold ?
-		in : originalThreshold;
+	target = in >= threshold ? in : originalThreshold;
 	threshold += (target - threshold) * (1.0 - dump);
 	return out;
 }
@@ -47,7 +53,7 @@ zo DynamicNeuron::fire(zo in)
 DynamicNeuron::DynamicNeuron(DynamicNeuron const & src)
 {	*this = src; }
 
-DynamicNeuron & DynamicNeuron::operator= (DynamicNeuron const & rhs)
+DynamicNeuron& DynamicNeuron::operator= (DynamicNeuron const & rhs)
 {
 	if (this != &rhs)
 	{

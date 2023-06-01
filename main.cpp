@@ -1,12 +1,15 @@
 #include "header.hpp"
+#include "Being.hpp"
 
 void makeBrain();
 
+static bool g_showDebug = true;
 static bool g_quit = false;
 static bool g_running = false;
 static bool g_showMenu = true;
 void doQuit() { g_quit = true; }
 void toggleShowMenu() { g_showMenu = !g_showMenu; }
+void toggleShowDebug() { g_showDebug = !g_showDebug; }
 void toggleRunning() { g_running = !g_running; }
 
 typedef void (*voidFuncPtr)(void);
@@ -17,6 +20,7 @@ struct DescriptionFunction {
 };
 
 static std::map<char, DescriptionFunction> g_menu = {
+	{'d', {.description = "debug", .functionPtr = &toggleShowDebug}},
 	{'?', {.description = "menu", .functionPtr = &toggleShowMenu}},
 	{'q', {.description = "quit", .functionPtr = &doQuit}},
 	{'P', {.description = "pause", .functionPtr = &toggleRunning}},
@@ -33,6 +37,16 @@ static std::map<char, DescriptionFunction> g_menu = {
 	{'B', {.description = "bias bars", .functionPtr = &Being::toggleDisplayBiasBars}},
 	{' ', {.description = "new", .functionPtr = &makeBrain}},
 };
+
+std::string g_debugString("");
+
+void debug(std::string s)
+{
+	g_debugString += s + " ";
+}
+
+void printDebug()
+{ printw("%s\n", g_debugString.c_str()); }
 
 void printMenu()
 {
@@ -61,6 +75,8 @@ void run()
 			clear();
 			if (g_showMenu)
 				printMenu();
+			if (g_showDebug)
+				printDebug();
 			Being::printScreen();
 			refresh();
 		}
@@ -103,23 +119,23 @@ void makeBrain()
   Being::Create(T_VITAL, "Heart",
 		{"Frozen", "Slow", "Normal", "Peaced", "Accelerated", "Fast", "Hyper"},
 		{0, 260, "bpm"}, EXPRESSOR_THRESHOLD,	.8);
-	Being::Create(T_VITAL, "Breath",
-		{"Empty", "Neutral", "Full"});
-	Being::Create(T_PHYSICAL, "Nose",
-		{"Short", "Medium", "Long"},
-		{}, EXPRESSOR_ORIGINAL_THRESHOLD, 1.0);
-  Being::Create(T_MEASURE, "Eyes",
-		{"Closed", "Normal", "Wide Open"});
-  Being::Create(T_MEASURE, "Humor",
-		{"Crappy", "Bad", "Medium", "Ok", "Good", "Enthusiastic", "Incredible"});
-  Being::Create(T_MEASURE, "Tired",
-		{}, {}, EXPRESSOR_CURRENT);
-	Being::Create(T_ACTION, "Drop",
-		{}, {}, EXPRESSOR_CURRENT);
-	Being::Create(T_ACTION, "Clench",
-		{"Softly", "Moderate", "Hard"}, {}, EXPRESSOR_CURRENT);
-	Being::Create(T_ACTION, "Sleep",
-		{}, {}, EXPRESSOR_CURRENT);
-	Being::Bias(5);
-	Being::Axon(100);
+//	Being::Create(T_VITAL, "Breath",
+//		{"Empty", "Neutral", "Full"});
+//	Being::Create(T_PHYSICAL, "Nose",
+//		{"Short", "Medium", "Long"},
+//		{}, EXPRESSOR_ORIGINAL_THRESHOLD, 1.0);
+//  Being::Create(T_MEASURE, "Eyes",
+//		{"Closed", "Normal", "Wide Open"});
+//  Being::Create(T_MEASURE, "Humor",
+//		{"Crappy", "Bad", "Medium", "Ok", "Good", "Enthusiastic", "Incredible"});
+//  Being::Create(T_MEASURE, "Tired",
+//		{}, {}, EXPRESSOR_CURRENT);
+//	Being::Create(T_ACTION, "Drop",
+//		{}, {}, EXPRESSOR_CURRENT);
+//	Being::Create(T_ACTION, "Clench",
+//		{"Softly", "Moderate", "Hard"}, {}, EXPRESSOR_CURRENT);
+//	Being::Create(T_ACTION, "Sleep",
+//		{}, {}, EXPRESSOR_CURRENT);
+	Being::Bias(1);
+	Being::Axon(1);
 }

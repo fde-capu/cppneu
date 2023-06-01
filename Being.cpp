@@ -51,7 +51,8 @@ void Being::Axon(int amount)
 }
 
 Being::Being(const t_config& u_)
-: type(u_.type),
+	:
+	type(u_.type),
 	name(u_.name),
 	expressor(u_.expressor),
 	scaleMin(u_.scaleMin),
@@ -60,10 +61,13 @@ Being::Being(const t_config& u_)
 	scale(u_.scale),
 	dump(u_.dump)
 {
+	debug("::Being");
+	debug(std::to_string(originalThreshold));
+
 	UID = Being::globalUID++;
 	thresholdDecay = THRESHOLD_DECAY;
-	inputValue = 0;
-	outputValue = 0;
+	inputValue = 0.0;
+	outputValue = 0.0;
 	if (type == T_AXON)
 	{
 		slotIn = randomBeingWithOutput();
@@ -103,15 +107,14 @@ size_t Being::randomBeingWithInput() {
 size_t Being::size() { return table.size(); }
 
 void Being::readAxons() {
-	MEMORY_TYPE_SIZE newInputValue;
+	zo newInputValue;
 	if (axonOut[UID])
 	{
-		newInputValue = axonOut[UID] * \
-			static_cast<zo>(max());
+		newInputValue = axonOut[UID];
 		if (newInputValue > inputValue)
 		{
-			if (inputValue + newInputValue < inputValue)
-				inputValue = max();
+			if (inputValue + newInputValue > 1.0)
+				inputValue = 1.0;
 			else
 				inputValue += newInputValue;
 		}
@@ -120,11 +123,7 @@ void Being::readAxons() {
 
 void Being::updateInternals() {
 	if (type == T_BIAS)
-		inputValue = randomValue<MEMORY_TYPE_SIZE>();
-
-	if (isBeing())
-	{
-	}
+		inputValue = randomZeroOne();
 }
 
 void Being::extraFiringProcess() {
@@ -149,14 +148,13 @@ void Being::process() {
 	updateInternals();
 	if (isBeing())
 	{
-		if (inputValue >= threshold)
+		if (inputValue && inputValue >= threshold)
 		{
-			force = static_cast<zo>(inputValue - threshold) /
-				static_cast<zo>(max());
+			force = static_cast<zo>(inputValue - threshold);
 			newThreshold += ((inputValue - threshold) * ((1.0 - dump)));
 //			thresholdDecay += (force - thresholdDecay) * (1.0 - THRESHOLD_DECAY);
 			thresholdDecay += force;
-			outputValue = max();
+			outputValue = 1.0;
 			extraFiringProcess();
 		}
 		else
@@ -167,10 +165,10 @@ void Being::process() {
 		thresholdDecay -= (thresholdDecay - THRESHOLD_DECAY) * thresholdDecay;
 		if (thresholdDecay > 1.0) thresholdDecay = 1.0;
 		if (thresholdDecay < 0.0) thresholdDecay = 0.0;
-		if (newThreshold > max()) newThreshold = max();
-		if (newThreshold < 0) newThreshold = 0;
+		if (newThreshold && newThreshold > 1.0) newThreshold = 1.0;
+		if (newThreshold && newThreshold < 0) newThreshold = 0;
 		threshold = newThreshold;
-		Being::out[UID] = static_cast<zo>(max()) / static_cast<zo>(outputValue);
+		Being::out[UID] = outputValue;
 	}
 }
 
@@ -205,8 +203,8 @@ void Being::processAxons()
 	}
 }
 
-MEMORY_TYPE_SIZE Being::max()
-{ return std::numeric_limits<MEMORY_TYPE_SIZE>::max(); }
+zo Being::max()
+{ return 1.0; }
 
 bool Being::isBeing()
 { return

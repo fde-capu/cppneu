@@ -49,8 +49,8 @@ void Being::printWantedActions()
 
 void Being::printAllBars()
 {
-		for (auto& being : table)
-				being.printAsciiBar();
+	for (auto& being : table)
+		being.printAsciiBar();
 }
 
 void Being::printAllAxons()
@@ -89,10 +89,10 @@ void Being::printCharacter()
 		return;
 
 	std::string shadowGray(" -~=+*oO&#%@");
-	double scaleFactor = static_cast<double>(shadowGray.length() - 1) / max();
+	double scaleFactor = static_cast<double>(shadowGray.length() - 1);
 	int scaledInputValue = static_cast<int>(inputValue * scaleFactor);
 	int scaledThreshold = static_cast<int>(threshold * scaleFactor);
-	int scaledOriginalThreshold = static_cast<int>(originalThreshold * scaleFactor);
+	int scaledOriginalThreshold = static_cast<int>(Neuron::originalThreshold * scaleFactor);
 
 	if (outputValue)
 		printw("!");
@@ -101,6 +101,7 @@ void Being::printCharacter()
 	printw("%c", shadowGray.at(scaledInputValue));
 	printw("%c", shadowGray.at(scaledThreshold));
 	printw("%c", shadowGray.at(scaledOriginalThreshold));
+	printw(">>%f<<", originalThreshold);
 }
 
 void Being::printAsciiBar()
@@ -109,11 +110,12 @@ void Being::printAsciiBar()
 		|| (isBias() && !displayBiasBars))
 		return ;
 	size_t length = ASCII_BAR_LENGTH;
-	double scaleFactor = static_cast<double>(length) / max();
+	double scaleFactor = static_cast<double>(length);
 	size_t scaledInputValue = static_cast<int>(inputValue * scaleFactor);
 	size_t scaledThreshold = static_cast<int>(threshold * scaleFactor);
-	size_t scaledOriginalThreshold = static_cast<int>(originalThreshold * scaleFactor);
+	size_t scaledOriginalThreshold = static_cast<int>(originalThreshold * 1.0);
 
+	printw("%f< ", originalThreshold);
 	printw("%u [", UID);
 	for (size_t i = 0; i < length; i++) {
 		if (i == scaledOriginalThreshold && i == scaledThreshold) {
@@ -129,8 +131,18 @@ void Being::printAsciiBar()
 		}
 	}
 	printw("]");
+	printNumbers();
 	printDescription();
 	printw("\n");
+}
+
+void Being::printNumbers()
+{
+	zo scaleFactor = 1.0;
+	zo scaledInputValue = static_cast<zo>(inputValue * scaleFactor);
+	zo scaledThreshold = static_cast<zo>(threshold * scaleFactor);
+	zo scaledOriginalThreshold = static_cast<zo>(Neuron::originalThreshold * scaleFactor);
+	printw("i%f t%f o%f", scaledInputValue, scaledThreshold, scaledOriginalThreshold);
 }
 
 void Being::printAllDescriptions()
@@ -177,12 +189,12 @@ std::string Being::printDescription(bool silent)
 {
 	double scaleFactor;
 	size_t scaledExpressor;
-	MEMORY_TYPE_SIZE getExpressor;
+	zo getExpressor;
 	std::stringstream ss;
 
 	getExpressor = expressor == EXPRESSOR_CURRENT ? inputValue :
 								expressor == EXPRESSOR_THRESHOLD ? threshold :
-								originalThreshold;
+								Neuron::originalThreshold;
 	if (outputValue)
 		ss << " * ";
 	else
@@ -192,20 +204,20 @@ std::string Being::printDescription(bool silent)
 	{
 		if (scaleMax)
 		{
-			scaleFactor = static_cast<double>(scaleMax - scaleMin) / max();
+			scaleFactor = static_cast<double>(scaleMax - scaleMin);
 			scaledExpressor = static_cast<int>(getExpressor * scaleFactor) + scaleMin;
 			ss << ": " << scaledExpressor << unit.c_str();
 		}
 		if (scale.size())
 		{
-			scaleFactor = static_cast<double>(scale.size()) / max();
+			scaleFactor = static_cast<double>(scale.size());
 			scaledExpressor = static_cast<int>(getExpressor * scaleFactor);
 			if (scaledExpressor > scale.size() - 1) scaledExpressor = scale.size() - 1;
 			ss << ": " << scale[scaledExpressor];
 		}
 		if (!scale.size() && !scaleMax && isStatsVisible())
 		{
-			scaleFactor = static_cast<double>(1.0) / max();
+			scaleFactor = static_cast<double>(1.0);
 			scaleFactor = static_cast<double>(getExpressor * scaleFactor);
 			ss << ": " << scaleFactor;
 		}

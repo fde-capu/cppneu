@@ -8,6 +8,7 @@
 # include <ncurses.h>
 # include <sstream>
 # include "DynamicNeuron.hpp"
+# include "header.hpp"
 
 typedef struct TypeBeingConfig
 {
@@ -37,8 +38,8 @@ class Being: public DynamicNeuron {
 		static void Bias(int amount = 1);
 		static void reset();
 
-		MEMORY_TYPE_SIZE inputValue;
-		MEMORY_TYPE_SIZE outputValue;
+		zo inputValue;
+		zo outputValue;
 		zo thresholdPull;
 		zo thresholdStability;
 		zo speed;
@@ -65,7 +66,7 @@ class Being: public DynamicNeuron {
 		static std::vector<std::string> actions;
 		static zo actionScore;
 		static std::string bestAction;
-		static MEMORY_TYPE_SIZE max();
+		static zo max();
 
 		static size_t count_being;
 		static size_t count_axon;
@@ -121,6 +122,7 @@ class Being: public DynamicNeuron {
 
 		void printAsciiBar();
 		void printCharacter();
+		void printNumbers();
 		std::string printDescription(bool silent = false);
 		size_t randomBeingWithOutput();
 		size_t randomBeingWithInput();

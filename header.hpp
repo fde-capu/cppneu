@@ -3,9 +3,10 @@
 
 # include <string>
 # include <map>
-# include "Being.hpp"
 # include <ncurses.h>
 # include <thread>
 # include <string>
+
+void debug(std::string s);
 
 #endif

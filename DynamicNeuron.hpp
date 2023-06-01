@@ -4,8 +4,9 @@
 # include <iostream>
 # include "defines.hpp"
 # include "Neuron.hpp"
+# include "header.hpp"
 
-class DynamicNeuron: public Neuron
+class DynamicNeuron: public virtual Neuron
 {
 	public:
 		zo dump;

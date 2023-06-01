@@ -5,6 +5,7 @@
 # include "randoms.hpp"
 # include <sstream>
 # include "helpers.hpp"
+# include "header.hpp"
 
 class Neuron
 {
