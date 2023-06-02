@@ -6,6 +6,7 @@
 # include <ncurses.h>
 # include <thread>
 # include <string>
+# include "defines.hpp"
 
 void debug(std::string s);
 

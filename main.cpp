@@ -3,7 +3,7 @@
 
 void makeBrain();
 
-static bool g_showDebug = true;
+static bool g_showDebug = false;
 static bool g_quit = false;
 static bool g_running = false;
 static bool g_showMenu = true;
@@ -31,10 +31,11 @@ static std::map<char, DescriptionFunction> g_menu = {
 	{'a', {.description = "action", .functionPtr = &Being::toggleDisplayAction}},
 	{'m', {.description = "measures", .functionPtr = &Being::toggleDisplayMeasure}},
 	{'w', {.description = "want", .functionPtr = &Being::toggleDisplayActionResolution}},
-	{'b', {.description = "bars", .functionPtr = &Being::toggleDisplayBars}},
+	{'b', {.description = "bars up", .functionPtr = &Being::toggleDisplayBarsUp}},
+	{'B', {.description = "bars down", .functionPtr = &Being::toggleDisplayBarsDown}},
 	{'o', {.description = "outs", .functionPtr = &Being::toggleDisplayOuts}},
 	{'x', {.description = "axons", .functionPtr = &Being::toggleDisplayAxons}},
-	{'B', {.description = "bias bars", .functionPtr = &Being::toggleDisplayBiasBars}},
+	{'i', {.description = "bias bars", .functionPtr = &Being::toggleDisplayBiasBars}},
 	{' ', {.description = "new", .functionPtr = &makeBrain}},
 };
 
@@ -94,7 +95,7 @@ void prepare()
 {
 	srand(time(NULL));
 	initscr();
-	set_tabsize(12);
+	set_tabsize(LEADING_ZEROS + 1);
 	cbreak();
 	noecho();
 	nodelay(stdscr, TRUE);
@@ -119,8 +120,8 @@ void makeBrain()
   Being::Create(T_VITAL, "Heart",
 		{"Frozen", "Slow", "Normal", "Peaced", "Accelerated", "Fast", "Hyper"},
 		{0, 260, "bpm"}, EXPRESSOR_THRESHOLD,	.8);
-//	Being::Create(T_VITAL, "Breath",
-//		{"Empty", "Neutral", "Full"});
+	Being::Create(T_VITAL, "Breath",
+		{"Empty", "Neutral", "Full"});
 //	Being::Create(T_PHYSICAL, "Nose",
 //		{"Short", "Medium", "Long"},
 //		{}, EXPRESSOR_ORIGINAL_THRESHOLD, 1.0);
@@ -137,5 +138,5 @@ void makeBrain()
 //	Being::Create(T_ACTION, "Sleep",
 //		{}, {}, EXPRESSOR_CURRENT);
 	Being::Bias(1);
-	Being::Axon(1);
+	Being::Axon(10);
 }

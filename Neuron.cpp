@@ -4,16 +4,12 @@
 Neuron::Neuron()
 {
 	originalThreshold = randomZeroOne();
-
-	debug("::Neuron()");
-	debug(std::to_string(originalThreshold));
-
+	debug("A" + std::to_string(originalThreshold));
 	init();
 }
 
 Neuron::Neuron(zo set_threshold)
 {
-	debug("::Neuron(set_threshold)");
 	originalThreshold = randomZeroOne();
 	originalThreshold = set_threshold;
 	init();

@@ -3,10 +3,11 @@
 
 # define MEMORY_TYPE_SIZE unsigned int
 # define zo float
+# define LEADING_ZEROS 3
 # define ASCII_BAR_LENGTH 32
 # define STEP_MS 100
 # define INPUT_DECAY 0.3
-# define THRESHOLD_DECAY 0.001
+# define THRESHOLD_DECAY 0.95
 
 # define T_PHYSICAL 0
 # define T_VITAL 1

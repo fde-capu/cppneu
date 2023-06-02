@@ -1,4 +1,5 @@
 #include "Being.hpp"
+#include "helpers.hpp"
 
 bool Being::displayHeader = true;
 bool Being::displayCharacters = true;
@@ -7,7 +8,7 @@ bool Being::displayVital = false;
 bool Being::displayAction = false;
 bool Being::displayMeasure = false;
 bool Being::displayActionResolution = true;
-bool Being::displayBars = true;
+int Being::displayBars = 11;
 bool Being::displayOuts = false;
 bool Being::displayAxons = false;
 bool Being::displayBiasBars = false;
@@ -19,8 +20,7 @@ void Being::printScreen()
 	if (displayCharacters)
 		Being::printAllCharacters();
 	Being::printAllDescriptions();
-	if (displayBars)
-		Being::printAllBars();
+	Being::printAllBars();
 	if (displayOuts)
 		Being::printOuts();
 	if (displayAxons)
@@ -49,6 +49,7 @@ void Being::printWantedActions()
 
 void Being::printAllBars()
 {
+	printw("[[%d]]\n", displayBars);
 	for (auto& being : table)
 		being.printAsciiBar();
 }
@@ -60,8 +61,7 @@ void Being::printAllAxons()
 			if (being.isAxon())
 			{
 				printw("%d-%d>%d ",
-					being.slotIn, static_cast<int>(being.multiplyer * 10),
-					being.slotOut); 
+					being.slotIn, floatUp(being.multiplyer), being.slotOut); 
 			}
 		}
 		printw("\n");
@@ -74,7 +74,7 @@ void Being::printOuts()
 		{
 			if (being.isOutBlockVisible())
 			{
-				if (!std::isinf(out[being.UID]))
+				if (being.outputValue)
 					printw("*|");
 				else
 					printw(" |");
@@ -87,7 +87,6 @@ void Being::printCharacter()
 {
 	if (!isCharacterVisible())
 		return;
-
 	std::string shadowGray(" -~=+*oO&#%@");
 	double scaleFactor = static_cast<double>(shadowGray.length() - 1);
 	int scaledInputValue = static_cast<int>(inputValue * scaleFactor);
@@ -101,7 +100,6 @@ void Being::printCharacter()
 	printw("%c", shadowGray.at(scaledInputValue));
 	printw("%c", shadowGray.at(scaledThreshold));
 	printw("%c", shadowGray.at(scaledOriginalThreshold));
-	printw(">>%f<<", originalThreshold);
 }
 
 void Being::printAsciiBar()
@@ -113,26 +111,41 @@ void Being::printAsciiBar()
 	double scaleFactor = static_cast<double>(length);
 	size_t scaledInputValue = static_cast<int>(inputValue * scaleFactor);
 	size_t scaledThreshold = static_cast<int>(threshold * scaleFactor);
-	size_t scaledOriginalThreshold = static_cast<int>(originalThreshold * 1.0);
+	size_t scaledOriginalThreshold = static_cast<int>(originalThreshold * scaleFactor);
 
-	printw("%f< ", originalThreshold);
-	printw("%u [", UID);
-	for (size_t i = 0; i < length; i++) {
-		if (i == scaledOriginalThreshold && i == scaledThreshold) {
-			printw("!");
-		} else if (i == scaledOriginalThreshold) {
-			printw("+");
-		} else if (i == scaledThreshold) {
-			printw("|");
-		} else if (i < scaledInputValue) {
-			printw(".");
-		} else {
-			printw(" ");
+	if (displayBars & 1)
+	{
+		printw("%u [", UID);
+		for (size_t i = 0; i < length; i++) {
+			if (i == scaledOriginalThreshold && i == scaledThreshold) {
+				printw("!");
+			} else if (i == scaledOriginalThreshold) {
+				printw("+");
+			} else if (i == scaledThreshold) {
+				printw("|");
+			} else if (i < scaledInputValue) {
+				printw(".");
+			} else {
+				printw(" ");
+			}
 		}
+		printw("]");
 	}
-	printw("]");
-	printNumbers();
-	printDescription();
+	if (displayBars & 2)
+	{
+		printw(" ");
+		printCharacter();
+	}
+	if (displayBars & 4)
+	{
+		printw(" ");
+		printNumbers();
+	}
+	if (displayBars & 8)
+	{
+		printw(" ");
+		printDescription();
+	}
 	printw("\n");
 }
 
@@ -142,7 +155,10 @@ void Being::printNumbers()
 	zo scaledInputValue = static_cast<zo>(inputValue * scaleFactor);
 	zo scaledThreshold = static_cast<zo>(threshold * scaleFactor);
 	zo scaledOriginalThreshold = static_cast<zo>(Neuron::originalThreshold * scaleFactor);
-	printw("i%f t%f o%f", scaledInputValue, scaledThreshold, scaledOriginalThreshold);
+	printw("%s %s %s",
+		zeroOut(scaledInputValue).c_str(),
+		zeroOut(scaledThreshold).c_str(),
+		zeroOut(scaledOriginalThreshold).c_str());
 }
 
 void Being::printAllDescriptions()
@@ -196,9 +212,9 @@ std::string Being::printDescription(bool silent)
 								expressor == EXPRESSOR_THRESHOLD ? threshold :
 								Neuron::originalThreshold;
 	if (outputValue)
-		ss << " * ";
+		ss << "* ";
 	else
-		ss << "   ";
+		ss << "  ";
 	ss << name;
 	if (isBeing())
 	{
@@ -235,7 +251,8 @@ void Being::toggleDisplayVital() { displayVital = !displayVital; }
 void Being::toggleDisplayAction() { displayAction = !displayAction; }
 void Being::toggleDisplayMeasure() { displayMeasure = !displayMeasure; }
 void Being::toggleDisplayActionResolution() { displayActionResolution = !displayActionResolution; }
-void Being::toggleDisplayBars() { displayBars = !displayBars; }
+void Being::toggleDisplayBarsUp() { displayBars++; }
+void Being::toggleDisplayBarsDown() { displayBars--; }
 void Being::toggleDisplayOuts() { displayOuts = !displayOuts; }
 void Being::toggleDisplayAxons() { displayAxons = !displayAxons; }
 void Being::toggleDisplayBiasBars() { displayBiasBars = !displayBiasBars; }
@@ -265,4 +282,5 @@ bool Being::isOutBlockVisible()
 		||	type == T_VITAL
 		||	type == T_ACTION
 		||	type == T_MEASURE
+		||	type == T_BIAS
 ;}

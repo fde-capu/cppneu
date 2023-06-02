@@ -57,6 +57,7 @@ class Being: public DynamicNeuron {
 		std::string unit;
 		std::vector<std::string> scale;
 		zo dump;
+		zo inputDecay;
 		zo thresholdDecay;
 
 		static size_t globalUID;
@@ -83,7 +84,6 @@ class Being: public DynamicNeuron {
 		static void processAll();
 		static void processAxons();
 		void readAxons();
-		void updateInternals();
 		static size_t size();
 
 		static void printScreen();
@@ -103,7 +103,8 @@ class Being: public DynamicNeuron {
 		static void toggleDisplayAction();
 		static void toggleDisplayMeasure();
 		static void toggleDisplayActionResolution();
-		static void toggleDisplayBars();
+		static void toggleDisplayBarsUp();
+		static void toggleDisplayBarsDown();
 		static void toggleDisplayOuts();
 		static void toggleDisplayAxons();
 		static void toggleDisplayBiasBars();
@@ -115,7 +116,7 @@ class Being: public DynamicNeuron {
 		static bool displayAction;
 		static bool displayMeasure;
 		static bool displayActionResolution;
-		static bool displayBars;
+		static int displayBars;
 		static bool displayOuts;
 		static bool displayAxons;
 		static bool displayBiasBars;

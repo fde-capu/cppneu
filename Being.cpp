@@ -61,11 +61,11 @@ Being::Being(const t_config& u_)
 	scale(u_.scale),
 	dump(u_.dump)
 {
-	debug("::Being");
-	debug(std::to_string(originalThreshold));
+	debug("C" + std::to_string(originalThreshold));
 
 	UID = Being::globalUID++;
 	thresholdDecay = THRESHOLD_DECAY;
+	inputDecay = INPUT_DECAY;
 	inputValue = 0.0;
 	outputValue = 0.0;
 	if (type == T_AXON)
@@ -107,23 +107,16 @@ size_t Being::randomBeingWithInput() {
 size_t Being::size() { return table.size(); }
 
 void Being::readAxons() {
-	zo newInputValue;
+	if (type == T_BIAS)
+	{
+		inputValue = randomZeroOne();
+		return ;
+	}
 	if (axonOut[UID])
 	{
-		newInputValue = axonOut[UID];
-		if (newInputValue > inputValue)
-		{
-			if (inputValue + newInputValue > 1.0)
-				inputValue = 1.0;
-			else
-				inputValue += newInputValue;
-		}
+		inputValue += axonOut[UID];
+		zoRestrain(inputValue);
 	}
-}
-
-void Being::updateInternals() {
-	if (type == T_BIAS)
-		inputValue = randomZeroOne();
 }
 
 void Being::extraFiringProcess() {
@@ -141,33 +134,28 @@ void Being::extraFiringProcess() {
 }
 
 void Being::process() {
-	long long newThreshold = threshold;
+	zo newThreshold = threshold;
 
-	inputValue -= (inputValue * INPUT_DECAY); 
+	inputValue *= inputDecay; 
 	readAxons();
-	updateInternals();
 	if (isBeing())
 	{
-		if (inputValue && inputValue >= threshold)
+		if (inputValue >= threshold)
 		{
-			force = static_cast<zo>(inputValue - threshold);
-			newThreshold += ((inputValue - threshold) * ((1.0 - dump)));
-//			thresholdDecay += (force - thresholdDecay) * (1.0 - THRESHOLD_DECAY);
-			thresholdDecay += force;
+			force = inputValue - threshold;
+			newThreshold = force * (1.0 - dump) + threshold;
 			outputValue = 1.0;
 			extraFiringProcess();
 		}
 		else
 		{
 			outputValue = 0.0;
+			newThreshold = 
+				((threshold - originalThreshold)
+				* thresholdDecay) + originalThreshold;
 		}
-		newThreshold -= (((long long)threshold - (long long)originalThreshold) * thresholdDecay);
-		thresholdDecay -= (thresholdDecay - THRESHOLD_DECAY) * thresholdDecay;
-		if (thresholdDecay > 1.0) thresholdDecay = 1.0;
-		if (thresholdDecay < 0.0) thresholdDecay = 0.0;
-		if (newThreshold && newThreshold > 1.0) newThreshold = 1.0;
-		if (newThreshold && newThreshold < 0) newThreshold = 0;
 		threshold = newThreshold;
+		zoRestrain(threshold, originalThreshold);
 		Being::out[UID] = outputValue;
 	}
 }
