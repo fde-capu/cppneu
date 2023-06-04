@@ -64,10 +64,8 @@ Being::Being(const t_config& u_)
 	debug("C" + std::to_string(originalThreshold));
 
 	UID = Being::globalUID++;
-	thresholdDecay = THRESHOLD_DECAY;
 	inputDecay = INPUT_DECAY;
 	inputValue = 0.0;
-	outputValue = 0.0;
 	if (type == T_AXON)
 	{
 		slotIn = randomBeingWithOutput();
@@ -106,19 +104,6 @@ size_t Being::randomBeingWithInput() {
 
 size_t Being::size() { return table.size(); }
 
-void Being::readAxons() {
-	if (type == T_BIAS)
-	{
-		inputValue = randomZeroOne();
-		return ;
-	}
-	if (axonOut[UID])
-	{
-		inputValue += axonOut[UID];
-		zoRestrain(inputValue);
-	}
-}
-
 void Being::extraFiringProcess() {
 	if (!isBias())
 	{
@@ -133,29 +118,34 @@ void Being::extraFiringProcess() {
 	bestAction = " *";
 }
 
+void Being::readAxons() {
+	if (type == T_BIAS)
+	{
+		inputValue = randomZeroOne();
+		return ;
+	}
+	if (axonOut[UID])
+	{
+		inputValue += axonOut[UID];
+		zoRestrain(inputValue);
+	}
+}
+
 void Being::process() {
-	zo newThreshold = threshold;
+//	zo newThreshold = threshold;
 
 	inputValue *= inputDecay; 
 	readAxons();
 	if (isBeing())
 	{
+		DynamicNeuron::fire(inputValue);
 		if (inputValue >= threshold)
 		{
-			force = inputValue - threshold;
-			newThreshold = force * (1.0 - dump) + threshold;
-			outputValue = 1.0;
 			extraFiringProcess();
 		}
 		else
 		{
-			outputValue = 0.0;
-			newThreshold = 
-				((threshold - originalThreshold)
-				* thresholdDecay) + originalThreshold;
 		}
-		threshold = newThreshold;
-		zoRestrain(threshold, originalThreshold);
 		Being::out[UID] = outputValue;
 	}
 }

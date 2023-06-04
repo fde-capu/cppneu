@@ -39,11 +39,8 @@ class Being: public DynamicNeuron {
 		static void reset();
 
 		zo inputValue;
-		zo outputValue;
-		zo thresholdPull;
 		zo thresholdStability;
 		zo speed;
-		zo force;
 
 		size_t UID;
 		int type;
@@ -58,7 +55,6 @@ class Being: public DynamicNeuron {
 		std::vector<std::string> scale;
 		zo dump;
 		zo inputDecay;
-		zo thresholdDecay;
 
 		static size_t globalUID;
 		static std::vector<Being> table;

@@ -122,13 +122,13 @@ void makeBrain()
 		{0, 260, "bpm"}, EXPRESSOR_THRESHOLD,	.8);
 	Being::Create(T_VITAL, "Breath",
 		{"Empty", "Neutral", "Full"});
-//	Being::Create(T_PHYSICAL, "Nose",
-//		{"Short", "Medium", "Long"},
-//		{}, EXPRESSOR_ORIGINAL_THRESHOLD, 1.0);
-//  Being::Create(T_MEASURE, "Eyes",
-//		{"Closed", "Normal", "Wide Open"});
-//  Being::Create(T_MEASURE, "Humor",
-//		{"Crappy", "Bad", "Medium", "Ok", "Good", "Enthusiastic", "Incredible"});
+	Being::Create(T_PHYSICAL, "Nose",
+		{"Short", "Medium", "Long"},
+		{}, EXPRESSOR_ORIGINAL_THRESHOLD, 1.0);
+  Being::Create(T_MEASURE, "Eyes",
+		{"Closed", "Normal", "Wide Open"});
+  Being::Create(T_MEASURE, "Humor",
+		{"Crappy", "Bad", "Medium", "Ok", "Good", "Enthusiastic", "Incredible"});
 //  Being::Create(T_MEASURE, "Tired",
 //		{}, {}, EXPRESSOR_CURRENT);
 //	Being::Create(T_ACTION, "Drop",
@@ -137,6 +137,6 @@ void makeBrain()
 //		{"Softly", "Moderate", "Hard"}, {}, EXPRESSOR_CURRENT);
 //	Being::Create(T_ACTION, "Sleep",
 //		{}, {}, EXPRESSOR_CURRENT);
-	Being::Bias(1);
-	Being::Axon(10);
+	Being::Bias(4);
+	Being::Axon(50);
 }
