@@ -1,16 +1,12 @@
 #include "DynamicNeuron.hpp"
 #include <iostream>
 
-zo DynamicNeuron::default_damp = 0.5;
-
-DynamicNeuron::DynamicNeuron()
+DynamicNeuron::DynamicNeuron(zo u_damp)
 : Neuron()
 {
 	debug("Ba" + std::to_string(originalThreshold));
-
+	damp = u_damp;
 	threshold = originalThreshold;
-	damp = default_damp;
-	thresholdDecay = THRESHOLD_DECAY;
 	init();
 }
 
@@ -25,12 +21,12 @@ void DynamicNeuron::init()
 	readable = ss.str();
 }
 
-void DynamicNeuron::fire(zo in)
+void DynamicNeuron::tick()
 {
-	Neuron::fire(in);
-	if (in >= threshold)
+	Neuron::tick();
+	if (inputValue >= threshold)
 	{
-		force = (in - threshold) * (1.0 - damp);
+		force = (inputValue - threshold) * (1.0 - damp);
 		threshold += force;
 	}
 	else

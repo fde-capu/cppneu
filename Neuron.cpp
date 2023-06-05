@@ -3,7 +3,6 @@
 
 Neuron::Neuron()
 {
-	outputValue = 0.0;
 	originalThreshold = randomZeroOne();
 	debug("Aa" + std::to_string(originalThreshold));
 	init();
@@ -18,9 +17,9 @@ void Neuron::init()
 	readable = ss.str();
 }
 
-void Neuron::fire(zo in)
+void Neuron::tick()
 {
-	outputValue = in >= originalThreshold ?
+	outputValue = inputValue >= originalThreshold ?
 		1.0 : 0.0;
 }
 

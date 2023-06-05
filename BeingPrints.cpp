@@ -104,6 +104,8 @@ void Being::printCharacter()
 
 void Being::printAsciiBar()
 {
+	static std::string barMap("[ ,.;:!]");
+
 	if (!isBarVisible()
 		|| (isBias() && !displayBiasBars))
 		return ;
@@ -115,24 +117,30 @@ void Being::printAsciiBar()
 
 	if (displayBars & 1)
 	{
-		printw("%u [", UID);
+		printw("%u %c", UID, barMap.at(0));
 		for (size_t i = 0; i < length; i++) {
 			if (i == scaledOriginalThreshold && i == scaledThreshold) {
-				printw(";");
+				if (threshold == originalThreshold && outputValue)
+					printw("%c", barMap.at(6));
+				else
+					printw("%c", barMap.at(4));
 			} else if (i == scaledOriginalThreshold) {
-				printw(",");
+				if (threshold == originalThreshold && outputValue)
+					printw("%c", barMap.at(6));
+				else
+					printw("%c", barMap.at(2));
 			} else if (i == scaledThreshold) {
 				if (outputValue)
-					printw("!");
+					printw("%c", barMap.at(6));
 				else
-					printw(":");
+					printw("%c", barMap.at(5));
 			} else if (i < scaledInputValue) {
-				printw(".");
+					printw("%c", barMap.at(3));
 			} else {
-				printw(" ");
+				printw("%c", barMap.at(1));
 			}
 		}
-		printw("] %f ", damp);
+		printw("%c ", barMap.at(7));
 	}
 	if (displayBars & 2)
 	{

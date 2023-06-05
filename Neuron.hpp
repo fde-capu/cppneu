@@ -10,15 +10,16 @@
 class Neuron
 {
 	public:
-		zo outputValue;
-		zo originalThreshold;
+		zo inputValue = 0.0;
+		zo outputValue = 0.0;
+		zo originalThreshold = 0.0;
 
 	public:
 		Neuron();
 		Neuron(Neuron const&);
 		Neuron& operator= (Neuron const&);
 		~Neuron();
-		void fire(zo);
+		void tick();
 		std::string strbin;
 		std::string readable;
 	private:

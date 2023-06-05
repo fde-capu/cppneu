@@ -24,17 +24,9 @@ typedef struct TypeBeingConfig
 
 class Being: public virtual DynamicNeuron {
 	public:
-		typedef struct Scale {
-			int scaleMin;
-			int scaleMax;
-			std::string unit;
-		} t_scale;
-			
 		static void Axon(int amount = 1);
 		static void Bias(int amount = 1);
 		static void reset();
-
-		zo inputValue;
 
 		size_t UID;
 		int type;
@@ -47,7 +39,6 @@ class Being: public virtual DynamicNeuron {
 		int scaleMax;
 		std::string unit;
 		std::vector<std::string> scale;
-		zo inputDecay;
 
 		static size_t g_Being_UID;
 		static std::vector<Being> table;

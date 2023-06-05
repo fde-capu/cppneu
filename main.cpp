@@ -127,11 +127,18 @@ void makeBrain()
 		.scale = {"Frozen", "Slow", "Normal", "Peaced", "Accelerated", "Fast", "Hyper"},
 		.damp = 0.9
 	});
+	Being({
+		.type = T_PHYSICAL,
+		.name = "Nose",
+		.expressor = EXPRESSOR_ORIGINAL_THRESHOLD,
+		.scaleMin = 0,
+		.scaleMax = 0,
+		.unit = "",
+		.scale = {"Short", "Medium", "Long"},
+		.damp = 1.0
+	});
 //	Being::Create(T_VITAL, "Breath",
 //		{"Empty", "Neutral", "Full"});
-//	Being::Create(T_PHYSICAL, "Nose",
-//		{"Short", "Medium", "Long"},
-//		{}, EXPRESSOR_ORIGINAL_THRESHOLD, 1.0);
 //  Being::Create(T_MEASURE, "Eyes",
 //		{"Closed", "Normal", "Wide Open"});
 //  Being::Create(T_MEASURE, "Humor",
@@ -145,5 +152,5 @@ void makeBrain()
 //	Being::Create(T_ACTION, "Sleep",
 //		{}, {}, EXPRESSOR_CURRENT);
 	Being::Bias(3);
-	Being::Axon(5);
+	Being::Axon(10);
 }

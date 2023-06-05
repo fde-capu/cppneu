@@ -36,7 +36,7 @@ void Being::Axon(int amount)
 }
 
 Being::Being(const t_config& u_)
-	: DynamicNeuron(),
+	: DynamicNeuron(u_.damp),
 	type(u_.type),
 	name(u_.name),
 	expressor(u_.expressor),
@@ -47,10 +47,7 @@ Being::Being(const t_config& u_)
 {
 	debug("C" + std::to_string(originalThreshold));
 
-	damp = u_.damp;
 	UID = Being::g_Being_UID++;
-	inputDecay = INPUT_DECAY;
-	inputValue = 0.0;
 	if (type == T_AXON)
 	{
 		slotIn = randomBeingWithOutput();
@@ -117,11 +114,11 @@ void Being::readAxons() {
 }
 
 void Being::process() {
-	inputValue *= inputDecay; 
+	inputValue *= 0.5;
 	readAxons();
 	if (isBeing())
 	{
-		DynamicNeuron::fire(inputValue);
+		DynamicNeuron::tick();
 		Being::out[UID] = outputValue;
 		if (inputValue >= threshold)
 			extraFiringProcess();

@@ -9,23 +9,21 @@
 class DynamicNeuron: public virtual Neuron
 {
 	public:
-		zo damp;
-		zo force;
+		zo damp = 0.0;
+		zo force = 0.0;
+		zo threshold = 0.0;
 
 	public:
-		DynamicNeuron();
+		DynamicNeuron(zo);
 		DynamicNeuron(DynamicNeuron const&);
 		DynamicNeuron& operator= (DynamicNeuron const&);
 		~DynamicNeuron();
-		void fire(zo);
+		void tick();
 		std::string strbin;
 		std::string readable;
-		zo threshold;
 
 	private:
 		void init();
-		static zo default_damp;
-		zo thresholdDecay;
 };
 
 #endif
