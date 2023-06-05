@@ -15,11 +15,10 @@ class Neuron
 
 	public:
 		Neuron();
-		Neuron(zo);
 		Neuron(Neuron const&);
 		Neuron& operator= (Neuron const&);
 		~Neuron();
-		zo& fire(zo);
+		void fire(zo);
 		std::string strbin;
 		std::string readable;
 	private:

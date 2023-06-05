@@ -5,14 +5,7 @@ Neuron::Neuron()
 {
 	outputValue = 0.0;
 	originalThreshold = randomZeroOne();
-	debug("A" + std::to_string(originalThreshold));
-	init();
-}
-
-Neuron::Neuron(zo set_threshold)
-{
-	originalThreshold = randomZeroOne();
-	originalThreshold = set_threshold;
+	debug("Aa" + std::to_string(originalThreshold));
 	init();
 }
 
@@ -25,11 +18,10 @@ void Neuron::init()
 	readable = ss.str();
 }
 
-zo& Neuron::fire(zo in)
+void Neuron::fire(zo in)
 {
 	outputValue = in >= originalThreshold ?
 		1.0 : 0.0;
-	return outputValue;
 }
 
 Neuron::Neuron(Neuron const & src)

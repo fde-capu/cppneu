@@ -118,18 +118,21 @@ void Being::printAsciiBar()
 		printw("%u [", UID);
 		for (size_t i = 0; i < length; i++) {
 			if (i == scaledOriginalThreshold && i == scaledThreshold) {
-				printw("!");
+				printw(";");
 			} else if (i == scaledOriginalThreshold) {
-				printw("+");
+				printw(",");
 			} else if (i == scaledThreshold) {
-				printw("|");
+				if (outputValue)
+					printw("!");
+				else
+					printw(":");
 			} else if (i < scaledInputValue) {
 				printw(".");
 			} else {
 				printw(" ");
 			}
 		}
-		printw("]");
+		printw("] %f ", damp);
 	}
 	if (displayBars & 2)
 	{
@@ -267,6 +270,7 @@ bool Being::isBarVisible()
 		||	type == T_ACTION
 		||	type == T_MEASURE
 		||	type == T_BIAS
+		||	type == T_PHYSICAL
 ;}
 
 bool Being::isCharacterVisible()

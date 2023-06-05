@@ -14,12 +14,10 @@ class DynamicNeuron: public virtual Neuron
 
 	public:
 		DynamicNeuron();
-		DynamicNeuron(zo);
-		DynamicNeuron(zo, zo);
 		DynamicNeuron(DynamicNeuron const&);
 		DynamicNeuron& operator= (DynamicNeuron const&);
 		~DynamicNeuron();
-		zo& fire(zo);
+		void fire(zo);
 		std::string strbin;
 		std::string readable;
 		zo threshold;

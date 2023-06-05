@@ -4,21 +4,6 @@ size_t Being::count_being = 0;
 size_t Being::count_axon = 0;
 size_t Being::count_bias = 0;
 
-void Being::Create(int type, std::string name, std::vector<std::string> scale,
-	t_scale transpose, int expressor, zo dump
-	)
-{
-  Being({
-		.type = type,
-		.name = name,
-		.expressor = expressor,
-		.scaleMin = transpose.scaleMin,
-		.scaleMax = transpose.scaleMax,
-		.unit = transpose.unit,
-		.scale = scale,
-		.dump = dump
-	});
-}
 void Being::Bias(int amount)
 {
   Being({
@@ -44,26 +29,26 @@ void Being::Axon(int amount)
 		.scaleMax = 0,
 		.unit = "",
 		.scale = {},
-		.dump = 0.0
+		.damp = 0.0
 	});
 	if (--amount > 0)
 		Being::Axon(amount);
 }
 
 Being::Being(const t_config& u_)
-	:
+	: DynamicNeuron(),
 	type(u_.type),
 	name(u_.name),
 	expressor(u_.expressor),
 	scaleMin(u_.scaleMin),
 	scaleMax(u_.scaleMax),
 	unit(u_.unit),
-	scale(u_.scale),
-	dump(u_.dump)
+	scale(u_.scale)
 {
 	debug("C" + std::to_string(originalThreshold));
 
-	UID = Being::globalUID++;
+	damp = u_.damp;
+	UID = Being::g_Being_UID++;
 	inputDecay = INPUT_DECAY;
 	inputValue = 0.0;
 	if (type == T_AXON)
@@ -132,21 +117,14 @@ void Being::readAxons() {
 }
 
 void Being::process() {
-//	zo newThreshold = threshold;
-
 	inputValue *= inputDecay; 
 	readAxons();
 	if (isBeing())
 	{
 		DynamicNeuron::fire(inputValue);
-		if (inputValue >= threshold)
-		{
-			extraFiringProcess();
-		}
-		else
-		{
-		}
 		Being::out[UID] = outputValue;
+		if (inputValue >= threshold)
+			extraFiringProcess();
 	}
 }
 
@@ -210,7 +188,7 @@ bool Being::hasInput()
 bool Being::hasOutput()
 { return isBeing(); }
 
-size_t Being::globalUID = 0;
+size_t Being::g_Being_UID = 0;
 std::vector<Being> Being::table;
 std::vector<std::string> Being::actions;
 zo Being::actionScore = 0.0;

@@ -19,10 +19,10 @@ typedef struct TypeBeingConfig
 	int scaleMax;
 	std::string unit;
 	std::vector<std::string> scale;
-	zo dump;
+	zo damp;
 } t_config;
 
-class Being: public DynamicNeuron {
+class Being: public virtual DynamicNeuron {
 	public:
 		typedef struct Scale {
 			int scaleMin;
@@ -30,17 +30,11 @@ class Being: public DynamicNeuron {
 			std::string unit;
 		} t_scale;
 			
-		static void Physical(std::string, std::vector<std::string>, int expressor = EXPRESSOR_ORIGINAL_THRESHOLD);
-		static void Measure(std::string, std::vector<std::string> = {}, int expressor = EXPRESSOR_THRESHOLD);
-		static void Create(int = 0, std::string = "", std::vector<std::string> = {}, t_scale = {}, int = EXPRESSOR_THRESHOLD, zo = 0.0);
-		static void Action(std::string, std::vector<std::string> = {});
 		static void Axon(int amount = 1);
 		static void Bias(int amount = 1);
 		static void reset();
 
 		zo inputValue;
-		zo thresholdStability;
-		zo speed;
 
 		size_t UID;
 		int type;
@@ -53,10 +47,9 @@ class Being: public DynamicNeuron {
 		int scaleMax;
 		std::string unit;
 		std::vector<std::string> scale;
-		zo dump;
 		zo inputDecay;
 
-		static size_t globalUID;
+		static size_t g_Being_UID;
 		static std::vector<Being> table;
 		static std::vector<zo> out;
 		static std::vector<zo> axonOut;
@@ -70,9 +63,6 @@ class Being: public DynamicNeuron {
 		static size_t count_bias;
 
 		Being(const t_config& u_);
-		Being(int type, std::string name);
-		Being(int type, std::string name, std::vector<std::string> scale);
-		Being(int type, std::string name, int scaleMin, int scaleMax, std::string unit, std::vector<std::string> scale);
 		Being(int type);
 
 		void extraFiringProcess();
