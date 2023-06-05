@@ -19,8 +19,14 @@ void Neuron::init()
 
 void Neuron::tick()
 {
-	outputValue = inputValue >= originalThreshold ?
-		1.0 : 0.0;
+	if (inputValue > originalThreshold)
+	{
+		outputValue = 1.0;
+	}
+	else
+	{
+		outputValue = 0.0;
+	}
 }
 
 Neuron::Neuron(Neuron const & src)

@@ -96,33 +96,26 @@ void Being::extraFiringProcess() {
 			return;
 		}
 	}
-	actionScore = 0.0;
-	bestAction = " *";
 }
 
 void Being::readAxons() {
-	if (type == T_BIAS)
-	{
-		inputValue = randomZeroOne();
-		return ;
-	}
-	if (axonOut[UID])
-	{
-		inputValue += axonOut[UID];
-		zoRestrain(inputValue);
-	}
+	DynamicNeuron::feed(
+		type == T_BIAS ?
+			randomZeroOne()
+		:
+			axonOut[UID]
+	);
 }
 
 void Being::process() {
-	inputValue *= 0.5;
+	actionScore *= 0.99;
+	if (actionScore < 0.001)
+		bestAction = "-";
 	readAxons();
-	if (isBeing())
-	{
-		DynamicNeuron::tick();
-		Being::out[UID] = outputValue;
-		if (inputValue >= threshold)
-			extraFiringProcess();
-	}
+	DynamicNeuron::tick();
+	Being::out[UID] = outputValue;
+	if (outputValue)
+		extraFiringProcess();
 }
 
 void Being::processAll() {

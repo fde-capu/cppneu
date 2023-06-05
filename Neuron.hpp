@@ -10,9 +10,11 @@
 class Neuron
 {
 	public:
+		zo originalThreshold = 0.0;
+
+	public:
 		zo inputValue = 0.0;
 		zo outputValue = 0.0;
-		zo originalThreshold = 0.0;
 
 	public:
 		Neuron();
@@ -22,6 +24,7 @@ class Neuron
 		void tick();
 		std::string strbin;
 		std::string readable;
+
 	private:
 		void init();
 };

@@ -125,7 +125,7 @@ void makeBrain()
 		.scaleMax = 260,
 		.unit = "bpm",
 		.scale = {"Frozen", "Slow", "Normal", "Peaced", "Accelerated", "Fast", "Hyper"},
-		.damp = 0.9
+		.damp = 0.99
 	});
 	Being({
 		.type = T_PHYSICAL,
@@ -137,10 +137,27 @@ void makeBrain()
 		.scale = {"Short", "Medium", "Long"},
 		.damp = 1.0
 	});
-//	Being::Create(T_VITAL, "Breath",
-//		{"Empty", "Neutral", "Full"});
-//  Being::Create(T_MEASURE, "Eyes",
-//		{"Closed", "Normal", "Wide Open"});
+	Being({
+		.type = T_VITAL,
+		.name = "Breath",
+		.expressor = EXPRESSOR_THRESHOLD,
+		.scaleMin = 0,
+		.scaleMax = 0,
+		.unit = "",
+		.scale = {"Empty", "Neutral", "Full"},
+		.damp = 0.8
+	});
+  Being({
+		.type = T_MEASURE,
+		.name = "Eyes",
+		.expressor = EXPRESSOR_CURRENT,
+		.scaleMin = 0,
+		.scaleMax = 0,
+		.unit = "",
+		.scale = {"Closed", "Normal", "Wide Open"},
+		.damp = 0.4
+	});
+	
 //  Being::Create(T_MEASURE, "Humor",
 //		{"Crappy", "Bad", "Medium", "Ok", "Good", "Enthusiastic", "Incredible"});
 //  Being::Create(T_MEASURE, "Tired",
@@ -151,6 +168,6 @@ void makeBrain()
 //		{"Softly", "Moderate", "Hard"}, {}, EXPRESSOR_CURRENT);
 //	Being::Create(T_ACTION, "Sleep",
 //		{}, {}, EXPRESSOR_CURRENT);
-	Being::Bias(3);
-	Being::Axon(10);
+	Being::Bias(2);
+	Being::Axon(30);
 }

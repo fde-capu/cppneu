@@ -19,21 +19,33 @@ void DynamicNeuron::init()
 	ss << Neuron::readable <<
 		"d" << damp;
 	readable = ss.str();
+	debug(readable);
+}
+
+void DynamicNeuron::feed(zo in)
+{
+//	inputValue *= INPUT_DECAY;
+	if (inputValue > threshold)
+		inputValue -= threshold;
+	else
+		inputValue *= damp;
+	inputValue += in;
+	zoRestrain(inputValue);
 }
 
 void DynamicNeuron::tick()
 {
 	Neuron::tick();
-	if (inputValue >= threshold)
+	if (inputValue > threshold)
 	{
-		force = (inputValue - threshold) * (1.0 - damp);
-		threshold += force;
+		force = (inputValue - threshold);
+		threshold += force * (1.0 - damp);
 	}
 	else
 	{
 		threshold -= 
 			((threshold - originalThreshold)
-			 * force);
+			 * force) * (1.0 - damp);
 		outputValue = 0.0;
 	}
 	zoRestrain(threshold, originalThreshold, 1.0);
