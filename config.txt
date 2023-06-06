@@ -1,3 +1,3 @@
-n Heart v t 0:260:bpm
-b 2
-a 3
+n Heart v t 0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper 0.99
+b 1
+a 1

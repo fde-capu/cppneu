@@ -146,6 +146,11 @@ size_t readSizeT(const std::string& l, size_t i)
 		return std::atoi(readQuoted(l, i).c_str());
 }
 
+zo readZO(const std::string&l, size_t i)
+{
+	return std::stof(readQuoted(l, i).c_str());
+}
+
 std::vector<t_config> g_conf = {};
 
 t_config g_default_set =
@@ -156,7 +161,8 @@ t_config g_default_set =
 		.scaleMin = 0,
 		.scaleMax = 0,
 		.unit = "",
-		.scale = {}
+		.scale = {},
+		.damp = 0.5,
 };
 
 t_config g_bias_set =
@@ -211,7 +217,23 @@ void ifLooksLikeScale(const std::string& s, int& scaleMin, int& scaleMax, std::s
 	scaleMin = readSizeT(s, min);
 	scaleMax = readSizeT(s, max);
 	unit = readQuoted(s, u);
-	std::cout << "AAA " << scaleMin << " - " << scaleMax << " - " << unit << "--- ";
+	return;
+}
+
+void ifLooksLikeDamp(const std::string& s, zo& damp)
+{
+	size_t dot = 0;
+	for (size_t i = 0; i < s.length(); i++)
+	{
+		if (s.at(i) == '.')
+			dot++;
+		else if (s.at(i) >= '0' && s.at(i) <= '9')
+			continue;
+		else
+			return;
+	}
+	if (dot != 1) return;
+	damp = readZO(s, 0);
 }
 
 void parse(const std::string& l)
@@ -222,6 +244,8 @@ void parse(const std::string& l)
 	int scaleMin = g_default_set.scaleMin;
 	int scaleMax = g_default_set.scaleMax;
 	std::string unit = g_default_set.unit;
+	std::vector<std::string> scale = g_default_set.scale;
+	zo damp = g_default_set.damp;
 
 	std::string make;
 
@@ -239,10 +263,12 @@ void parse(const std::string& l)
 		}
 		if (spl[i].length() > 1)
 		{
-			if (!name.length()) name = spl[i];
-	std::cout << "BBB  " << scaleMin << " - " << scaleMax << " - " << unit << "--- ";
+			if (!name.length())
+				name = spl[i];
+			else
+				scale.push_back(spl[i]);
 			ifLooksLikeScale(spl[i], scaleMin, scaleMax, unit);
-	std::cout << "CCC " << scaleMin << " - " << scaleMax << " - " << unit << "--- ";
+			ifLooksLikeDamp(spl[i], damp);
 		}
 	}
 
@@ -255,8 +281,8 @@ void parse(const std::string& l)
 			.scaleMin = scaleMin,
 			.scaleMax = scaleMax,
 			.unit = unit,
-			.scale = {"Frozen", "Slow", "Normal", "Peaced", "Accelerated", "Fast", "Hyper"},
-			.damp = 0.99
+			.scale = scale,
+			.damp = damp,
 		});
 	}
 

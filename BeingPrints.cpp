@@ -141,6 +141,7 @@ void Being::printAsciiBar()
 			}
 		}
 		printw("%c ", barMap.at(7));
+		printw("damp %f ", damp);
 	}
 	if (displayBars & 2)
 	{
