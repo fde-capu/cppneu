@@ -189,7 +189,7 @@ std::vector<std::string> readSplit(const std::string& l)
 	return o;
 }
 
-void ifLooksLikeScale(const std::string& s, int& scaleMin, int& scaleMax, std::string& unit)
+bool looksLikeScale(const std::string& s, int& scaleMin, int& scaleMax, std::string& unit)
 {
 	size_t div = 0;
 	size_t min = 0;
@@ -209,14 +209,14 @@ void ifLooksLikeScale(const std::string& s, int& scaleMin, int& scaleMax, std::s
 		{
 			if (!u && div == 2)
 				u = i;
-			else if (!u) return;
+			else if (!u) return false;
 		}
 	}
-	if (!u || !max) return;
+	if (!u || !max) return false;
 	scaleMin = readSizeT(s, min);
 	scaleMax = readSizeT(s, max);
 	unit = readQuoted(s, u);
-	return;
+	return true;
 }
 
 void ifLooksLikeDamp(const std::string& s, zo& damp)
@@ -254,29 +254,32 @@ void parse(const std::string& l)
 	{
 		if (spl[i].length() == 1)
 		{
-			if (spl[i] == "n") make = "neuron";
-			if (spl[i] == "a") make = make != "" ? make : "axon";
-			if (spl[i] == "a") type = make != "" ? T_ACTION : type;
+			if (spl[i] == "a") type = T_ACTION;
 			if (spl[i] == "b") make = "bias";
-			if (spl[i] == "v") type = T_VITAL;
-			if (spl[i] == "p") type = T_PHYSICAL;
-			if (spl[i] == "m") type = T_MEASURE;
-			if (spl[i] == "t") expressor = EXPRESSOR_THRESHOLD;
-			if (spl[i] == "o") expressor = EXPRESSOR_ORIGINAL_THRESHOLD;
 			if (spl[i] == "c") expressor = EXPRESSOR_CURRENT;
+			if (spl[i] == "m") type = T_MEASURE;
+			if (spl[i] == "n") make = "neuron";
+			if (spl[i] == "o") expressor = EXPRESSOR_ORIGINAL_THRESHOLD;
+			if (spl[i] == "p") type = T_PHYSICAL;
+			if (spl[i] == "s") expressor = EXPRESSOR_THRESHOLD_SHORT;
+			if (spl[i] == "t") expressor = EXPRESSOR_THRESHOLD;
+			if (spl[i] == "v") type = T_VITAL;
+			if (spl[i] == "x") make = "axon";
 		}
 		if (spl[i].length() > 1)
 		{
 			if (!name.length())
 				name = spl[i];
 			else
-				scale.push_back(spl[i]);
-			ifLooksLikeScale(spl[i], scaleMin, scaleMax, unit);
-			ifLooksLikeDamp(spl[i], damp);
+			{
+				if (!looksLikeScale(spl[i], scaleMin, scaleMax, unit))
+					scale.push_back(spl[i]);
+				ifLooksLikeDamp(spl[i], damp);
+			}
 		}
 	}
 
-	if (make == "neuron")
+	if (make == "" || make == "neuron")
 	{
 		g_conf.push_back({
 			.type = type,

@@ -233,7 +233,10 @@ std::string Being::printDescription(bool silent)
 
 	getExpressor = expressor == EXPRESSOR_CURRENT ? inputValue :
 								expressor == EXPRESSOR_THRESHOLD ? threshold :
-								Neuron::originalThreshold;
+								expressor == EXPRESSOR_ORIGINAL_THRESHOLD ? originalThreshold :
+								expressor == EXPRESSOR_THRESHOLD_SHORT ?
+									(threshold - originalThreshold) / (1.0 - originalThreshold)
+								: 0.0;
 	if (outputValue)
 		ss << "* ";
 	else
