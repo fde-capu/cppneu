@@ -1,8 +1,6 @@
 #include "header.hpp"
 #include "Being.hpp"
 
-void makeBrain();
-
 static bool g_showDebug = false;
 static bool g_quit = false;
 static bool g_running = false;
@@ -36,7 +34,7 @@ static std::map<char, DescriptionFunction> g_menu = {
 	{'o', {.description = "outs", .functionPtr = &Being::toggleDisplayOuts}},
 	{'x', {.description = "axons", .functionPtr = &Being::toggleDisplayAxons}},
 	{'i', {.description = "bias bars", .functionPtr = &Being::toggleDisplayBiasBars}},
-	{' ', {.description = "new", .functionPtr = &makeBrain}},
+//	{' ', {.description = "new", .functionPtr = &makeBrain}},
 };
 
 std::string g_debugString("");
@@ -214,6 +212,7 @@ void ifLooksLikeScale(const std::string& s, int& scaleMin, int& scaleMax, std::s
 			else if (!u) return;
 		}
 	}
+	if (!u || !max) return;
 	scaleMin = readSizeT(s, min);
 	scaleMax = readSizeT(s, max);
 	unit = readQuoted(s, u);
@@ -247,7 +246,7 @@ void parse(const std::string& l)
 	std::vector<std::string> scale = g_default_set.scale;
 	zo damp = g_default_set.damp;
 
-	std::string make;
+	std::string make = "";
 
 	std::vector<std::string> spl = readSplit(l);
 
@@ -256,10 +255,15 @@ void parse(const std::string& l)
 		if (spl[i].length() == 1)
 		{
 			if (spl[i] == "n") make = "neuron";
-			if (spl[i] == "a") make = "axon";
+			if (spl[i] == "a") make = make != "" ? make : "axon";
+			if (spl[i] == "a") type = make != "" ? T_ACTION : type;
 			if (spl[i] == "b") make = "bias";
 			if (spl[i] == "v") type = T_VITAL;
+			if (spl[i] == "p") type = T_PHYSICAL;
+			if (spl[i] == "m") type = T_MEASURE;
 			if (spl[i] == "t") expressor = EXPRESSOR_THRESHOLD;
+			if (spl[i] == "o") expressor = EXPRESSOR_ORIGINAL_THRESHOLD;
+			if (spl[i] == "c") expressor = EXPRESSOR_CURRENT;
 		}
 		if (spl[i].length() > 1)
 		{
@@ -318,80 +322,16 @@ void loadConf(const char* u_fn)
 		hard_trim(line);
 		if (!line.length()) continue;
 		parse(line);
-//		_content += line + "\n";
-//		printw("%s\n", line.c_str());
-		std::cout << "->" << line << "<-" << std::endl << "\r";
 	}
-	refresh();
 	for (size_t i = 0; i < g_conf.size(); i++)
-	{
 		(Being(g_conf[i]));
-	}
 }
 
 int main() {
 	prepare();
 	Being::reset();
 	loadConf("config.txt");
-//	makeBrain();
 	run();
 	destroy();
 	return 0;
-}
-
-void makeBrain()
-{
-  Being({
-		.type = T_VITAL,
-		.name = "Heart",
-		.expressor = EXPRESSOR_THRESHOLD,
-		.scaleMin = 0,
-		.scaleMax = 260,
-		.unit = "bpm",
-		.scale = {"Frozen", "Slow", "Normal", "Peaced", "Accelerated", "Fast", "Hyper"},
-		.damp = 0.99
-	});
-	Being({
-		.type = T_PHYSICAL,
-		.name = "Nose",
-		.expressor = EXPRESSOR_ORIGINAL_THRESHOLD,
-		.scaleMin = 0,
-		.scaleMax = 0,
-		.unit = "",
-		.scale = {"Short", "Medium", "Long"},
-		.damp = 1.0
-	});
-	Being({
-		.type = T_VITAL,
-		.name = "Breath",
-		.expressor = EXPRESSOR_THRESHOLD,
-		.scaleMin = 0,
-		.scaleMax = 0,
-		.unit = "",
-		.scale = {"Empty", "Neutral", "Full"},
-		.damp = 0.8
-	});
-  Being({
-		.type = T_MEASURE,
-		.name = "Eyes",
-		.expressor = EXPRESSOR_CURRENT,
-		.scaleMin = 0,
-		.scaleMax = 0,
-		.unit = "",
-		.scale = {"Closed", "Normal", "Wide Open"},
-		.damp = 0.4
-	});
-	
-//  Being::Create(T_MEASURE, "Humor",
-//		{"Crappy", "Bad", "Medium", "Ok", "Good", "Enthusiastic", "Incredible"});
-//  Being::Create(T_MEASURE, "Tired",
-//		{}, {}, EXPRESSOR_CURRENT);
-//	Being::Create(T_ACTION, "Drop",
-//		{}, {}, EXPRESSOR_CURRENT);
-//	Being::Create(T_ACTION, "Clench",
-//		{"Softly", "Moderate", "Hard"}, {}, EXPRESSOR_CURRENT);
-//	Being::Create(T_ACTION, "Sleep",
-//		{}, {}, EXPRESSOR_CURRENT);
-	Being::Bias(2);
-	Being::Axon(30);
 }

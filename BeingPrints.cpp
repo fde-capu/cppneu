@@ -47,13 +47,6 @@ void Being::printWantedActions()
 	printw("\n");
 }
 
-void Being::printAllBars()
-{
-	printw("[[%d]]\n", displayBars);
-	for (auto& being : table)
-		being.printAsciiBar();
-}
-
 void Being::printAllAxons()
 {
 		for (auto& being : table)
@@ -102,6 +95,25 @@ void Being::printCharacter()
 	printw("%c", shadowGray.at(scaledOriginalThreshold));
 }
 
+void Being::printAllBars()
+{
+	if (!displayBars) return;
+	printw("%u [ ", displayBars);
+	if (displayBars & DISPLAY_BAR)
+		printw("bar ");
+	if (displayBars & DISPLAY_CHARACTER)
+		printw("char ");
+	if (displayBars & DISPLAY_NUMBERS)
+		printw("num ");
+	if (displayBars & DISPLAY_DESCRIPTION)
+		printw("desc ");
+
+	printw("]\n");
+
+	for (auto& being : table)
+		being.printAsciiBar();
+}
+
 void Being::printAsciiBar()
 {
 	static std::string barMap("[ ,.;:!]");
@@ -115,7 +127,7 @@ void Being::printAsciiBar()
 	size_t scaledThreshold = static_cast<int>(threshold * scaleFactor);
 	size_t scaledOriginalThreshold = static_cast<int>(originalThreshold * scaleFactor);
 
-	if (displayBars & 1)
+	if (displayBars & DISPLAY_BAR)
 	{
 		printw("%u %c", UID, barMap.at(0));
 		for (size_t i = 0; i < length; i++) {
@@ -141,19 +153,18 @@ void Being::printAsciiBar()
 			}
 		}
 		printw("%c ", barMap.at(7));
-		printw("damp %f ", damp);
 	}
-	if (displayBars & 2)
+	if (displayBars & DISPLAY_CHARACTER)
 	{
 		printw(" ");
 		printCharacter();
 	}
-	if (displayBars & 4)
+	if (displayBars & DISPLAY_NUMBERS)
 	{
 		printw(" ");
 		printNumbers();
 	}
-	if (displayBars & 8)
+	if (displayBars & DISPLAY_DESCRIPTION)
 	{
 		printw(" ");
 		printDescription();
@@ -263,8 +274,8 @@ void Being::toggleDisplayVital() { displayVital = !displayVital; }
 void Being::toggleDisplayAction() { displayAction = !displayAction; }
 void Being::toggleDisplayMeasure() { displayMeasure = !displayMeasure; }
 void Being::toggleDisplayActionResolution() { displayActionResolution = !displayActionResolution; }
-void Being::toggleDisplayBarsUp() { displayBars++; }
-void Being::toggleDisplayBarsDown() { displayBars--; }
+void Being::toggleDisplayBarsUp() { displayBars++; if (displayBars > DISPLAY_ALL) displayBars = 0; }
+void Being::toggleDisplayBarsDown() { if (!displayBars) displayBars = DISPLAY_ALL; else displayBars--; }
 void Being::toggleDisplayOuts() { displayOuts = !displayOuts; }
 void Being::toggleDisplayAxons() { displayAxons = !displayAxons; }
 void Being::toggleDisplayBiasBars() { displayBiasBars = !displayBiasBars; }
