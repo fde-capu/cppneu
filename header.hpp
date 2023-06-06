@@ -7,6 +7,7 @@
 # include <thread>
 # include <string>
 # include "defines.hpp"
+# include <fstream>
 
 void debug(std::string s);
 

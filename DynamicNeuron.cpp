@@ -24,11 +24,9 @@ void DynamicNeuron::init()
 
 void DynamicNeuron::feed(zo in)
 {
-//	inputValue *= INPUT_DECAY;
 	if (inputValue > threshold)
 		inputValue -= threshold;
-	else
-		inputValue *= damp;
+	inputValue *= damp;
 	inputValue += in;
 	zoRestrain(inputValue);
 }

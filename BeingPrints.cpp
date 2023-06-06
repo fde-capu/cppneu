@@ -120,7 +120,7 @@ void Being::printAsciiBar()
 		printw("%u %c", UID, barMap.at(0));
 		for (size_t i = 0; i < length; i++) {
 			if (i == scaledOriginalThreshold && i == scaledThreshold) {
-				if (threshold == originalThreshold && outputValue)
+				if (outputValue)
 					printw("%c", barMap.at(6));
 				else
 					printw("%c", barMap.at(4));
