@@ -41,8 +41,8 @@ g_menu_tree =
 }},
 { "bars", {
 	{'B', {"back", &menuInit}},
-  {'n', {"numbers", &printDebug}},
-  {'b', {"bars", &printDebug}},
+  {'n', {"numbers", &toggleShowMenu}},
+  {'b', {"bars", &toggleShowMenu}},
 }}
 };
 
@@ -68,6 +68,7 @@ void printDebug()
 
 void printMenu()
 {
+	if (!g_showMenu) return;
 	printw(":");
 	for (const auto& kv : g_menu) {
 		printw("%c:%s ", kv.first, kv.second.description.c_str());

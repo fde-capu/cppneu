@@ -13,8 +13,7 @@ void run()
 			Being::processAll();
 
 			clear();
-			if (g_showMenu)
-				printMenu();
+			printMenu();
 			if (g_showDebug)
 				printDebug();
 			Being::printScreen();
