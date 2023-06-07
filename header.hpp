@@ -1,14 +1,11 @@
 #ifndef HEADER_HPP
 # define HEADER_HPP
 
-# include <string>
-# include <map>
-# include <ncurses.h>
-# include <thread>
-# include <string>
-# include "defines.hpp"
-# include <fstream>
-
-void debug(std::string s);
+# define CONFIG_FILE "config.md"
+# define MEMORY_TYPE_SIZE unsigned int
+# define zo float
+# define LEADING_ZEROS 1
+# define ASCII_BAR_LENGTH 32
+# define STEP_MS 100
 
 #endif

@@ -5,7 +5,7 @@
 NAME	=	neupp
 ARGS	=	
 SRCS	=	main.cpp Being.cpp randoms.cpp BeingPrints.cpp helpers.cpp \
-				Neuron.cpp DynamicNeuron.cpp
+				Neuron.cpp DynamicNeuron.cpp menu.cpp parser.cpp
 HEAD	=	Makefile header.hpp Being.hpp defines.hpp randoms.hpp \
 				Neuron.hpp DynamicNeuron.hpp
 SHELL	=	/bin/sh

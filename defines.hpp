@@ -1,13 +1,12 @@
 #ifndef DEFINES_HPP
 # define DEFINES_HPP
 
-# define MEMORY_TYPE_SIZE unsigned int
-# define zo float
-# define LEADING_ZEROS 1
-# define ASCII_BAR_LENGTH 32
-# define STEP_MS 100
-
-# define INPUT_DECAY 0.333
+# include <string>
+# include <map>
+# include <ncurses.h>
+# include <thread>
+# include <string>
+# include <fstream>
 
 # define T_PHYSICAL 1
 # define T_VITAL 2
@@ -26,5 +25,18 @@
 # define DISPLAY_NUMBERS 4
 # define DISPLAY_DESCRIPTION 8
 # define DISPLAY_ALL DISPLAY_BAR + DISPLAY_CHARACTER + DISPLAY_NUMBERS + DISPLAY_DESCRIPTION
+
+static bool g_quit = false;
+static bool g_running = false;
+static bool g_showMenu = true;
+static bool g_showDebug = false;
+
+void printMenu();
+void printDebug();
+void dealKeyPress(int ch);
+void loadConf(const char* u_fn);
+void doQuit();
+void debug(std::string s);
+
 
 #endif
