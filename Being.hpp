@@ -73,6 +73,7 @@ class Being: public virtual DynamicNeuron {
 		static void printAllDescriptions();
 		static void printWantedActions();
 
+		static void toggleBit(int);
 		static void toggleDisplayHeader();
 		static void toggleDisplayCharacters();
 		static void toggleDisplayPhysical();

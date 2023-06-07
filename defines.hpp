@@ -37,6 +37,6 @@ void dealKeyPress(int ch);
 void loadConf(const char* u_fn);
 void doQuit();
 void debug(std::string s);
-
+void menuInit();
 
 #endif

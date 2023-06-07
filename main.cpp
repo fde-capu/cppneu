@@ -49,6 +49,7 @@ int main() {
 	prepare();
 	Being::reset();
 	loadConf(CONFIG_FILE);
+	menuInit();
 	run();
 	destroy();
 	return 0;

@@ -114,6 +114,12 @@ void Being::printAllBars()
 		being.printAsciiBar();
 }
 
+void Being::toggleBit(int bit_value)
+{
+	displayBars += displayBars & bit_value ? -bit_value : bit_value;
+}
+
+
 void Being::printAsciiBar()
 {
 	static std::string barMap("[ ,.;:!]");
