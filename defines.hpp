@@ -28,15 +28,11 @@
 
 static bool g_quit = false;
 static bool g_running = false;
-static bool g_showMenu = true;
 static bool g_showDebug = false;
 
-void printMenu();
 void printDebug();
-void dealKeyPress(int ch);
 void loadConf(const char* u_fn);
 void doQuit();
 void debug(std::string s);
-void menuInit();
 
 #endif

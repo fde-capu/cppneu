@@ -1,5 +1,6 @@
 #include "header.hpp"
 #include "Being.hpp"
+#include "menu.hpp"
 
 void doQuit() { g_quit = true; }
 
