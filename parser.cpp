@@ -1,4 +1,4 @@
-#include "header.hpp"
+#include "defines.hpp"
 #include "Being.hpp"
 #include "helpers.hpp"
 
@@ -25,7 +25,6 @@ t_config g_axon_set =
 		.type = T_AXON,
 };
 
-std::vector<t_config> g_conf = {};
 
 bool looksLikeScale(const std::string& s, int& scaleMin, int& scaleMax, std::string& unit)
 {
@@ -148,6 +147,7 @@ void parse(const std::string& l)
 
 void loadConf(const char* u_fn)
 {
+	debug("HERE5 " + std::to_string(g_conf.size()));
 	std::string fn(u_fn);
 	std::fstream file_read;
 	file_read.open(u_fn, std::ios::in);
@@ -164,6 +164,5 @@ void loadConf(const char* u_fn)
 		if (!line.length()) continue;
 		parse(line);
 	}
-	for (size_t i = 0; i < g_conf.size(); i++)
-		(Being(g_conf[i]));
+	debug("HERE2 " + std::to_string(g_conf.size()));
 }

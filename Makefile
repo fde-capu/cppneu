@@ -1,6 +1,6 @@
-#ifndef OUTPUT
-#.SILENT:
-#endif
+ifndef OUTPUT
+.SILENT:
+endif
 
 NAME	=	neupp
 ARGS	=	

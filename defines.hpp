@@ -1,12 +1,14 @@
 #ifndef DEFINES_HPP
 # define DEFINES_HPP
 
+# include "header.hpp"
 # include <string>
 # include <map>
 # include <ncurses.h>
 # include <thread>
 # include <string>
 # include <fstream>
+# include <vector>
 
 # define T_PHYSICAL 1
 # define T_VITAL 2
@@ -26,9 +28,21 @@
 # define DISPLAY_DESCRIPTION 8
 # define DISPLAY_ALL DISPLAY_BAR + DISPLAY_CHARACTER + DISPLAY_NUMBERS + DISPLAY_DESCRIPTION
 
-static bool g_quit = false;
-static bool g_running = false;
-static bool g_showDebug = false;
+typedef struct TypeBeingConfig
+{
+	int type;
+	std::string name;
+	int expressor;
+	int scaleMin;
+	int scaleMax;
+	std::string unit;
+	std::vector<std::string> scale;
+	zo damp;
+} t_config;
+
+extern bool g_quit;
+extern bool g_running;
+extern std::vector<t_config> g_conf;
 
 void printDebug();
 void loadConf(const char* u_fn);

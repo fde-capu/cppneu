@@ -8,4 +8,6 @@
 # define ASCII_BAR_LENGTH 32
 # define STEP_MS 100
 
+static bool g_showDebug;
+
 #endif

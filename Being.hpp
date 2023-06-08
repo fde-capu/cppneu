@@ -10,18 +10,6 @@
 # include "DynamicNeuron.hpp"
 # include "header.hpp"
 
-typedef struct TypeBeingConfig
-{
-	int type;
-	std::string name;
-	int expressor;
-	int scaleMin;
-	int scaleMax;
-	std::string unit;
-	std::vector<std::string> scale;
-	zo damp;
-} t_config;
-
 class Being: public virtual DynamicNeuron {
 	public:
 		static void Axon(int amount = 1);

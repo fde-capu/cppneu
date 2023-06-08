@@ -98,18 +98,6 @@ void Being::printCharacter()
 void Being::printAllBars()
 {
 	if (!displayBars) return;
-
-//	printw("%u [ ", displayBars);
-//	if (displayBars & DISPLAY_BAR)
-//		printw("bar ");
-//	if (displayBars & DISPLAY_CHARACTER)
-//		printw("char ");
-//	if (displayBars & DISPLAY_NUMBERS)
-//		printw("num ");
-//	if (displayBars & DISPLAY_DESCRIPTION)
-//		printw("desc ");
-//	printw("]\n");
-
 	for (auto& being : table)
 		being.printAsciiBar();
 }
