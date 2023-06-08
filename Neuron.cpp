@@ -4,7 +4,6 @@
 Neuron::Neuron()
 {
 	originalThreshold = randomZeroOne();
-	debug("Aa" + std::to_string(originalThreshold));
 	init();
 }
 

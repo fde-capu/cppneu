@@ -53,12 +53,9 @@ void destroy()
 
 void config(std::string config_file)
 {
-	debug("HERE6 " + std::to_string(g_conf.size()));
 	loadConf(config_file.c_str());
-	debug("HERE7 " + std::to_string(g_conf.size()));
 	for (size_t i = 0; i < g_conf.size(); i++)
 	{
-		debug("---" + g_conf[i].name);
 		(Being(g_conf[i]));
 	}
 }
@@ -66,9 +63,9 @@ void config(std::string config_file)
 int main() {
 	prepare();
 	Being::reset();
-	debug("HERE3 " + std::to_string(g_conf.size()));
 	config(CONFIG_FILE);
-	debug("HERE4 " + std::to_string(g_conf.size()));
+	std::cout << "BEING " << Being::readable();
+	std::cout << std::endl;
 	run();
 	destroy();
 	return 0;

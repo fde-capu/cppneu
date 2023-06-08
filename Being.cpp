@@ -107,7 +107,8 @@ void Being::readAxons() {
 	);
 }
 
-void Being::process() {
+void Being::process()
+{
 	actionScore *= 0.99;
 	if (actionScore < 0.001)
 		bestAction = "-";
@@ -118,7 +119,8 @@ void Being::process() {
 		extraFiringProcess();
 }
 
-void Being::processAll() {
+void Being::processAll()
+{
 		actions.clear();
 		for (auto& being : table)
 			being.process();
@@ -185,3 +187,8 @@ zo Being::actionScore = 0.0;
 std::string Being::bestAction = "";
 std::vector<zo> Being::out;
 std::vector<zo> Being::axonOut;
+
+const std::string Being::readable()
+{
+	return "Some string";
+}

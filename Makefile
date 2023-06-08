@@ -25,6 +25,7 @@ $(NAME):	$(OBJS)
 	$(CC) $(CCFLAGS) $(OBJS) -o $(NAME) $(CCLINKS) -lncurses
 $(OBJS):	%.o : %.cpp $(HEAD)
 	$(CC) $(CCFLAGS) -o $@ -c $< $(CCLINKS)
+	echo -n "."
 clean:
 	-rm -f $(OBJS)
 fclean:		clean

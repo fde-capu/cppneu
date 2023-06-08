@@ -4,7 +4,6 @@
 DynamicNeuron::DynamicNeuron(zo u_damp)
 : Neuron()
 {
-	debug("Ba" + std::to_string(originalThreshold));
 	damp = u_damp;
 	threshold = originalThreshold;
 	init();

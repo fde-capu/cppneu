@@ -102,6 +102,8 @@ class Being: public virtual DynamicNeuron {
 		bool isOutBlockVisible();
 		bool hasInput();
 		bool hasOutput();
+
+		static const std::string readable();
 };
 
 #endif
