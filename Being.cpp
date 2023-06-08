@@ -36,7 +36,9 @@ void Being::Axon(int amount)
 }
 
 Being::Being(const t_config& u_)
-	: DynamicNeuron(u_.damp),
+	:
+	DynamicNeuron(u_.damp),
+	MetaNeuron(u_.damp),
 	type(u_.type),
 	name(u_.name),
 	expressor(u_.expressor),
@@ -45,7 +47,7 @@ Being::Being(const t_config& u_)
 	unit(u_.unit),
 	scale(u_.scale)
 {
-	debug("C" + std::to_string(originalThreshold));
+	debug("Being ");
 
 	UID = Being::g_Being_UID++;
 	if (type == T_AXON)
@@ -99,7 +101,7 @@ void Being::extraFiringProcess() {
 }
 
 void Being::readAxons() {
-	DynamicNeuron::feed(
+	feed(
 		type == T_BIAS ?
 			randomZeroOne()
 		:
@@ -113,8 +115,8 @@ void Being::process()
 	if (actionScore < 0.001)
 		bestAction = "-";
 	readAxons();
-	DynamicNeuron::tick();
-	Being::out[UID] = outputValue;
+	tick();
+	out[UID] = outputValue;
 	if (outputValue)
 		extraFiringProcess();
 }
@@ -188,7 +190,16 @@ std::string Being::bestAction = "";
 std::vector<zo> Being::out;
 std::vector<zo> Being::axonOut;
 
-const std::string Being::readable()
+const std::string Being::to_string()
 {
-	return "Some string";
+	std::stringstream ss;
+	for (auto& being : table)
+	{
+		ss << being.readable();
+	}
+	return ss.str();
+}
+
+std::string Being::readable() const {
+	return DynamicNeuron::readable() + ", " + Neuron::readable();
 }

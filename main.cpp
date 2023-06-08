@@ -64,7 +64,7 @@ int main() {
 	prepare();
 	Being::reset();
 	config(CONFIG_FILE);
-	std::cout << "BEING " << Being::readable();
+	std::cout << "BEING " << Being::to_string();
 	std::cout << std::endl;
 	run();
 	destroy();

@@ -19,14 +19,10 @@ class DynamicNeuron: public virtual Neuron
 		DynamicNeuron(zo);
 		DynamicNeuron(DynamicNeuron const&);
 		DynamicNeuron& operator= (DynamicNeuron const&);
-		~DynamicNeuron();
 		void feed(zo);
 		void tick();
-		std::string strbin;
-		std::string readable;
-
-	private:
-		void init();
+		virtual std::string readable() const;
+		virtual ~DynamicNeuron();
 };
 
 #endif

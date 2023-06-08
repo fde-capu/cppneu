@@ -4,21 +4,9 @@
 DynamicNeuron::DynamicNeuron(zo u_damp)
 : Neuron()
 {
+	debug("Dyn ");
 	damp = u_damp;
 	threshold = originalThreshold;
-	init();
-}
-
-void DynamicNeuron::init()
-{
-	strbin = Neuron::strbin +
-		tobin(damp);
-
-	std::stringstream ss;
-	ss << Neuron::readable <<
-		"d" << damp;
-	readable = ss.str();
-	debug(readable);
 }
 
 void DynamicNeuron::feed(zo in)
@@ -59,6 +47,11 @@ DynamicNeuron& DynamicNeuron::operator= (DynamicNeuron const & rhs)
 		this->damp = rhs.damp;
 	}
 	return *this;
+}
+
+std::string DynamicNeuron::readable() const
+{
+	return "-Dyn-";
 }
 
 DynamicNeuron::~DynamicNeuron()

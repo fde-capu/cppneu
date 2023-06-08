@@ -7,10 +7,10 @@
 # include "randoms.hpp"
 # include <ncurses.h>
 # include <sstream>
-# include "DynamicNeuron.hpp"
+# include "MetaNeuron.hpp"
 # include "header.hpp"
 
-class Being: public virtual DynamicNeuron {
+class Being: public virtual MetaNeuron {
 	public:
 		static void Axon(int amount = 1);
 		static void Bias(int amount = 1);
@@ -103,7 +103,8 @@ class Being: public virtual DynamicNeuron {
 		bool hasInput();
 		bool hasOutput();
 
-		static const std::string readable();
+		static const std::string to_string();
+		virtual std::string readable() const ;
 };
 
 #endif

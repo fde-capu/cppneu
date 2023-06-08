@@ -147,7 +147,6 @@ void parse(const std::string& l)
 
 void loadConf(const char* u_fn)
 {
-	debug("HERE5 " + std::to_string(g_conf.size()));
 	std::string fn(u_fn);
 	std::fstream file_read;
 	file_read.open(u_fn, std::ios::in);
@@ -164,5 +163,4 @@ void loadConf(const char* u_fn)
 		if (!line.length()) continue;
 		parse(line);
 	}
-	debug("HERE2 " + std::to_string(g_conf.size()));
 }

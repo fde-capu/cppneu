@@ -3,17 +3,8 @@
 
 Neuron::Neuron()
 {
+	debug("Neu ");
 	originalThreshold = randomZeroOne();
-	init();
-}
-
-void Neuron::init()
-{
-	strbin = tobin(originalThreshold);
-
-	std::stringstream ss;
-	ss << "N" << originalThreshold;
-	readable = ss.str();
 }
 
 void Neuron::tick()
@@ -38,6 +29,11 @@ Neuron& Neuron::operator= (Neuron const & rhs)
 		this->originalThreshold = rhs.originalThreshold;
 	}
 	return *this;
+}
+
+std::string Neuron::readable() const
+{
+	return "-Neu-";
 }
 
 Neuron::~Neuron()

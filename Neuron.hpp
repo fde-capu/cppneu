@@ -20,13 +20,9 @@ class Neuron
 		Neuron();
 		Neuron(Neuron const&);
 		Neuron& operator= (Neuron const&);
-		~Neuron();
 		void tick();
-		std::string strbin;
-		std::string readable;
-
-	private:
-		void init();
+		virtual std::string readable() const;
+		virtual ~Neuron();
 };
 
 #endif
