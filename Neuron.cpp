@@ -33,7 +33,7 @@ Neuron& Neuron::operator= (Neuron const & rhs)
 
 std::string Neuron::readable() const
 {
-	return "-Neu-";
+	return "o" + std::to_string(originalThreshold) + ",";
 }
 
 Neuron::~Neuron()

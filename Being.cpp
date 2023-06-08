@@ -4,41 +4,10 @@ size_t Being::count_being = 0;
 size_t Being::count_axon = 0;
 size_t Being::count_bias = 0;
 
-void Being::Bias(int amount)
-{
-  Being({
-		.type = T_BIAS,
-		.name = "bias",
-		.expressor = EXPRESSOR_CURRENT,
-		.scaleMin = 0,
-		.scaleMax = 0,
-		.unit = "",
-		.scale = {}
-	});
-	if (--amount > 0)
-		Being::Bias(amount);
-}
-
-void Being::Axon(int amount)
-{
-  Being({
-		.type = T_AXON,
-		.name = "",
-		.expressor = EXPRESSOR_CURRENT,
-		.scaleMin = 0,
-		.scaleMax = 0,
-		.unit = "",
-		.scale = {},
-		.damp = 0.0
-	});
-	if (--amount > 0)
-		Being::Axon(amount);
-}
-
 Being::Being(const t_config& u_)
 	:
 	DynamicNeuron(u_.damp),
-	MetaNeuron(u_.damp),
+	TypesNeuron(u_.damp),
 	type(u_.type),
 	name(u_.name),
 	expressor(u_.expressor),
@@ -201,5 +170,5 @@ const std::string Being::to_string()
 }
 
 std::string Being::readable() const {
-	return DynamicNeuron::readable() + ", " + Neuron::readable();
+	return "B[" + TypesNeuron::readable() + "];";
 }

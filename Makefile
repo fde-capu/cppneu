@@ -6,9 +6,9 @@ NAME	=	neupp
 ARGS	=	
 SRCS	=	main.cpp Being.cpp randoms.cpp BeingPrints.cpp helpers.cpp \
 				Neuron.cpp DynamicNeuron.cpp menu.cpp parser.cpp \
-				MetaNeuron.cpp
+				TypesNeuron.cpp
 HEAD	=	Makefile header.hpp Being.hpp defines.hpp randoms.hpp \
-				Neuron.hpp DynamicNeuron.hpp menu.hpp MetaNeuron.hpp
+				Neuron.hpp DynamicNeuron.hpp menu.hpp TypesNeuron.hpp
 SHELL	=	/bin/sh
 CC		=	clang++ -Wfatal-errors -std=c++20 -Wc++20-extensions -pthread
 CCFLAGS	=	-Wall -Werror -Wextra -g

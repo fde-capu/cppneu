@@ -9,10 +9,10 @@
 class DynamicNeuron: public virtual Neuron
 {
 	public:
-		zo threshold = 0.0;
 		zo damp = 0.0;
 
 	public:
+		zo threshold = 0.0;
 		zo force = 0.0;
 
 	public:

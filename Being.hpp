@@ -7,15 +7,11 @@
 # include "randoms.hpp"
 # include <ncurses.h>
 # include <sstream>
-# include "MetaNeuron.hpp"
+# include "TypesNeuron.hpp"
 # include "header.hpp"
 
-class Being: public virtual MetaNeuron {
+class Being: public virtual TypesNeuron {
 	public:
-		static void Axon(int amount = 1);
-		static void Bias(int amount = 1);
-		static void reset();
-
 		size_t UID;
 		int type;
 		std::string name;
@@ -28,6 +24,7 @@ class Being: public virtual MetaNeuron {
 		std::string unit;
 		std::vector<std::string> scale;
 
+		static void reset();
 		static size_t g_Being_UID;
 		static std::vector<Being> table;
 		static std::vector<zo> out;
