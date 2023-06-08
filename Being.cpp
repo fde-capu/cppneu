@@ -7,7 +7,8 @@ size_t Being::count_bias = 0;
 Being::Being(const t_config& u_)
 	:
 	DynamicNeuron(u_.damp),
-	TypesNeuron(u_.type, u_.damp),
+	TypesNeuron(u_.type, randomBeingWithOutput(), 
+		randomBeingWithInput(), u_.damp),
 	name(u_.name),
 	expressor(u_.expressor),
 	scaleMin(u_.scaleMin),
@@ -18,13 +19,6 @@ Being::Being(const t_config& u_)
 	debug("Being ");
 
 	UID = Being::g_Being_UID++;
-
-	if (type == T_AXON)
-	{
-		slotIn = randomBeingWithOutput();
-		slotOut = randomBeingWithInput();
-		multiplyer = randomZeroOne();
-	}
 
 	if (isBeing()) count_being++;
 	if (isAxon()) count_axon++;
@@ -43,6 +37,7 @@ void Being::reset()
 }
 
 size_t Being::randomBeingWithOutput() {
+	if (!size()) return 0;
 	size_t beingI = randomValue<size_t>(0, size() - 1);
 	if (!table[beingI].hasOutput())
 		return randomBeingWithOutput();
@@ -50,6 +45,7 @@ size_t Being::randomBeingWithOutput() {
 }
 
 size_t Being::randomBeingWithInput() {
+	if (!size()) return 0;
 	size_t beingI = randomValue<size_t>(0, size() - 1);
 	if (!table[beingI].hasInput())
 		return randomBeingWithInput();

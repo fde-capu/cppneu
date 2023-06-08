@@ -12,13 +12,16 @@ class TypesNeuron: public virtual DynamicNeuron
 		zo multiplyer;
 
 	public:
+		TypesNeuron(int, size_t, size_t, zo);
+		TypesNeuron(TypesNeuron const&);
+		TypesNeuron& operator= (TypesNeuron const&);
 		bool isBeing();
 		bool isAxon();
 		bool isBias();
-		TypesNeuron(int, zo);
 		bool hasInput();
 		bool hasOutput();
 		virtual std::string readable() const;
+		virtual ~TypesNeuron();
 };
 
 #endif

@@ -36,7 +36,7 @@ void DynamicNeuron::tick()
 	zoRestrain(threshold, originalThreshold, 1.0);
 }
 
-DynamicNeuron::DynamicNeuron(DynamicNeuron const & src)
+DynamicNeuron::DynamicNeuron(DynamicNeuron const& src)
 {	*this = src; }
 
 DynamicNeuron& DynamicNeuron::operator= (DynamicNeuron const & rhs)

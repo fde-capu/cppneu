@@ -16,7 +16,7 @@ class DynamicNeuron: public virtual Neuron
 		zo force = 0.0;
 
 	public:
-		DynamicNeuron(zo);
+		DynamicNeuron(zo = 0.0);
 		DynamicNeuron(DynamicNeuron const&);
 		DynamicNeuron& operator= (DynamicNeuron const&);
 		void feed(zo);
