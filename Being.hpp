@@ -13,12 +13,8 @@
 class Being: public virtual TypesNeuron {
 	public:
 		size_t UID;
-		int type;
 		std::string name;
 		int expressor;
-		size_t slotIn;
-		size_t slotOut;
-		zo multiplyer;
 		int scaleMin;
 		int scaleMax;
 		std::string unit;
@@ -29,10 +25,8 @@ class Being: public virtual TypesNeuron {
 		static std::vector<Being> table;
 		static std::vector<zo> out;
 		static std::vector<zo> axonOut;
-		static std::vector<std::string> actions;
 		static zo actionScore;
 		static std::string bestAction;
-		static zo max();
 
 		static size_t count_being;
 		static size_t count_axon;
@@ -88,17 +82,14 @@ class Being: public virtual TypesNeuron {
 		void printCharacter();
 		void printNumbers();
 		std::string printDescription(bool silent = false);
-		size_t randomBeingWithOutput();
-		size_t randomBeingWithInput();
-		bool isBeing();
-		bool isAxon();
-		bool isBias();
+
 		bool isStatsVisible();
 		bool isBarVisible();
 		bool isCharacterVisible();
 		bool isOutBlockVisible();
-		bool hasInput();
-		bool hasOutput();
+
+		size_t randomBeingWithOutput();
+		size_t randomBeingWithInput();
 
 		static const std::string to_string();
 		virtual std::string readable() const ;

@@ -7,8 +7,7 @@ size_t Being::count_bias = 0;
 Being::Being(const t_config& u_)
 	:
 	DynamicNeuron(u_.damp),
-	TypesNeuron(u_.damp),
-	type(u_.type),
+	TypesNeuron(u_.type, u_.damp),
 	name(u_.name),
 	expressor(u_.expressor),
 	scaleMin(u_.scaleMin),
@@ -19,12 +18,14 @@ Being::Being(const t_config& u_)
 	debug("Being ");
 
 	UID = Being::g_Being_UID++;
+
 	if (type == T_AXON)
 	{
 		slotIn = randomBeingWithOutput();
 		slotOut = randomBeingWithInput();
 		multiplyer = randomZeroOne();
 	}
+
 	if (isBeing()) count_being++;
 	if (isAxon()) count_axon++;
 	if (isBias()) count_bias++;
@@ -92,7 +93,6 @@ void Being::process()
 
 void Being::processAll()
 {
-		actions.clear();
 		for (auto& being : table)
 			being.process();
 		processAxons();
@@ -122,38 +122,8 @@ void Being::processAxons()
 	}
 }
 
-zo Being::max()
-{ return 1.0; }
-
-bool Being::isBeing()
-{ return
-				type == T_PHYSICAL
-		||	type == T_VITAL
-		||	type == T_ACTION
-		||	type == T_MEASURE
-		||	type == T_BIAS
-;}
-
-bool Being::isAxon()
-{ return type == T_AXON; }
-
-bool Being::isBias()
-{ return type == T_BIAS; }
-
-bool Being::hasInput()
-{ return
-				type == T_PHYSICAL
-		||	type == T_VITAL
-		||	type == T_ACTION
-		||	type == T_MEASURE
-;}
-
-bool Being::hasOutput()
-{ return isBeing(); }
-
 size_t Being::g_Being_UID = 0;
 std::vector<Being> Being::table;
-std::vector<std::string> Being::actions;
 zo Being::actionScore = 0.0;
 std::string Being::bestAction = "";
 std::vector<zo> Being::out;

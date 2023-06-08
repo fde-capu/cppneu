@@ -94,3 +94,5 @@ std::vector<std::string> readSplit(const std::string& l)
 	return o;
 }
 
+zo max()
+{ return 1.0; }
