@@ -16,15 +16,13 @@ Being::Being(const t_config& u_)
 		randomBeingWithInput()
 	),
 	MetaNeuron(
-	),
-
-
-	name(u_.name),
-	expressor(u_.expressor),
-	scaleMin(u_.scaleMin),
-	scaleMax(u_.scaleMax),
-	unit(u_.unit),
-	scale(u_.scale)
+		u_.name,
+		u_.expressor,
+		u_.scaleMin,
+		u_.scaleMax,
+		u_.unit,
+		u_.scale
+	)
 {
 	debug("Being ");
 

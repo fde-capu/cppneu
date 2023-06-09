@@ -13,12 +13,6 @@
 class Being: public virtual MetaNeuron {
 	public:
 		size_t UID;
-		std::string name;
-		int expressor;
-		int scaleMin;
-		int scaleMax;
-		std::string unit;
-		std::vector<std::string> scale;
 
 		static void reset();
 		static size_t g_Being_UID;

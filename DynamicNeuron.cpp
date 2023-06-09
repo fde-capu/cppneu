@@ -1,5 +1,4 @@
 #include "DynamicNeuron.hpp"
-#include <iostream>
 
 DynamicNeuron::DynamicNeuron(zo u_damp)
 {

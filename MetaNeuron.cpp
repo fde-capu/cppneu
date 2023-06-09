@@ -1,6 +1,20 @@
 #include "MetaNeuron.hpp"
 
-MetaNeuron::MetaNeuron()
+MetaNeuron::MetaNeuron(
+	std::string u_name,
+	int u_expressor,
+	int u_scaleMin,
+	int u_scaleMax,
+	std::string u_unit,
+	std::vector<std::string> u_scale
+)
+:
+	name(u_name),
+	expressor(u_expressor),
+	scaleMin(u_scaleMin),
+	scaleMax(u_scaleMax),
+	unit(u_unit),
+	scale(u_scale)
 {
 	debug("Meta ");
 }
