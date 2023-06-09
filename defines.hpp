@@ -1,6 +1,9 @@
 #ifndef DEFINES_HPP
 # define DEFINES_HPP
 
+# define LAST_NEURON_IMPLEMENTATION "MetaNeuron.hpp"
+# define NEURON MetaNeuron
+
 # include "header.hpp"
 # include <string>
 # include <map>

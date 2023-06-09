@@ -142,5 +142,5 @@ const std::string Being::to_string()
 }
 
 std::string Being::readable() const {
-	return "{" + MetaNeuron::readable() + "}";
+	return "{" + NEURON::readable() + "}";
 }

@@ -7,10 +7,10 @@
 # include "randoms.hpp"
 # include <ncurses.h>
 # include <sstream>
-# include "MetaNeuron.hpp"
+# include LAST_NEURON_IMPLEMENTATION
 # include "header.hpp"
 
-class Being: public virtual MetaNeuron {
+class Being: public virtual NEURON {
 	public:
 		static void reset();
 		static std::vector<Being> table;
