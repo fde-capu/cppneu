@@ -26,11 +26,21 @@
 # define EXPRESSOR_ORIGINAL_THRESHOLD 3
 # define EXPRESSOR_THRESHOLD_SHORT 4
 
-# define DISPLAY_BAR 1
-# define DISPLAY_CHARACTER 2
-# define DISPLAY_NUMBERS 4
-# define DISPLAY_DESCRIPTION 8
-# define DISPLAY_ALL DISPLAY_BAR + DISPLAY_CHARACTER + DISPLAY_NUMBERS + DISPLAY_DESCRIPTION
+# define DISPLAY_BAR (1 << 1)
+# define DISPLAY_CHARACTER (1 << 2)
+# define DISPLAY_NUMBERS (1 << 3)
+# define DISPLAY_DESCRIPTION (1 << 4)
+# define DISPLAY_OUTS (1 << 5)
+# define DISPLAY_AXONS (1 << 6)
+# define DISPLAY_BIAS (1 << 7)
+# define DISPLAY_HEADER (1 << 8)
+# define DISPLAY_CHARS (1 << 9)
+# define DISPLAY_PHYSICAL (1 << 10)
+# define DISPLAY_VITAL (1 << 11)
+# define DISPLAY_ACTION (1 << 12)
+# define DISPLAY_MEASURES (1 << 13)
+# define DISPLAY_WANT (1 << 14)
+# define DISPLAY_BAR_ALL (1 << 15)
 
 typedef struct TypeBeingConfig
 {

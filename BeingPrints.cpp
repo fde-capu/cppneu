@@ -1,41 +1,37 @@
 #include "Being.hpp"
 #include "helpers.hpp"
 
-bool Being::displayHeader = true;
-bool Being::displayCharacters = true;
-bool Being::displayPhysical = false;
-bool Being::displayVital = false;
-bool Being::displayAction = false;
-bool Being::displayMeasure = false;
-bool Being::displayActionResolution = true;
-int Being::displayBars = 11;
-bool Being::displayOuts = false;
-bool Being::displayAxons = false;
-bool Being::displayBiasBars = false;
+int Being::displayBars = \
+	DISPLAY_BAR + \
+	DISPLAY_DESCRIPTION + \
+	DISPLAY_AXONS + \
+	DISPLAY_BIAS + \
+	DISPLAY_HEADER + \
+	DISPLAY_CHARS + \
+	DISPLAY_WANT + \
+	DISPLAY_BAR_ALL \
+;
 
 void Being::printScreen()
 {
-	if (displayHeader)
-		Being::printHeader();
-	if (displayCharacters)
-		Being::printAllCharacters();
+	Being::printHeader();
+	Being::printAllCharacters();
 	Being::printAllDescriptions();
 	Being::printAllBars();
-	if (displayOuts)
-		Being::printOuts();
-	if (displayAxons)
-		Being::printAllAxons();
-	if (displayActionResolution)
-		Being::printWantedActions();
+	Being::printOuts();
+	Being::printAllAxons();
+	Being::printWantedActions();
 }
 
 void Being::printHeader()
 {
+	if (!(displayBars & DISPLAY_HEADER)) return ;
 	printw("%dN %dA %dB\n", count_being, count_axon, count_bias);
 }
 
 void Being::printAllCharacters()
 {
+	if (!(displayBars & DISPLAY_CHARS)) return ;
 	for (auto& being : table)
 			being.printCharacter();
 	printw("\n");
@@ -43,12 +39,14 @@ void Being::printAllCharacters()
 
 void Being::printWantedActions()
 {
+	if (!(displayBars & DISPLAY_WANT)) return ;
 	printw("%s", bestAction.c_str());
 	printw("\n");
 }
 
 void Being::printAllAxons()
 {
+	if (!(displayBars & DISPLAY_AXONS)) return ;
 		for (auto& being : table)
 		{
 			if (being.isAxon())
@@ -62,6 +60,7 @@ void Being::printAllAxons()
 
 void Being::printOuts()
 {
+	if (!(displayBars & DISPLAY_OUTS)) return;
 		printw("|");
 		for (auto& being : table)
 		{
@@ -97,7 +96,7 @@ void Being::printCharacter()
 
 void Being::printAllBars()
 {
-	if (!displayBars) return;
+	if (!displayBars || !(displayBars & DISPLAY_BAR_ALL)) return;
 	for (auto& being : table)
 		being.printAsciiBar();
 }
@@ -105,16 +104,14 @@ void Being::printAllBars()
 void Being::setDisplay(int bit_value)
 {
 	toggleBit(displayBars, bit_value);
-//	displayBars += displayBars & bit_value ? -bit_value : bit_value;
 }
-
 
 void Being::printAsciiBar()
 {
 	static std::string barMap("[ ,.;:!]");
 
 	if (!isBarVisible()
-		|| (isBias() && !displayBiasBars))
+		|| (isBias() && !(displayBars & DISPLAY_BIAS)))
 		return ;
 	size_t length = ASCII_BAR_LENGTH;
 	double scaleFactor = static_cast<double>(length);
@@ -209,13 +206,13 @@ void Being::printAllDescriptions()
 //	if (action.length()) action += "\n";
 //	if (measure.length()) measure += "\n";
 	
-	if (displayPhysical)
+	if (displayBars & DISPLAY_PHYSICAL)
 		printw(physical.c_str());
-	if (displayVital)
+	if (displayBars & DISPLAY_VITAL)
 		printw(vital.c_str());
-	if (displayAction)
+	if (displayBars & DISPLAY_AXONS)
 		printw(action.c_str());
-	if (displayMeasure)
+	if (displayBars & DISPLAY_MEASURES)
 		printw(measure.c_str());
 }
 
@@ -264,19 +261,6 @@ std::string Being::printDescription(bool silent)
 		printw(outStr.c_str());
 	return outStr;
 }
-
-void Being::toggleDisplayHeader() { displayHeader = !displayHeader; }
-void Being::toggleDisplayCharacters() { displayCharacters = !displayCharacters; }
-void Being::toggleDisplayPhysical() { displayPhysical = !displayPhysical; }
-void Being::toggleDisplayVital() { displayVital = !displayVital; }
-void Being::toggleDisplayAction() { displayAction = !displayAction; }
-void Being::toggleDisplayMeasure() { displayMeasure = !displayMeasure; }
-void Being::toggleDisplayActionResolution() { displayActionResolution = !displayActionResolution; }
-void Being::toggleDisplayBarsUp() { displayBars++; if (displayBars > DISPLAY_ALL) displayBars = 0; }
-void Being::toggleDisplayBarsDown() { if (!displayBars) displayBars = DISPLAY_ALL; else displayBars--; }
-void Being::toggleDisplayOuts() { displayOuts = !displayOuts; }
-void Being::toggleDisplayAxons() { displayAxons = !displayAxons; }
-void Being::toggleDisplayBiasBars() { displayBiasBars = !displayBiasBars; }
 
 bool Being::isStatsVisible()
 { return

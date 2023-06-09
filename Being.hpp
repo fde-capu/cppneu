@@ -51,23 +51,8 @@ class Being: public virtual NEURON {
 		static void toggleDisplayAction();
 		static void toggleDisplayMeasure();
 		static void toggleDisplayActionResolution();
-		static void toggleDisplayBarsUp();
-		static void toggleDisplayBarsDown();
-		static void toggleDisplayOuts();
-		static void toggleDisplayAxons();
-		static void toggleDisplayBiasBars();
 
-		static bool displayHeader;
-		static bool displayCharacters;
-		static bool displayPhysical;
-		static bool displayVital;
-		static bool displayAction;
-		static bool displayMeasure;
-		static bool displayActionResolution;
 		static int displayBars;
-		static bool displayOuts;
-		static bool displayAxons;
-		static bool displayBiasBars;
 
 		void printAsciiBar();
 		void printCharacter();

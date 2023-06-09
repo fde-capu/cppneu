@@ -27,32 +27,35 @@ static std::map<std::string, std::map<char, DescriptionFunction> >
 g_menu_tree = 
 {
 { "global", {
-	{'d', {"debug", &toggleShowDebug}},
+	{'!', {"debug", &toggleShowDebug}},
 	{'?', {"menu", &toggleShowMenu}},
 	{'q', {"quit", &doQuit}},
 	{'P', {"pause", &toggleRunning}},
 }},
 { "main", {
-	{'h', {"header", &Being::toggleDisplayHeader}},
-	{'c', {"chars", &Being::toggleDisplayCharacters}},
-	{'p', {"physical", &Being::toggleDisplayPhysical}},
-	{'v', {"vital", &Being::toggleDisplayVital}},
-	{'a', {"action", &Being::toggleDisplayAction}},
-	{'m', {"measures", &Being::toggleDisplayMeasure}},
-	{'w', {"want", &Being::toggleDisplayActionResolution}},
-	{'D', {"display", []() -> void { gotoMenu("display"); }}},
+	{'d', {"bar", []() -> void { gotoMenu("display"); }}},
 }},
 { "display", {
-	{'D', {"back", &menuInit}},
+	{'d', {"back", []() -> void { gotoMenu("main"); }}},
+	{'b', {"bar", []() -> void { gotoMenu("bar"); }}},
+	{'h', {"header", []() -> void { Being::setDisplay(DISPLAY_HEADER); }}},
+	{'c', {"chars", []() -> void { Being::setDisplay(DISPLAY_CHARS); }}},
+	{'p', {"physical", []() -> void { Being::setDisplay(DISPLAY_PHYSICAL); }}},
+	{'v', {"vital", []() -> void { Being::setDisplay(DISPLAY_VITAL); }}},
+	{'a', {"action", []() -> void { Being::setDisplay(DISPLAY_ACTION); }}},
+	{'m', {"measures", []() -> void { Being::setDisplay(DISPLAY_MEASURES); }}},
+	{'w', {"want", []() -> void { Being::setDisplay(DISPLAY_WANT); }}},
+	{'x', {"axons", []() -> void { Being::setDisplay(DISPLAY_AXONS); }}},
+	{'o', {"outs", []() -> void { Being::setDisplay(DISPLAY_OUTS); }}},
+}},
+{ "bar", {
+	{'b', {"back", []() -> void { gotoMenu("display"); }}},
+	{'o', {"on/off", []() -> void { Being::setDisplay(DISPLAY_BAR_ALL); }}},
+	{'g', {"gauge", []() -> void { Being::setDisplay(DISPLAY_BAR); }}},
 	{'n', {"numbers", []() -> void { Being::setDisplay(DISPLAY_NUMBERS); }}},
-	{'b', {"bars", []() -> void { Being::setDisplay(DISPLAY_BAR); }}},
 	{'c', {"characters", []() -> void { Being::setDisplay(DISPLAY_CHARACTER); }}},
 	{'d', {"description", []() -> void { Being::setDisplay(DISPLAY_DESCRIPTION); }}},
-	{'o', {"outs", &Being::toggleDisplayOuts}},
-	{'x', {"axons", &Being::toggleDisplayAxons}},
-	{'i', {"bias bars", &Being::toggleDisplayBiasBars}},
-	{'+', {"up", &Being::toggleDisplayBarsUp}},
-	{'-', {"down", &Being::toggleDisplayBarsDown}},
+	{'i', {"bias", []() -> void { Being::setDisplay(DISPLAY_BIAS); }}},
 }}
 };
 
