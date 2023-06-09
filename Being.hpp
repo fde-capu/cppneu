@@ -7,10 +7,10 @@
 # include "randoms.hpp"
 # include <ncurses.h>
 # include <sstream>
-# include "TypesNeuron.hpp"
+# include "MetaNeuron.hpp"
 # include "header.hpp"
 
-class Being: public virtual TypesNeuron {
+class Being: public virtual MetaNeuron {
 	public:
 		size_t UID;
 		std::string name;

@@ -1,7 +1,6 @@
 #ifndef DYNAMICNEURON_HPP
 # define DYNAMICNEURON_HPP
 
-# include <iostream>
 # include "defines.hpp"
 # include "Neuron.hpp"
 # include "header.hpp"

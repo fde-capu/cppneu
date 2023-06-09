@@ -2,7 +2,6 @@
 #include <iostream>
 
 DynamicNeuron::DynamicNeuron(zo u_damp)
-: Neuron()
 {
 	debug("Dyn ");
 	damp = u_damp;

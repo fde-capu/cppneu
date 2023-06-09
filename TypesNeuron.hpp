@@ -12,7 +12,7 @@ class TypesNeuron: public virtual DynamicNeuron
 		zo multiplyer;
 
 	public:
-		TypesNeuron(int, size_t, size_t, zo);
+		TypesNeuron(int = 0, size_t = 0, size_t = 0);
 		TypesNeuron(TypesNeuron const&);
 		TypesNeuron& operator= (TypesNeuron const&);
 		bool isBeing();

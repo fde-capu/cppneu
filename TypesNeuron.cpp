@@ -1,10 +1,9 @@
 #include "TypesNeuron.hpp"
 
 TypesNeuron::TypesNeuron(
-	int u_type, size_t u_slotIn, size_t u_slotOut,
-	zo u_damp)
+	int u_type, size_t u_slotIn, size_t u_slotOut
+)
 :
-DynamicNeuron(u_damp),
 type(u_type),
 slotIn(u_slotIn),
 slotOut(u_slotOut)

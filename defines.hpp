@@ -9,6 +9,7 @@
 # include <string>
 # include <fstream>
 # include <vector>
+# include <iostream>
 
 # define T_PHYSICAL 1
 # define T_VITAL 2

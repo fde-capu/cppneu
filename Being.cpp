@@ -6,9 +6,19 @@ size_t Being::count_bias = 0;
 
 Being::Being(const t_config& u_)
 	:
-	DynamicNeuron(u_.damp),
-	TypesNeuron(u_.type, randomBeingWithOutput(), 
-		randomBeingWithInput(), u_.damp),
+	Neuron(
+	),
+	DynamicNeuron(
+		u_.damp
+	),
+	TypesNeuron(
+		u_.type, randomBeingWithOutput(), 
+		randomBeingWithInput()
+	),
+	MetaNeuron(
+	),
+
+
 	name(u_.name),
 	expressor(u_.expressor),
 	scaleMin(u_.scaleMin),
@@ -136,5 +146,5 @@ const std::string Being::to_string()
 }
 
 std::string Being::readable() const {
-	return "B[" + TypesNeuron::readable() + "];";
+	return "B[" + MetaNeuron::readable() + "];";
 }
