@@ -2,6 +2,8 @@
 
 size_t MetaNeuron::g_Neuron_UID = 0;
 
+MetaNeuron::MetaNeuron(){}
+
 MetaNeuron::MetaNeuron(
 	std::string u_name,
 	int u_expressor,

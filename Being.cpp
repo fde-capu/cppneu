@@ -27,8 +27,14 @@ Being::Being(const t_config& u_)
 	if (isBeing()) count_being++;
 	if (isAxon()) count_axon++;
 	if (isBias()) count_bias++;
+}
 
-	table.push_back(*this);
+Being::Being()
+{}
+
+void Being::addNeuron(const t_config& u_)
+{
+	table.push_back(Being(u_));
 	out.resize(table.size());
 	axonOut.resize(table.size());
 }
@@ -64,7 +70,7 @@ void Being::extraFiringProcess() {
 		if (force > actionScore)
 		{
 			actionScore = force;
-			bestAction = printDescription();
+			bestAction = getDescription();
 			return;
 		}
 	}

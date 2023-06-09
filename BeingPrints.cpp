@@ -12,17 +12,6 @@ int Being::displayBars = \
 	DISPLAY_BAR_ALL \
 ;
 
-void Being::printScreen()
-{
-	Being::printHeader();
-	Being::printAllCharacters();
-	Being::printAllDescriptions();
-	Being::printAllBars();
-	Being::printOuts();
-	Being::printAllAxons();
-	Being::printWantedActions();
-}
-
 void Being::printHeader()
 {
 	if (!(displayBars & DISPLAY_HEADER)) return ;
@@ -186,7 +175,7 @@ void Being::printAllDescriptions()
 
 	for (auto& being : table)
 	{
-		tmp = being.printDescription(true) + "\n";
+		tmp = being.getDescription() + "\n";
 		switch (being.type)
 		{
 			case T_PHYSICAL: physical += tmp; break;
@@ -216,7 +205,12 @@ void Being::printAllDescriptions()
 		printw(measure.c_str());
 }
 
-std::string Being::printDescription(bool silent)
+void Being::printDescription()
+{
+	printw(getDescription().c_str());
+}
+
+std::string Being::getDescription()
 {
 	double scaleFactor;
 	size_t scaledExpressor;
@@ -256,10 +250,7 @@ std::string Being::printDescription(bool silent)
 			ss << ": " << scaleFactor;
 		}
 	}
-	std::string outStr = (ss.str());
-	if (!silent)
-		printw(outStr.c_str());
-	return outStr;
+	return ss.str();
 }
 
 bool Being::isStatsVisible()

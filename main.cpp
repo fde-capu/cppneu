@@ -1,10 +1,12 @@
 #include "defines.hpp"
 #include "Being.hpp"
 #include "menu.hpp"
+#include "prints.hpp"
 
 std::vector<t_config> g_conf = {};
 bool g_quit = false;
 bool g_running = false;
+Being g_being;
 
 void doQuit() { g_quit = true; }
 
@@ -16,12 +18,12 @@ void run()
 	{
 		if (g_running)
 		{
-			Being::processAll();
+			g_being.processAll();
 
 			clear();
 			printMenu();
 			printDebug();
-			Being::printScreen();
+			printScreen(g_being);
 			refresh();
 		}
 
@@ -55,15 +57,14 @@ void config(std::string config_file)
 	loadConf(config_file.c_str());
 	for (size_t i = 0; i < g_conf.size(); i++)
 	{
-		(Being(g_conf[i]));
+		g_being.addNeuron(g_conf[i]);
 	}
 }
 
 int main() {
 	prepare();
-	Being::reset();
 	config(CONFIG_FILE);
-	std::cout << "BEING " << Being::to_string();
+	std::cout << "BEING " << g_being.to_string();
 	std::cout << std::endl;
 	run();
 	destroy();

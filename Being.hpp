@@ -22,9 +22,11 @@ class Being: public virtual NEURON {
 		static size_t count_axon;
 		static size_t count_bias;
 
-		static void reset();
+		Being();
 		Being(const t_config& u_);
+		void addNeuron(const t_config& u_);
 		Being(int type);
+		void reset();
 
 		void extraFiringProcess();
 		void process();
@@ -33,7 +35,6 @@ class Being: public virtual NEURON {
 		void readAxons();
 		static size_t size();
 
-		static void printScreen();
 		static void printHeader();
 		static void printAllCharacters();
 		static void printAllBars();
@@ -57,7 +58,9 @@ class Being: public virtual NEURON {
 		void printAsciiBar();
 		void printCharacter();
 		void printNumbers();
-		std::string printDescription(bool silent = false);
+		void printDescription();
+
+		std::string getDescription();
 
 		bool isStatsVisible();
 		bool isBarVisible();

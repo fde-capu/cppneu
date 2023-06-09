@@ -15,6 +15,7 @@ class MetaNeuron: public virtual TypesNeuron
 		std::vector<std::string> scale;
 
 	public:
+		MetaNeuron();
 		MetaNeuron(std::string, int, int, int, std::string, std::vector<std::string>);
 		MetaNeuron(MetaNeuron const&);
 		MetaNeuron& operator= (MetaNeuron const&);
