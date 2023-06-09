@@ -12,17 +12,17 @@
 
 class Being: public virtual NEURON {
 	public:
-		static void reset();
 		static std::vector<Being> table;
-		static std::vector<zo> out;
-		static std::vector<zo> axonOut;
+
 		static zo actionScore;
 		static std::string bestAction;
-
+		static std::vector<zo> out;
+		static std::vector<zo> axonOut;
 		static size_t count_being;
 		static size_t count_axon;
 		static size_t count_bias;
 
+		static void reset();
 		Being(const t_config& u_);
 		Being(int type);
 
@@ -43,7 +43,7 @@ class Being: public virtual NEURON {
 		static void printAllDescriptions();
 		static void printWantedActions();
 
-		static void toggleBit(int);
+		static void setDisplay(int);
 		static void toggleDisplayHeader();
 		static void toggleDisplayCharacters();
 		static void toggleDisplayPhysical();

@@ -109,3 +109,8 @@ std::string to_string (std::vector<std::string> v)
 	ss << "]";
 	return ss.str();
 }
+
+void toggleBit(int& d, int b)
+{
+	d += d & b ? -b : b;
+}

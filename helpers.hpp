@@ -18,5 +18,6 @@ std::vector<std::string> readSplit(const std::string& l);
 void hard_trim(std::string& line);
 zo max();
 std::string to_string(std::vector<std::string>);
+void toggleBit(int&, int);
 
 #endif

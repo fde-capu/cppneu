@@ -102,9 +102,10 @@ void Being::printAllBars()
 		being.printAsciiBar();
 }
 
-void Being::toggleBit(int bit_value)
+void Being::setDisplay(int bit_value)
 {
-	displayBars += displayBars & bit_value ? -bit_value : bit_value;
+	toggleBit(displayBars, bit_value);
+//	displayBars += displayBars & bit_value ? -bit_value : bit_value;
 }
 
 
