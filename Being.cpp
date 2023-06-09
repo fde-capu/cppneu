@@ -26,8 +26,6 @@ Being::Being(const t_config& u_)
 {
 	debug("Being ");
 
-	UID = Being::g_Being_UID++;
-
 	if (isBeing()) count_being++;
 	if (isAxon()) count_axon++;
 	if (isBias()) count_bias++;
@@ -79,7 +77,7 @@ void Being::readAxons() {
 		type == T_BIAS ?
 			randomZeroOne()
 		:
-			axonOut[UID]
+			axonOut[neuron_UID]
 	);
 }
 
@@ -90,7 +88,7 @@ void Being::process()
 		bestAction = "-";
 	readAxons();
 	tick();
-	out[UID] = outputValue;
+	out[neuron_UID] = outputValue;
 	if (outputValue)
 		extraFiringProcess();
 }
@@ -121,12 +119,12 @@ void Being::processAxons()
 			size_t slotI = table[i].slotIn;
 			size_t slotO = table[i].slotOut;
 			if (!std::isinf(out[slotI]))
-				axonOut[slotO] += out[slotI] * table[i].multiplyer / inCount[slotO];
+				axonOut[slotO] += out[slotI] * \
+					table[i].threshold / inCount[slotO];
 		}
 	}
 }
 
-size_t Being::g_Being_UID = 0;
 std::vector<Being> Being::table;
 zo Being::actionScore = 0.0;
 std::string Being::bestAction = "";
@@ -144,5 +142,5 @@ const std::string Being::to_string()
 }
 
 std::string Being::readable() const {
-	return "B[" + MetaNeuron::readable() + "];";
+	return "{" + MetaNeuron::readable() + "}";
 }

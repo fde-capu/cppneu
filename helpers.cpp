@@ -96,3 +96,16 @@ std::vector<std::string> readSplit(const std::string& l)
 
 zo max()
 { return 1.0; }
+
+std::string to_string (std::vector<std::string> v)
+{
+	std::stringstream ss;
+	ss << "[";
+	for (size_t i = 0; i < v.size(); i++)
+	{
+		ss << v[i];
+		if (i + 1 < v.size()) ss << ",";
+	}
+	ss << "]";
+	return ss.str();
+}

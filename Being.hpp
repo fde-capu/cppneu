@@ -12,10 +12,7 @@
 
 class Being: public virtual MetaNeuron {
 	public:
-		size_t UID;
-
 		static void reset();
-		static size_t g_Being_UID;
 		static std::vector<Being> table;
 		static std::vector<zo> out;
 		static std::vector<zo> axonOut;

@@ -6,6 +6,7 @@
 class MetaNeuron: public virtual TypesNeuron
 {
 	public:
+		size_t neuron_UID;
 		std::string name;
 		int expressor;
 		int scaleMin;
@@ -20,6 +21,7 @@ class MetaNeuron: public virtual TypesNeuron
 		~MetaNeuron();
 
 		virtual std::string readable() const;
+		static size_t g_Neuron_UID;
 };
 
 #endif

@@ -8,7 +8,6 @@ type(u_type),
 slotIn(u_slotIn),
 slotOut(u_slotOut)
 {
-	multiplyer = randomZeroOne();
 	debug("Types ");
 }
 
@@ -23,7 +22,6 @@ TypesNeuron& TypesNeuron::operator= (TypesNeuron const & rhs)
 		this->type = rhs.type;
 		this->slotIn = rhs.slotIn;
 		this->slotOut = rhs.slotOut;
-		this->multiplyer = rhs.multiplyer;
 	}
 	return *this;
 }
@@ -32,7 +30,9 @@ std::string TypesNeuron::readable() const
 {
 	return DynamicNeuron::readable() + \
 		"y" + std::to_string(type) + \
-		",";
+		"," + std::to_string(slotIn) + \
+		"," + std::to_string(slotOut) + \
+		";";
 }
 
 bool TypesNeuron::isBeing()

@@ -54,7 +54,7 @@ void Being::printAllAxons()
 			if (being.isAxon())
 			{
 				printw("%d-%d>%d ",
-					being.slotIn, floatUp(being.multiplyer), being.slotOut); 
+					being.slotIn, floatUp(being.threshold), being.slotOut); 
 			}
 		}
 		printw("\n");
@@ -123,7 +123,7 @@ void Being::printAsciiBar()
 
 	if (displayBars & DISPLAY_BAR)
 	{
-		printw("%u %c", UID, barMap.at(0));
+		printw("%u %c", neuron_UID, barMap.at(0));
 		for (size_t i = 0; i < length; i++) {
 			if (i == scaledOriginalThreshold && i == scaledThreshold) {
 				if (outputValue)

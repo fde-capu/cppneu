@@ -9,7 +9,6 @@ class TypesNeuron: public virtual DynamicNeuron
 		int type;
 		size_t slotIn;
 		size_t slotOut;
-		zo multiplyer;
 
 	public:
 		TypesNeuron(int = 0, size_t = 0, size_t = 0);
