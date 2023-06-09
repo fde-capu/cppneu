@@ -33,7 +33,7 @@ g_menu_tree =
 	{'P', {"pause", &toggleRunning}},
 }},
 { "main", {
-	{'d', {"bar", []() -> void { gotoMenu("display"); }}},
+	{'d', {"display", []() -> void { gotoMenu("display"); }}},
 }},
 { "display", {
 	{'d', {"back", []() -> void { gotoMenu("main"); }}},

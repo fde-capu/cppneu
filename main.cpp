@@ -20,8 +20,7 @@ void run()
 
 			clear();
 			printMenu();
-			if (g_showDebug)
-				printDebug();
+			printDebug();
 			Being::printScreen();
 			refresh();
 		}

@@ -24,8 +24,6 @@ Being::Being(const t_config& u_)
 		u_.scale
 	)
 {
-	debug("Being ");
-
 	if (isBeing()) count_being++;
 	if (isAxon()) count_axon++;
 	if (isBias()) count_bias++;

@@ -2,7 +2,6 @@
 
 DynamicNeuron::DynamicNeuron(zo u_damp)
 {
-	debug("Dyn ");
 	damp = u_damp;
 	threshold = originalThreshold;
 }

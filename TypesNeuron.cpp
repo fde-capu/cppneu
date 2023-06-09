@@ -8,7 +8,6 @@ type(u_type),
 slotIn(u_slotIn),
 slotOut(u_slotOut)
 {
-	debug("Types ");
 }
 
 TypesNeuron::TypesNeuron(TypesNeuron const& src)

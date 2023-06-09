@@ -26,6 +26,7 @@
 # define EXPRESSOR_ORIGINAL_THRESHOLD 3
 # define EXPRESSOR_THRESHOLD_SHORT 4
 
+# define DISPLAY_BAR_ALL (1 << 0)
 # define DISPLAY_BAR (1 << 1)
 # define DISPLAY_CHARACTER (1 << 2)
 # define DISPLAY_NUMBERS (1 << 3)
@@ -40,7 +41,6 @@
 # define DISPLAY_ACTION (1 << 12)
 # define DISPLAY_MEASURES (1 << 13)
 # define DISPLAY_WANT (1 << 14)
-# define DISPLAY_BAR_ALL (1 << 15)
 
 typedef struct TypeBeingConfig
 {

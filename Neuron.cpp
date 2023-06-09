@@ -3,7 +3,6 @@
 
 Neuron::Neuron()
 {
-	debug("Neu ");
 	originalThreshold = randomZeroOne();
 }
 

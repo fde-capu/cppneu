@@ -19,7 +19,6 @@ MetaNeuron::MetaNeuron(
 	unit(u_unit),
 	scale(u_scale)
 {
-	debug("Meta ");
 }
 
 MetaNeuron::MetaNeuron(MetaNeuron const& src)
