@@ -47,7 +47,7 @@ size_t Being::randomBeingWithOutput() {
 	size_t beingI = randomValue<size_t>(0, size() - 1);
 	if (!table[beingI].hasOutput())
 		return randomBeingWithOutput();
-	return beingI;
+	return table[beingI].neuron_UID;
 }
 
 size_t Being::randomBeingWithInput() {
@@ -55,7 +55,7 @@ size_t Being::randomBeingWithInput() {
 	size_t beingI = randomValue<size_t>(0, size() - 1);
 	if (!table[beingI].hasInput())
 		return randomBeingWithInput();
-	return beingI;
+	return table[beingI].neuron_UID;
 }
 
 size_t Being::size() { return table.size(); }

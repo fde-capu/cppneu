@@ -5,6 +5,7 @@
 # word word ... scale
 # 0.xx damping
 # todo: h scale-name word word
+# todo: force values
 
 n Heart v s 0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper 0.99
 #n Nose p o Short Medium Long 1.0
