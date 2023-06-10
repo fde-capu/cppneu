@@ -13,13 +13,13 @@ void printScreen(Being& b)
 
 void printHeader(Being& b)
 {
-	if (!(b.displayBars & DISPLAY_HEADER)) return ;
+	if (!(b.displaySet & DISPLAY_HEADER)) return ;
 	printw("%dN %dA %dB\n", b.count_being, b.count_axon, b.count_bias);
 }
 
 void printAllCharacters(Being& b)
 {
-	if (!(b.displayBars & DISPLAY_CHARS)) return ;
+	if (!(b.displaySet & DISPLAY_CHARS)) return ;
 	for (auto& n : b.table)
 			printCharacter(n);
 	printw("\n");
@@ -27,14 +27,14 @@ void printAllCharacters(Being& b)
 
 void printWantedActions(Being& b)
 {
-	if (!(b.displayBars & DISPLAY_WANT)) return ;
+	if (!(b.displaySet & DISPLAY_WANT)) return ;
 	printw("%s", b.bestAction.c_str());
 	printw("\n");
 }
 
 void printAllAxons(Being& b)
 {
-	if (!(b.displayBars & DISPLAY_AXONS)) return ;
+	if (!(b.displaySet & DISPLAY_AXONS)) return ;
 		for (auto& n : b.table)
 		{
 			if (n.isAxon())
@@ -48,7 +48,7 @@ void printAllAxons(Being& b)
 
 void printOuts(Being& b)
 {
-	if (!(b.displayBars & DISPLAY_OUTS)) return;
+	if (!(b.displaySet & DISPLAY_OUTS)) return;
 		printw("|");
 		for (auto& n : b.table)
 		{
@@ -84,7 +84,7 @@ void printCharacter(Being& b)
 
 void printAllBars(Being& b)
 {
-	if (!b.displayBars || !(b.displayBars & DISPLAY_BAR_ALL)) return;
+	if (!b.displaySet || !(b.displaySet & DISPLAY_BAR_ALL)) return;
 	for (auto& n : b.table)
 		printAsciiBar(n);
 }
@@ -119,13 +119,13 @@ void printAllDescriptions(Being& b)
 //	if (action.length()) action += "\n";
 //	if (measure.length()) measure += "\n";
 	
-	if (b.displayBars & DISPLAY_PHYSICAL)
+	if (b.displaySet & DISPLAY_PHYSICAL)
 		printw(physical.c_str());
-	if (b.displayBars & DISPLAY_VITAL)
+	if (b.displaySet & DISPLAY_VITAL)
 		printw(vital.c_str());
-	if (b.displayBars & DISPLAY_AXONS)
+	if (b.displaySet & DISPLAY_AXONS)
 		printw(action.c_str());
-	if (b.displayBars & DISPLAY_MEASURES)
+	if (b.displaySet & DISPLAY_MEASURES)
 		printw(measure.c_str());
 }
 
@@ -139,7 +139,7 @@ void printAsciiBar(Being& b)
 	static std::string barMap("[ ,.;:!]");
 
 	if (!b.isBarVisible()
-		|| (b.isBias() && !(b.displayBars & DISPLAY_BIAS)))
+		|| (b.isBias() && !(b.displaySet & DISPLAY_BIAS)))
 		return ;
 	size_t length = ASCII_BAR_LENGTH;
 	double scaleFactor = static_cast<double>(length);
@@ -147,7 +147,7 @@ void printAsciiBar(Being& b)
 	size_t scaledThreshold = static_cast<int>(b.threshold * scaleFactor);
 	size_t scaledOriginalThreshold = static_cast<int>(b.originalThreshold * scaleFactor);
 
-	if (b.displayBars & DISPLAY_BAR)
+	if (b.displaySet & DISPLAY_BAR)
 	{
 		printw("%u %c", b.neuron_UID, barMap.at(0));
 		for (size_t i = 0; i < length; i++) {
@@ -174,17 +174,17 @@ void printAsciiBar(Being& b)
 		}
 		printw("%c ", barMap.at(7));
 	}
-	if (b.displayBars & DISPLAY_CHARACTER)
+	if (b.displaySet & DISPLAY_CHARACTER)
 	{
 		printw(" ");
 		printCharacter(b);
 	}
-	if (b.displayBars & DISPLAY_NUMBERS)
+	if (b.displaySet & DISPLAY_NUMBERS)
 	{
 		printw(" ");
 		printNumbers(b);
 	}
-	if (b.displayBars & DISPLAY_DESCRIPTION)
+	if (b.displaySet & DISPLAY_DESCRIPTION)
 	{
 		printw(" ");
 		printDescription(b);

@@ -36,15 +36,7 @@ class Being: public virtual NEURON {
 		static size_t size();
 
 		static void setDisplay(int);
-		static void toggleDisplayHeader();
-		static void toggleDisplayCharacters();
-		static void toggleDisplayPhysical();
-		static void toggleDisplayVital();
-		static void toggleDisplayAction();
-		static void toggleDisplayMeasure();
-		static void toggleDisplayActionResolution();
-
-		static int displayBars;
+		static int displaySet;
 
 		std::string getDescription();
 

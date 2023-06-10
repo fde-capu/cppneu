@@ -1,7 +1,7 @@
 #include "Being.hpp"
 #include "helpers.hpp"
 
-int Being::displayBars = \
+int Being::displaySet = \
 	DISPLAY_BAR + \
 	DISPLAY_DESCRIPTION + \
 	DISPLAY_AXONS + \
@@ -14,7 +14,7 @@ int Being::displayBars = \
 
 void Being::setDisplay(int bit_value)
 {
-	toggleBit(displayBars, bit_value);
+	toggleBit(displaySet, bit_value);
 }
 
 std::string Being::getDescription()
