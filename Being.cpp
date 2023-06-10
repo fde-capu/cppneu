@@ -83,16 +83,16 @@ void Being::processAxons()
 	std::vector<size_t> inCount(neuron_table.size(), 0);
 	for (size_t i = 0; i < neuron_table.size(); i++)
 	{
-		if (neuron_table[i].type == T_AXON)
+		if (neuron_table[i].isAxon())
 			inCount[neuron_table[i].slotOut]++;
 	}
 
-	for (auto& v : axonOut)
+	for (zo& v : axonOut)
 		v = 0.0;
 
 	for (size_t i = 0; i < neuron_table.size(); i++)
 	{
-		if (neuron_table[i].type == T_AXON)
+		if (neuron_table[i].isAxon())
 		{
 			size_t slotI = neuron_table[i].slotIn;
 			size_t slotO = neuron_table[i].slotOut;
