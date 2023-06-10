@@ -5,9 +5,7 @@ size_t MetaNeuron::g_Neuron_UID = 0;
 MetaNeuron::MetaNeuron(){}
 
 MetaNeuron::MetaNeuron(
-	t_config u_,
-	size_t u_out,
-	size_t u_in
+	t_config u_
 )
 :
 	Neuron(),
@@ -15,9 +13,7 @@ MetaNeuron::MetaNeuron(
 		u_.damp
 	),
 	TypesNeuron(
-		u_.type,
-		u_out,
-		u_in
+		u_.type
 	),
 	neuron_UID(++g_Neuron_UID),
 	name(u_.name),
@@ -26,8 +22,7 @@ MetaNeuron::MetaNeuron(
 	scaleMax(u_.scaleMax),
 	unit(u_.unit),
 	scale(u_.scale)
-{
-}
+{}
 
 MetaNeuron::MetaNeuron(MetaNeuron const& src)
 {	*this = src; }
@@ -75,7 +70,7 @@ std::string MetaNeuron::getDescription()
 	else
 		ss << "  ";
 	ss << name;
-	if (isBeing())
+	if (isNeuron())
 	{
 		if (scaleMax)
 		{

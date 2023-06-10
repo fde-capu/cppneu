@@ -16,14 +16,14 @@ void printScreen(Being& b)
 void printHeader(Being& b)
 {
 	if (!(displaySet & DISPLAY_HEADER)) return ;
-	printw("%dN %dA %dB\n", b.count_being, b.count_axon, b.count_bias);
+	printw("%dN %dA %dB\n", b.count_neuron, b.count_axon, b.count_bias);
 }
 
 void printAllCharacters(Being& b)
 {
 	if (!(displaySet & DISPLAY_CHARS)) return ;
-	for (auto& n : b.neuron_table)
-			printCharacter(n);
+	for (auto& pair : b.neuron_table)
+			printCharacter(pair.second);
 	printw("\n");
 }
 
@@ -37,13 +37,10 @@ void printWantedActions(Being& b)
 void printAllAxons(Being& b)
 {
 	if (!(displaySet & DISPLAY_AXONS)) return ;
-		for (auto& n : b.neuron_table)
+		for (auto& pair : b.axon_table)
 		{
-			if (n.isAxon())
-			{
-				printw("%d-%d>%d ",
-					n.slotIn, floatUp(n.threshold), n.slotOut); 
-			}
+			printw("%d-%d>%d ",
+				pair.second.slotIn, floatUp(pair.second.multiplier), pair.second.slotOut); 
 		}
 		printw("\n");
 }
@@ -52,11 +49,11 @@ void printOuts(Being& b)
 {
 	if (!(displaySet & DISPLAY_OUTS)) return;
 		printw("|");
-		for (NEURON& n : b.neuron_table)
+		for (auto& pair : b.neuron_table)
 		{
-			if (isOutBlockVisible(n))
+			if (isOutBlockVisible(pair.second))
 			{
-				if (n.outputValue)
+				if (pair.second.outputValue)
 					printw("*|");
 				else
 					printw(" |");
@@ -88,7 +85,7 @@ void printAllBars(Being& b)
 {
 	if (!displaySet || !(displaySet & DISPLAY_BAR_ALL)) return;
 	for (auto& n : b.neuron_table)
-		printAsciiBar(n);
+		printAsciiBar(n.second);
 }
 
 void printAllDescriptions(Being& b)
@@ -101,8 +98,8 @@ void printAllDescriptions(Being& b)
 
 	for (auto& n : b.neuron_table)
 	{
-		tmp = n.getDescription() + "\n";
-		switch (n.type)
+		tmp = n.second.getDescription() + "\n";
+		switch (n.second.type)
 		{
 			case T_PHYSICAL: physical += tmp; break;
 			case T_VITAL: vital += tmp; break;

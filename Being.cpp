@@ -1,33 +1,35 @@
 #include "Being.hpp"
 
+void Being::addAxon()
+{
+	Axon a(randomNeuronWithOutput(), randomNeuronWithInput());
+	axon_table[a.axon_UID] = a;
+	count_axon++;
+}
+
 void Being::addNeuron(const t_config& u_)
 {
-	NEURON n(u_, randomBeingWithOutput(), randomBeingWithInput());
-	neuron_table.push_back(n);
-	out.resize(neuron_table.size());
-	axonOut.resize(neuron_table.size());
-	if (n.isBeing()) count_being++;
-	if (n.isAxon()) count_axon++;
+	NEURON n(u_);
+	neuron_table[n.neuron_UID] = n;
+	if (n.isNeuron()) count_neuron++;
 	if (n.isBias()) count_bias++;
 }
 
-size_t Being::randomBeingWithOutput() {
-	if (!size()) return 0;
-	size_t beingI = randomValue<size_t>(0, size() - 1);
+size_t Being::randomNeuronWithOutput() {
+	if (!neuron_table.size()) return 0;
+	size_t beingI = randomValue<size_t>(0, neuron_table.size() - 1);
 	if (!neuron_table[beingI].hasOutput())
-		return randomBeingWithOutput();
+		return randomNeuronWithOutput();
 	return neuron_table[beingI].neuron_UID;
 }
 
-size_t Being::randomBeingWithInput() {
-	if (!size()) return 0;
-	size_t beingI = randomValue<size_t>(0, size() - 1);
+size_t Being::randomNeuronWithInput() {
+	if (!neuron_table.size()) return 0;
+	size_t beingI = randomValue<size_t>(0, neuron_table.size() - 1);
 	if (!neuron_table[beingI].hasInput())
-		return randomBeingWithInput();
+		return randomNeuronWithInput();
 	return neuron_table[beingI].neuron_UID;
 }
-
-size_t Being::size() { return neuron_table.size(); }
 
 void Being::extraFiringProcess(NEURON& n) {
 	if (!n.isBias())
@@ -41,7 +43,7 @@ void Being::extraFiringProcess(NEURON& n) {
 	}
 }
 
-void Being::readAxons(NEURON& n) {
+void Being::readInput(NEURON& n) {
 	n.feed(
 		n.isBias() ?
 			randomZeroOne()
@@ -55,11 +57,12 @@ void Being::process()
 	actionScore *= 0.99;
 	if (actionScore < 0.001)
 		bestAction = "-";
-	for (NEURON& n : neuron_table)
+	for (auto & pair : neuron_table)
 	{
-		readAxons(n);
+		NEURON& n = pair.second;
+		readInput(n);
 		n.tick();
-		out[n.neuron_UID] = n.outputValue;
+		neuronOut[n.neuron_UID] = n.outputValue;
 		if (n.outputValue)
 			extraFiringProcess(n);
 	}
@@ -69,33 +72,31 @@ void Being::process()
 void Being::processAxons()
 {
 	std::vector<size_t> inCount(neuron_table.size(), 0);
-	for (size_t i = 0; i < neuron_table.size(); i++)
+	for (auto& pair : axon_table)
 	{
-		if (neuron_table[i].isAxon())
-			inCount[neuron_table[i].slotOut]++;
+		inCount[pair.second.slotOut]++;
 	}
 
-	for (zo& v : axonOut)
-		v = 0.0;
+	for (auto& pair : axonOut)
+		pair.second = 0.0;
 
-	for (size_t i = 0; i < neuron_table.size(); i++)
+	for (auto& pair : axon_table)
 	{
-		if (neuron_table[i].isAxon())
-		{
-			size_t slotI = neuron_table[i].slotIn;
-			size_t slotO = neuron_table[i].slotOut;
-			if (!std::isinf(out[slotI]))
-				axonOut[slotO] += out[slotI] * \
-					neuron_table[i].threshold / inCount[slotO];
-		}
+		Axon& a = pair.second;
+		axonOut[a.slotOut] += \
+			neuronOut[a.slotIn] \
+			/ inCount[
+				neuron_table[a.slotOut]
+					.neuron_UID] \
+			* a.multiplier;
 	}
 }
 
 std::string Being::readable() const {
 	std::string s;
 	s = "{";
-	for (const NEURON& n : neuron_table)
-		s += n.readable();
+	for (auto& pair : neuron_table)
+		s += pair.second.readable();
 	s += "}";
 	return s;
 }

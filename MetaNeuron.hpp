@@ -16,7 +16,7 @@ class MetaNeuron: public virtual TypesNeuron
 
 	public:
 		MetaNeuron();
-		MetaNeuron(t_config, size_t, size_t);
+		MetaNeuron(t_config);
 		MetaNeuron(MetaNeuron const&);
 		MetaNeuron& operator= (MetaNeuron const&);
 		~MetaNeuron();

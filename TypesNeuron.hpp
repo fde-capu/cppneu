@@ -7,15 +7,12 @@ class TypesNeuron: public virtual DynamicNeuron
 {
 	public:
 		int type;
-		size_t slotIn;
-		size_t slotOut;
 
 	public:
-		TypesNeuron(int = 0, size_t = 0, size_t = 0);
+		TypesNeuron(int type = 0);
 		TypesNeuron(TypesNeuron const&);
 		TypesNeuron& operator= (TypesNeuron const&);
-		bool isBeing();
-		bool isAxon();
+		bool isNeuron();
 		bool isBias();
 		bool hasInput();
 		bool hasOutput();

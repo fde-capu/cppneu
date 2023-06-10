@@ -9,29 +9,30 @@
 # include <sstream>
 # include LAST_NEURON_IMPLEMENTATION
 # include "header.hpp"
+# include "Axon.hpp"
 
 class Being {
 	public:
-		std::vector<NEURON> neuron_table = {};
-		std::vector<zo> out = {};
-		std::vector<zo> axonOut = {};
+		std::map<size_t, NEURON> neuron_table = {};
+		std::map<size_t, Axon> axon_table = {};
+		std::map<size_t, zo> neuronOut = {};
+		std::map<size_t, zo> axonOut = {};
 		zo actionScore = 0.0;
 		std::string bestAction = "";
-		size_t count_being = 0;
+		size_t count_neuron = 0;
 		size_t count_axon = 0;
 		size_t count_bias = 0;
 
+		void addAxon();
 		void addNeuron(const t_config& u_);
 
 		void process();
 		void processAxons();
-		void readAxons(NEURON&);
+		void readInput(NEURON&);
 		void extraFiringProcess(NEURON&);
 
-		size_t size();
-
-		size_t randomBeingWithOutput();
-		size_t randomBeingWithInput();
+		size_t randomNeuronWithOutput();
+		size_t randomNeuronWithInput();
 
 		virtual std::string readable() const ;
 };

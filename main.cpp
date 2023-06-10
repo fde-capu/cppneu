@@ -57,7 +57,10 @@ void config(std::string config_file)
 	loadConf(config_file.c_str());
 	for (size_t i = 0; i < g_conf.size(); i++)
 	{
-		g_being.addNeuron(g_conf[i]);
+		if (g_conf[i].type & T_AXON)
+			g_being.addAxon();
+		else
+			g_being.addNeuron(g_conf[i]);
 	}
 }
 
