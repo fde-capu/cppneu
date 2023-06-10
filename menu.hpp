@@ -2,6 +2,7 @@
 # define MENU_HPP
 # include "Being.hpp"
 # include "defines.hpp"
+# include "prints.hpp"
 
 void toggleShowMenu();
 void toggleShowDebug();
@@ -38,24 +39,24 @@ g_menu_tree =
 { "display", {
 	{'d', {"back", []() -> void { gotoMenu("main"); }}},
 	{'b', {"bar", []() -> void { gotoMenu("bar"); }}},
-	{'h', {"header", []() -> void { Being::setDisplay(DISPLAY_HEADER); }}},
-	{'c', {"chars", []() -> void { Being::setDisplay(DISPLAY_CHARS); }}},
-	{'p', {"physical", []() -> void { Being::setDisplay(DISPLAY_PHYSICAL); }}},
-	{'v', {"vital", []() -> void { Being::setDisplay(DISPLAY_VITAL); }}},
-	{'a', {"action", []() -> void { Being::setDisplay(DISPLAY_ACTION); }}},
-	{'m', {"measures", []() -> void { Being::setDisplay(DISPLAY_MEASURES); }}},
-	{'w', {"want", []() -> void { Being::setDisplay(DISPLAY_WANT); }}},
-	{'x', {"axons", []() -> void { Being::setDisplay(DISPLAY_AXONS); }}},
-	{'o', {"outs", []() -> void { Being::setDisplay(DISPLAY_OUTS); }}},
+	{'h', {"header", []() -> void { setDisplay(DISPLAY_HEADER); }}},
+	{'c', {"chars", []() -> void { setDisplay(DISPLAY_CHARS); }}},
+	{'p', {"physical", []() -> void { setDisplay(DISPLAY_PHYSICAL); }}},
+	{'v', {"vital", []() -> void { setDisplay(DISPLAY_VITAL); }}},
+	{'a', {"action", []() -> void { setDisplay(DISPLAY_ACTION); }}},
+	{'m', {"measures", []() -> void { setDisplay(DISPLAY_MEASURES); }}},
+	{'w', {"want", []() -> void { setDisplay(DISPLAY_WANT); }}},
+	{'x', {"axons", []() -> void { setDisplay(DISPLAY_AXONS); }}},
+	{'o', {"outs", []() -> void { setDisplay(DISPLAY_OUTS); }}},
 }},
 { "bar", {
 	{'b', {"back", []() -> void { gotoMenu("display"); }}},
-	{'o', {"on/off", []() -> void { Being::setDisplay(DISPLAY_BAR_ALL); }}},
-	{'g', {"gauge", []() -> void { Being::setDisplay(DISPLAY_BAR); }}},
-	{'n', {"numbers", []() -> void { Being::setDisplay(DISPLAY_NUMBERS); }}},
-	{'c', {"characters", []() -> void { Being::setDisplay(DISPLAY_CHARACTER); }}},
-	{'d', {"description", []() -> void { Being::setDisplay(DISPLAY_DESCRIPTION); }}},
-	{'i', {"bias", []() -> void { Being::setDisplay(DISPLAY_BIAS); }}},
+	{'o', {"on/off", []() -> void { setDisplay(DISPLAY_BAR_ALL); }}},
+	{'g', {"gauge", []() -> void { setDisplay(DISPLAY_BAR); }}},
+	{'n', {"numbers", []() -> void { setDisplay(DISPLAY_NUMBERS); }}},
+	{'c', {"characters", []() -> void { setDisplay(DISPLAY_CHARACTER); }}},
+	{'d', {"description", []() -> void { setDisplay(DISPLAY_DESCRIPTION); }}},
+	{'i', {"bias", []() -> void { setDisplay(DISPLAY_BIAS); }}},
 }}
 };
 

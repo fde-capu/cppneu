@@ -16,4 +16,11 @@ void printNumbers(Being& b);
 void printCharacter(Being& b);
 void printAsciiBar(Being& b);
 
+bool isStatsVisible(Being& b);
+bool isBarVisible(Being& b);
+bool isCharacterVisible(Being& b);
+bool isOutBlockVisible(Being& b);
+
+void setDisplay(int);
+
 #endif

@@ -30,7 +30,9 @@ Being::Being(const t_config& u_)
 }
 
 Being::Being()
-{}
+{
+	reset();
+}
 
 void Being::addNeuron(const t_config& u_)
 {

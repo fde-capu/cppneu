@@ -1,21 +1,7 @@
 #include "Being.hpp"
 #include "helpers.hpp"
 
-int Being::displaySet = \
-	DISPLAY_BAR + \
-	DISPLAY_DESCRIPTION + \
-	DISPLAY_AXONS + \
-	DISPLAY_BIAS + \
-	DISPLAY_HEADER + \
-	DISPLAY_CHARS + \
-	DISPLAY_WANT + \
-	DISPLAY_BAR_ALL \
-;
 
-void Being::setDisplay(int bit_value)
-{
-	toggleBit(displaySet, bit_value);
-}
 
 std::string Being::getDescription()
 {
@@ -50,7 +36,7 @@ std::string Being::getDescription()
 			if (scaledExpressor > scale.size() - 1) scaledExpressor = scale.size() - 1;
 			ss << ": " << scale[scaledExpressor];
 		}
-		if (!scale.size() && !scaleMax && isStatsVisible())
+		if (!scale.size() && !scaleMax)
 		{
 			scaleFactor = static_cast<double>(1.0);
 			scaleFactor = static_cast<double>(getExpressor * scaleFactor);
@@ -59,32 +45,3 @@ std::string Being::getDescription()
 	}
 	return ss.str();
 }
-
-bool Being::isStatsVisible()
-{ return
-				type == T_MEASURE; }
-
-bool Being::isBarVisible()
-{ return
-				type == T_VITAL
-		||	type == T_ACTION
-		||	type == T_MEASURE
-		||	type == T_BIAS
-		||	type == T_PHYSICAL
-;}
-
-bool Being::isCharacterVisible()
-{	return
-				type == T_VITAL
-		||	type == T_MEASURE
-		||	type == T_BIAS
-;}
-
-bool Being::isOutBlockVisible()
-{	return
-				type == T_PHYSICAL
-		||	type == T_VITAL
-		||	type == T_ACTION
-		||	type == T_MEASURE
-		||	type == T_BIAS
-;}

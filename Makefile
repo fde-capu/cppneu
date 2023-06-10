@@ -12,7 +12,6 @@ HEAD	=	Makefile header.hpp Being.hpp defines.hpp randoms.hpp \
 				MetaNeuron.hpp prints.hpp
 SHELL	=	/bin/sh
 CC		=	clang++ -Wfatal-errors -std=c++20 -Wc++20-extensions -pthread
-CCFLAGS	=	-Wall -Werror -Wextra -g
 CCFLAGS	=	-Wall -Werror -Wextra -g -Wfatal-errors
 CCLINKS	=	#-Llibft -lft
 OBJS	=	$(SRCS:.cpp=.o)

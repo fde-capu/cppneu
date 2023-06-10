@@ -1,5 +1,7 @@
 #include "prints.hpp"
 
+static int displaySet = DISPLAY_SET_DEFAULT;
+
 void printScreen(Being& b)
 {
 	printHeader(b);
@@ -13,13 +15,13 @@ void printScreen(Being& b)
 
 void printHeader(Being& b)
 {
-	if (!(b.displaySet & DISPLAY_HEADER)) return ;
+	if (!(displaySet & DISPLAY_HEADER)) return ;
 	printw("%dN %dA %dB\n", b.count_being, b.count_axon, b.count_bias);
 }
 
 void printAllCharacters(Being& b)
 {
-	if (!(b.displaySet & DISPLAY_CHARS)) return ;
+	if (!(displaySet & DISPLAY_CHARS)) return ;
 	for (auto& n : b.table)
 			printCharacter(n);
 	printw("\n");
@@ -27,14 +29,14 @@ void printAllCharacters(Being& b)
 
 void printWantedActions(Being& b)
 {
-	if (!(b.displaySet & DISPLAY_WANT)) return ;
+	if (!(displaySet & DISPLAY_WANT)) return ;
 	printw("%s", b.bestAction.c_str());
 	printw("\n");
 }
 
 void printAllAxons(Being& b)
 {
-	if (!(b.displaySet & DISPLAY_AXONS)) return ;
+	if (!(displaySet & DISPLAY_AXONS)) return ;
 		for (auto& n : b.table)
 		{
 			if (n.isAxon())
@@ -48,11 +50,11 @@ void printAllAxons(Being& b)
 
 void printOuts(Being& b)
 {
-	if (!(b.displaySet & DISPLAY_OUTS)) return;
+	if (!(displaySet & DISPLAY_OUTS)) return;
 		printw("|");
 		for (auto& n : b.table)
 		{
-			if (n.isOutBlockVisible())
+			if (isOutBlockVisible(b))
 			{
 				if (n.outputValue)
 					printw("*|");
@@ -65,7 +67,7 @@ void printOuts(Being& b)
 
 void printCharacter(Being& b)
 {
-	if (!b.isCharacterVisible())
+	if (!isCharacterVisible(b))
 		return;
 	std::string shadowGray(" -~=+*oO&#%@");
 	double scaleFactor = static_cast<double>(shadowGray.length() - 1);
@@ -84,7 +86,7 @@ void printCharacter(Being& b)
 
 void printAllBars(Being& b)
 {
-	if (!b.displaySet || !(b.displaySet & DISPLAY_BAR_ALL)) return;
+	if (!displaySet || !(displaySet & DISPLAY_BAR_ALL)) return;
 	for (auto& n : b.table)
 		printAsciiBar(n);
 }
@@ -119,13 +121,13 @@ void printAllDescriptions(Being& b)
 //	if (action.length()) action += "\n";
 //	if (measure.length()) measure += "\n";
 	
-	if (b.displaySet & DISPLAY_PHYSICAL)
+	if (displaySet & DISPLAY_PHYSICAL)
 		printw(physical.c_str());
-	if (b.displaySet & DISPLAY_VITAL)
+	if (displaySet & DISPLAY_VITAL)
 		printw(vital.c_str());
-	if (b.displaySet & DISPLAY_AXONS)
+	if (displaySet & DISPLAY_AXONS)
 		printw(action.c_str());
-	if (b.displaySet & DISPLAY_MEASURES)
+	if (displaySet & DISPLAY_MEASURES)
 		printw(measure.c_str());
 }
 
@@ -138,8 +140,8 @@ void printAsciiBar(Being& b)
 {
 	static std::string barMap("[ ,.;:!]");
 
-	if (!b.isBarVisible()
-		|| (b.isBias() && !(b.displaySet & DISPLAY_BIAS)))
+	if (!isBarVisible(b)
+		|| (b.isBias() && !(displaySet & DISPLAY_BIAS)))
 		return ;
 	size_t length = ASCII_BAR_LENGTH;
 	double scaleFactor = static_cast<double>(length);
@@ -147,7 +149,7 @@ void printAsciiBar(Being& b)
 	size_t scaledThreshold = static_cast<int>(b.threshold * scaleFactor);
 	size_t scaledOriginalThreshold = static_cast<int>(b.originalThreshold * scaleFactor);
 
-	if (b.displaySet & DISPLAY_BAR)
+	if (displaySet & DISPLAY_BAR)
 	{
 		printw("%u %c", b.neuron_UID, barMap.at(0));
 		for (size_t i = 0; i < length; i++) {
@@ -174,17 +176,17 @@ void printAsciiBar(Being& b)
 		}
 		printw("%c ", barMap.at(7));
 	}
-	if (b.displaySet & DISPLAY_CHARACTER)
+	if (displaySet & DISPLAY_CHARACTER)
 	{
 		printw(" ");
 		printCharacter(b);
 	}
-	if (b.displaySet & DISPLAY_NUMBERS)
+	if (displaySet & DISPLAY_NUMBERS)
 	{
 		printw(" ");
 		printNumbers(b);
 	}
-	if (b.displaySet & DISPLAY_DESCRIPTION)
+	if (displaySet & DISPLAY_DESCRIPTION)
 	{
 		printw(" ");
 		printDescription(b);
@@ -202,4 +204,38 @@ void printNumbers(Being& b)
 		zeroOut(scaledInputValue).c_str(),
 		zeroOut(scaledThreshold).c_str(),
 		zeroOut(scaledOriginalThreshold).c_str());
+}
+
+bool isStatsVisible(Being& b)
+{ return
+				b.type == T_MEASURE; }
+
+bool isBarVisible(Being& b)
+{ return
+				b.type == T_VITAL
+		||	b.type == T_ACTION
+		||	b.type == T_MEASURE
+		||	b.type == T_BIAS
+		||	b.type == T_PHYSICAL
+;}
+
+bool isCharacterVisible(Being& b)
+{	return
+				b.type == T_VITAL
+		||	b.type == T_MEASURE
+		||	b.type == T_BIAS
+;}
+
+bool isOutBlockVisible(Being& b)
+{	return
+				b.type == T_PHYSICAL
+		||	b.type == T_VITAL
+		||	b.type == T_ACTION
+		||	b.type == T_MEASURE
+		||	b.type == T_BIAS
+;}
+
+void setDisplay(int bit_value)
+{
+	toggleBit(displaySet, bit_value);
 }

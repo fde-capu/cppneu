@@ -10,4 +10,14 @@
 
 static bool g_showDebug = true;
 
+# define DISPLAY_SET_DEFAULT \
+	DISPLAY_BAR + \
+	DISPLAY_DESCRIPTION + \
+	DISPLAY_AXONS + \
+	DISPLAY_BIAS + \
+	DISPLAY_HEADER + \
+	DISPLAY_CHARS + \
+	DISPLAY_WANT + \
+	DISPLAY_BAR_ALL
+
 #endif
