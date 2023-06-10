@@ -13,15 +13,13 @@
 class Being {
 	public:
 		std::vector<NEURON> neuron_table = {};
-		std::vector<zo> out;
-		std::vector<zo> axonOut;
-
-		static zo actionScore;
-		static std::string bestAction;
-
-		static size_t count_being;
-		static size_t count_axon;
-		static size_t count_bias;
+		std::vector<zo> out = {};
+		std::vector<zo> axonOut = {};
+		zo actionScore = 0.0;
+		std::string bestAction = "";
+		size_t count_being = 0;
+		size_t count_axon = 0;
+		size_t count_bias = 0;
 
 		Being();
 		void addNeuron(const t_config& u_);

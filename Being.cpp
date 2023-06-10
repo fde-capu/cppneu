@@ -1,9 +1,5 @@
 #include "Being.hpp"
 
-size_t Being::count_being = 0;
-size_t Being::count_axon = 0;
-size_t Being::count_bias = 0;
-
 void Being::addNeuron(const t_config& u_)
 {
 	NEURON n(u_, randomBeingWithOutput(), randomBeingWithInput());
@@ -106,9 +102,6 @@ void Being::processAxons()
 		}
 	}
 }
-
-zo Being::actionScore = 0.0;
-std::string Being::bestAction = "";
 
 const std::string Being::to_string()
 {
