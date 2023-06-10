@@ -35,15 +35,6 @@ class Being: public virtual NEURON {
 		void readAxons();
 		static size_t size();
 
-		static void printHeader();
-		static void printAllCharacters();
-		static void printAllBars();
-		static void printAllAxons();
-		static void printOuts();
-		static void printFile();
-		static void printAllDescriptions();
-		static void printWantedActions();
-
 		static void setDisplay(int);
 		static void toggleDisplayHeader();
 		static void toggleDisplayCharacters();
@@ -54,11 +45,6 @@ class Being: public virtual NEURON {
 		static void toggleDisplayActionResolution();
 
 		static int displayBars;
-
-		void printAsciiBar();
-		void printCharacter();
-		void printNumbers();
-		void printDescription();
 
 		std::string getDescription();
 
