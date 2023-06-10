@@ -35,7 +35,6 @@ class Being {
 		size_t randomBeingWithOutput();
 		size_t randomBeingWithInput();
 
-		const std::string to_string();
 		virtual std::string readable() const ;
 };
 

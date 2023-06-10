@@ -64,7 +64,7 @@ void config(std::string config_file)
 int main() {
 	prepare();
 	config(CONFIG_FILE);
-	std::cout << "BEING " << g_being.to_string();
+	std::cout << "BEING " << g_being.readable();
 	std::cout << std::endl;
 	run();
 	destroy();

@@ -103,16 +103,6 @@ void Being::processAxons()
 	}
 }
 
-const std::string Being::to_string()
-{
-	std::stringstream ss;
-	for (auto& being : neuron_table)
-	{
-		ss << being.readable();
-	}
-	return ss.str();
-}
-
 std::string Being::readable() const {
 	std::string s;
 	s = "{";
