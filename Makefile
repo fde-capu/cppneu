@@ -4,7 +4,7 @@ endif
 
 NAME	=	neupp
 ARGS	=	
-SRCS	=	main.cpp Being.cpp randoms.cpp BeingPrints.cpp helpers.cpp \
+SRCS	=	main.cpp Being.cpp randoms.cpp helpers.cpp \
 				Neuron.cpp DynamicNeuron.cpp menu.cpp parser.cpp \
 				TypesNeuron.cpp MetaNeuron.cpp prints.cpp
 HEAD	=	Makefile header.hpp Being.hpp defines.hpp randoms.hpp \

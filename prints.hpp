@@ -5,21 +5,23 @@
 
 void printScreen(Being&);
 void printHeader(Being&);
+
 void printAllCharacters(Being& b);
 void printAllBars(Being& b);
 void printAllAxons(Being& b);
 void printOuts(Being& b);
-void printFile(Being& b);
 void printAllDescriptions(Being& b);
 void printWantedActions(Being& b);
-void printNumbers(Being& b);
-void printCharacter(Being& b);
-void printAsciiBar(Being& b);
 
-bool isStatsVisible(Being& b);
-bool isBarVisible(Being& b);
-bool isCharacterVisible(Being& b);
-bool isOutBlockVisible(Being& b);
+void printDescription(NEURON&);
+void printNumbers(NEURON&);
+void printCharacter(NEURON&);
+void printAsciiBar(NEURON&);
+
+bool isStatsVisible(NEURON&);
+bool isBarVisible(NEURON&);
+bool isCharacterVisible(NEURON&);
+bool isOutBlockVisible(NEURON&);
 
 void setDisplay(int);
 

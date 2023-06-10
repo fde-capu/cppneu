@@ -10,9 +10,9 @@
 # include LAST_NEURON_IMPLEMENTATION
 # include "header.hpp"
 
-class Being: public virtual NEURON {
+class Being {
 	public:
-		static std::vector<Being> table;
+		static std::vector<NEURON> neuron_table;
 		static std::vector<zo> out;
 		static std::vector<zo> axonOut;
 
@@ -24,20 +24,16 @@ class Being: public virtual NEURON {
 		static size_t count_bias;
 
 		Being();
-		Being(const t_config& u_);
+//		Being(const t_config& u_);
 		void addNeuron(const t_config& u_);
 		void reset();
 
 		void process();
-		void extraFiringProcess();
-
-		static void processAll();
-		static void processAxons();
-		void readAxons();
+		void processAxons();
+		void readAxons(NEURON&);
+		void extraFiringProcess(NEURON&);
 
 		static size_t size();
-
-		std::string getDescription();
 
 		size_t randomBeingWithOutput();
 		size_t randomBeingWithInput();

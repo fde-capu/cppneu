@@ -22,7 +22,7 @@ void printHeader(Being& b)
 void printAllCharacters(Being& b)
 {
 	if (!(displaySet & DISPLAY_CHARS)) return ;
-	for (auto& n : b.table)
+	for (auto& n : b.neuron_table)
 			printCharacter(n);
 	printw("\n");
 }
@@ -37,7 +37,7 @@ void printWantedActions(Being& b)
 void printAllAxons(Being& b)
 {
 	if (!(displaySet & DISPLAY_AXONS)) return ;
-		for (auto& n : b.table)
+		for (auto& n : b.neuron_table)
 		{
 			if (n.isAxon())
 			{
@@ -52,9 +52,9 @@ void printOuts(Being& b)
 {
 	if (!(displaySet & DISPLAY_OUTS)) return;
 		printw("|");
-		for (auto& n : b.table)
+		for (NEURON& n : b.neuron_table)
 		{
-			if (isOutBlockVisible(b))
+			if (isOutBlockVisible(n))
 			{
 				if (n.outputValue)
 					printw("*|");
@@ -65,17 +65,17 @@ void printOuts(Being& b)
 		printw("\n");
 }
 
-void printCharacter(Being& b)
+void printCharacter(NEURON& n)
 {
-	if (!isCharacterVisible(b))
+	if (!isCharacterVisible(n))
 		return;
 	std::string shadowGray(" -~=+*oO&#%@");
 	double scaleFactor = static_cast<double>(shadowGray.length() - 1);
-	int scaledInputValue = static_cast<int>(b.inputValue * scaleFactor);
-	int scaledThreshold = static_cast<int>(b.threshold * scaleFactor);
-	int scaledOriginalThreshold = static_cast<int>(b.originalThreshold * scaleFactor);
+	int scaledInputValue = static_cast<int>(n.inputValue * scaleFactor);
+	int scaledThreshold = static_cast<int>(n.threshold * scaleFactor);
+	int scaledOriginalThreshold = static_cast<int>(n.originalThreshold * scaleFactor);
 
-	if (b.outputValue)
+	if (n.outputValue)
 		printw("!");
 	else
 		printw(" ");
@@ -87,7 +87,7 @@ void printCharacter(Being& b)
 void printAllBars(Being& b)
 {
 	if (!displaySet || !(displaySet & DISPLAY_BAR_ALL)) return;
-	for (auto& n : b.table)
+	for (auto& n : b.neuron_table)
 		printAsciiBar(n);
 }
 
@@ -99,7 +99,7 @@ void printAllDescriptions(Being& b)
 	std::string measure("");
 	std::string tmp;
 
-	for (auto& n : b.table)
+	for (auto& n : b.neuron_table)
 	{
 		tmp = n.getDescription() + "\n";
 		switch (n.type)
@@ -131,40 +131,40 @@ void printAllDescriptions(Being& b)
 		printw(measure.c_str());
 }
 
-void printDescription(Being& n)
+void printDescription(NEURON& n)
 {
 	printw(n.getDescription().c_str());
 }
 
-void printAsciiBar(Being& b)
+void printAsciiBar(NEURON& n)
 {
 	static std::string barMap("[ ,.;:!]");
 
-	if (!isBarVisible(b)
-		|| (b.isBias() && !(displaySet & DISPLAY_BIAS)))
+	if (!isBarVisible(n)
+		|| (n.isBias() && !(displaySet & DISPLAY_BIAS)))
 		return ;
 	size_t length = ASCII_BAR_LENGTH;
 	double scaleFactor = static_cast<double>(length);
-	size_t scaledInputValue = static_cast<int>(b.inputValue * scaleFactor);
-	size_t scaledThreshold = static_cast<int>(b.threshold * scaleFactor);
-	size_t scaledOriginalThreshold = static_cast<int>(b.originalThreshold * scaleFactor);
+	size_t scaledInputValue = static_cast<int>(n.inputValue * scaleFactor);
+	size_t scaledThreshold = static_cast<int>(n.threshold * scaleFactor);
+	size_t scaledOriginalThreshold = static_cast<int>(n.originalThreshold * scaleFactor);
 
 	if (displaySet & DISPLAY_BAR)
 	{
-		printw("%u %c", b.neuron_UID, barMap.at(0));
+		printw("%u %c", n.neuron_UID, barMap.at(0));
 		for (size_t i = 0; i < length; i++) {
 			if (i == scaledOriginalThreshold && i == scaledThreshold) {
-				if (b.outputValue)
+				if (n.outputValue)
 					printw("%c", barMap.at(6));
 				else
 					printw("%c", barMap.at(4));
 			} else if (i == scaledOriginalThreshold) {
-				if (b.threshold == b.originalThreshold && b.outputValue)
+				if (n.threshold == n.originalThreshold && n.outputValue)
 					printw("%c", barMap.at(6));
 				else
 					printw("%c", barMap.at(2));
 			} else if (i == scaledThreshold) {
-				if (b.outputValue)
+				if (n.outputValue)
 					printw("%c", barMap.at(6));
 				else
 					printw("%c", barMap.at(5));
@@ -179,60 +179,60 @@ void printAsciiBar(Being& b)
 	if (displaySet & DISPLAY_CHARACTER)
 	{
 		printw(" ");
-		printCharacter(b);
+		printCharacter(n);
 	}
 	if (displaySet & DISPLAY_NUMBERS)
 	{
 		printw(" ");
-		printNumbers(b);
+		printNumbers(n);
 	}
 	if (displaySet & DISPLAY_DESCRIPTION)
 	{
 		printw(" ");
-		printDescription(b);
+		printDescription(n);
 	}
 	printw("\n");
 }
 
-void printNumbers(Being& b)
+void printNumbers(NEURON& n)
 {
 	zo scaleFactor = 1.0;
-	zo scaledInputValue = static_cast<zo>(b.inputValue * scaleFactor);
-	zo scaledThreshold = static_cast<zo>(b.threshold * scaleFactor);
-	zo scaledOriginalThreshold = static_cast<zo>(b.originalThreshold * scaleFactor);
+	zo scaledInputValue = static_cast<zo>(n.inputValue * scaleFactor);
+	zo scaledThreshold = static_cast<zo>(n.threshold * scaleFactor);
+	zo scaledOriginalThreshold = static_cast<zo>(n.originalThreshold * scaleFactor);
 	printw("%s %s %s",
 		zeroOut(scaledInputValue).c_str(),
 		zeroOut(scaledThreshold).c_str(),
 		zeroOut(scaledOriginalThreshold).c_str());
 }
 
-bool isStatsVisible(Being& b)
+bool isStatsVisible(NEURON& n)
 { return
-				b.type == T_MEASURE; }
+				n.type == T_MEASURE; }
 
-bool isBarVisible(Being& b)
+bool isBarVisible(NEURON& n)
 { return
-				b.type == T_VITAL
-		||	b.type == T_ACTION
-		||	b.type == T_MEASURE
-		||	b.type == T_BIAS
-		||	b.type == T_PHYSICAL
+				n.type == T_VITAL
+		||	n.type == T_ACTION
+		||	n.type == T_MEASURE
+		||	n.type == T_BIAS
+		||	n.type == T_PHYSICAL
 ;}
 
-bool isCharacterVisible(Being& b)
+bool isCharacterVisible(NEURON& n)
 {	return
-				b.type == T_VITAL
-		||	b.type == T_MEASURE
-		||	b.type == T_BIAS
+				n.type == T_VITAL
+		||	n.type == T_MEASURE
+		||	n.type == T_BIAS
 ;}
 
-bool isOutBlockVisible(Being& b)
+bool isOutBlockVisible(NEURON& n)
 {	return
-				b.type == T_PHYSICAL
-		||	b.type == T_VITAL
-		||	b.type == T_ACTION
-		||	b.type == T_MEASURE
-		||	b.type == T_BIAS
+				n.type == T_PHYSICAL
+		||	n.type == T_VITAL
+		||	n.type == T_ACTION
+		||	n.type == T_MEASURE
+		||	n.type == T_BIAS
 ;}
 
 void setDisplay(int bit_value)

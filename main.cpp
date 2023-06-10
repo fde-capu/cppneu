@@ -18,7 +18,7 @@ void run()
 	{
 		if (g_running)
 		{
-			g_being.processAll();
+			g_being.process();
 
 			clear();
 			printMenu();

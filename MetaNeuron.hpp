@@ -16,12 +16,13 @@ class MetaNeuron: public virtual TypesNeuron
 
 	public:
 		MetaNeuron();
-		MetaNeuron(std::string, int, int, int, std::string, std::vector<std::string>);
+		MetaNeuron(t_config, size_t, size_t);
 		MetaNeuron(MetaNeuron const&);
 		MetaNeuron& operator= (MetaNeuron const&);
 		~MetaNeuron();
 
 		virtual std::string readable() const;
+		std::string getDescription();
 		static size_t g_Neuron_UID;
 };
 
