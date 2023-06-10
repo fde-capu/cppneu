@@ -11,18 +11,6 @@ void Being::addNeuron(const t_config& u_)
 	if (n.isBias()) count_bias++;
 }
 
-Being::Being()
-{
-	reset();
-}
-
-void Being::reset()
-{
-	neuron_table.clear();
-	out.clear();
-	axonOut.clear();
-}
-
 size_t Being::randomBeingWithOutput() {
 	if (!size()) return 0;
 	size_t beingI = randomValue<size_t>(0, size() - 1);
