@@ -4,11 +4,6 @@ size_t Being::count_being = 0;
 size_t Being::count_axon = 0;
 size_t Being::count_bias = 0;
 
-//Being::Being(const t_config& u_)
-//{
-//	addNeuron(u_);
-//}
-
 void Being::addNeuron(const t_config& u_)
 {
 	NEURON n(u_, randomBeingWithOutput(), randomBeingWithInput());
@@ -112,11 +107,8 @@ void Being::processAxons()
 	}
 }
 
-std::vector<NEURON> Being::neuron_table;
 zo Being::actionScore = 0.0;
 std::string Being::bestAction = "";
-std::vector<zo> Being::out;
-std::vector<zo> Being::axonOut;
 
 const std::string Being::to_string()
 {
@@ -131,7 +123,7 @@ const std::string Being::to_string()
 std::string Being::readable() const {
 	std::string s;
 	s = "{";
-	for (NEURON& n : neuron_table)
+	for (const NEURON& n : neuron_table)
 		s += n.readable();
 	s += "}";
 	return s;
