@@ -35,6 +35,7 @@ g_menu_tree =
 }},
 { "main", {
 	{'d', {"display", []() -> void { gotoMenu("display"); }}},
+	{'b', {"bias on/off", []() -> void { switchBias(); }}},
 }},
 { "display", {
 	{'d', {"back", []() -> void { gotoMenu("main"); }}},

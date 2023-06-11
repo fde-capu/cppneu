@@ -35,6 +35,10 @@ class Being {
 		size_t randomNeuronWithInput();
 
 		virtual std::string readable() const ;
+	
+	public:
+		bool bias_switch = true;
+		void switchBias();
 };
 
 #endif

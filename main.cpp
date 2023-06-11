@@ -36,6 +36,11 @@ void run()
 	}
 }
 
+void switchBias()
+{
+	g_being.switchBias();
+}
+
 void prepare()
 {
 	srand(time(NULL));

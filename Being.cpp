@@ -46,7 +46,7 @@ void Being::extraFiringProcess(NEURON& n) {
 void Being::readInput(NEURON& n) {
 	n.feed(
 		n.isBias() ?
-			randomZeroOne()
+			bias_switch ? randomZeroOne() : 0.0
 		:
 			axonOut[n.neuron_UID]
 	);
@@ -100,3 +100,6 @@ std::string Being::readable() const {
 	s += "}";
 	return s;
 }
+
+void Being::switchBias()
+{ bias_switch = !bias_switch; }
