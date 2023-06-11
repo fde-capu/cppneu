@@ -1,5 +1,4 @@
 #include "Neuron.hpp"
-#include <iostream>
 
 Neuron::Neuron()
 {
@@ -32,7 +31,9 @@ Neuron& Neuron::operator= (Neuron const & rhs)
 
 std::string Neuron::readable() const
 {
-	return "o" + std::to_string(originalThreshold) + ",";
+	return "o" + std::to_string(
+		floatUp(originalThreshold, PRECISION_DIGITS)
+		) + " ";
 }
 
 Neuron::~Neuron()

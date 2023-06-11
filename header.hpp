@@ -4,7 +4,8 @@
 # define CONFIG_FILE "config.md"
 # define MEMORY_TYPE_SIZE unsigned int
 # define zo float
-# define LEADING_ZEROS 1
+# define LEADING_ZEROS 5
+# define PRECISION_DIGITS 8
 # define ASCII_BAR_LENGTH 32
 # define STEP_MS 100
 

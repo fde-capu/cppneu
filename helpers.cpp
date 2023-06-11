@@ -8,9 +8,9 @@ std::string tobin(zo n)
 	return ss.str();
 }
 
-int floatUp(zo n)
+int floatUp(zo n, int digits)
 {
-	return static_cast<int>(n * pow(10, LEADING_ZEROS));
+	return static_cast<int>(n * pow(10, digits));
 }
 
 std::string zeroOut(zo n)

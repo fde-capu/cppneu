@@ -4,6 +4,7 @@
 #include "defines.hpp"
 #include "Being.hpp"
 #include "helpers.hpp"
+#include <string>
 
 t_config g_default_set =
 {

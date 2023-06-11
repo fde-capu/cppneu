@@ -1,6 +1,27 @@
 #include "parser.hpp"
 
-bool looksLikeScale(const std::string& s, int& scaleMin, int& scaleMax, std::string& unit)
+std::string name;
+int type;
+int expressor;
+int scaleMin;
+int scaleMax;
+std::string unit;
+std::vector<std::string> scale;
+zo damp;
+
+void parseReset()
+{
+	name = g_default_set.name;
+	type = g_default_set.type;
+	expressor = g_default_set.expressor;
+	scaleMin = g_default_set.scaleMin;
+	scaleMax = g_default_set.scaleMax;
+	unit = g_default_set.unit;
+	scale = g_default_set.scale;
+	damp = g_default_set.damp;
+}
+
+bool looksLikeScale(const std::string& s)
 {
 	size_t div = 0;
 	size_t min = 0;
@@ -30,33 +51,63 @@ bool looksLikeScale(const std::string& s, int& scaleMin, int& scaleMax, std::str
 	return true;
 }
 
-void ifLooksLikeDamp(const std::string& s, zo& damp)
+bool looksLikeName(const std::string& n)
 {
-	size_t dot = 0;
-	for (size_t i = 0; i < s.length(); i++)
+	if (!name.length())
+	{
+		name = n;
+		return true;
+	}
+	return false;
+}
+
+bool thenItsScaleName(const std::string& s)
+{
+	if (!name.length()) return false;
+	scale.push_back(s);
+	return true;
+}
+
+bool uFormat(const std::string& s, char x)
+{
+	bool one_dot = false;
+	if (s.at(0) != x) return false;
+	for (size_t i = 1; i < s.length() - 1; i++)
 	{
 		if (s.at(i) == '.')
-			dot++;
-		else if (s.at(i) >= '0' && s.at(i) <= '9')
-			continue;
-		else
-			return;
+		{
+			if (one_dot)
+				return false;
+			else
+				one_dot = true;
+			continue ;
+		}
+		if (s.at(i) >= '0' && s.at(i) <= '9')
+			continue ;
+		return false;
 	}
-	if (dot != 1) return;
-	damp = readZO(s, 0);
+	return true;
+}
+
+template <typename T>
+void uRead(T& v, const std::string& s)
+{
+	if (s.substr(1) == "1.0")
+		v = 1.0;
+	else
+		v = readZO("0." + s.substr(1));
+}
+
+bool looksLikeDamp(const std::string& s)
+{
+	if (!uFormat(s, 'd')) return false;
+	uRead(damp, s);
+	return true;
 }
 
 void parse(const std::string& l)
 {
-	std::string name = g_default_set.name;
-	int type = g_default_set.type;
-	int expressor = g_default_set.expressor;
-	int scaleMin = g_default_set.scaleMin;
-	int scaleMax = g_default_set.scaleMax;
-	std::string unit = g_default_set.unit;
-	std::vector<std::string> scale = g_default_set.scale;
-	zo damp = g_default_set.damp;
-
+	parseReset();
 	std::string make = "";
 
 	std::vector<std::string> spl = readSplit(l);
@@ -79,14 +130,10 @@ void parse(const std::string& l)
 		}
 		if (spl[i].length() > 1)
 		{
-			if (!name.length())
-				name = spl[i];
-			else
-			{
-				if (!looksLikeScale(spl[i], scaleMin, scaleMax, unit))
-					scale.push_back(spl[i]);
-				ifLooksLikeDamp(spl[i], damp);
-			}
+			if (looksLikeName(spl[i])) continue ;
+			if (looksLikeScale(spl[i])) continue ;
+			if (looksLikeDamp(spl[i])) continue ;
+			if (thenItsScaleName(spl[i])) continue ;
 		}
 	}
 
