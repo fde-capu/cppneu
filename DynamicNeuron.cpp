@@ -4,6 +4,7 @@ DynamicNeuron::DynamicNeuron(zo u_damp)
 {
 	damp = u_damp;
 	threshold = originalThreshold;
+	debug(std::to_string(threshold) + ":" + std::to_string(originalThreshold) + " | ");
 }
 
 void DynamicNeuron::feed(zo in)
@@ -42,6 +43,8 @@ DynamicNeuron& DynamicNeuron::operator= (DynamicNeuron const & rhs)
 	{
 		Neuron::operator=(rhs);
 		this->damp = rhs.damp;
+		this->threshold = rhs.threshold;
+		this->force = rhs.force;
 	}
 	return *this;
 }

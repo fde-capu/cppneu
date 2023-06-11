@@ -16,5 +16,5 @@ n Heart v s 0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper 0.99
 #n Drop a
 #n Clench a Softly Moderated Hard
 #n a Sleep
-b 1
+b 0
 x 1
