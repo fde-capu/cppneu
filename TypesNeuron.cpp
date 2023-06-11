@@ -33,7 +33,6 @@ bool TypesNeuron::isNeuron()
 		||	type == T_VITAL
 		||	type == T_ACTION
 		||	type == T_MEASURE
-		||	type == T_BIAS
 ;}
 
 bool TypesNeuron::isBias()
@@ -48,7 +47,7 @@ bool TypesNeuron::hasInput()
 ;}
 
 bool TypesNeuron::hasOutput()
-{ return isNeuron(); }
+{ return isNeuron() || isBias(); }
 
 TypesNeuron::~TypesNeuron()
 {}

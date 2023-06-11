@@ -6,6 +6,7 @@
 # include <cmath>
 # include "header.hpp"
 # include <vector>
+# include <map>
 
 std::string tobin(zo n);
 int floatUp(zo n);
@@ -19,5 +20,10 @@ void hard_trim(std::string& line);
 zo max();
 std::string to_string(std::vector<std::string>);
 void toggleBit(int&, int);
+
+template <typename T>
+bool exists (std::map<size_t, T>& m, size_t i) {
+	return m.find(i) != m.end();
+}
 
 #endif

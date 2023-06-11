@@ -20,6 +20,7 @@
 # define T_MEASURE 4
 # define T_BIAS 20
 # define T_AXON 40
+# define T_DEFAULT T_MEASURE
 
 # define EXPRESSOR_THRESHOLD 1
 # define EXPRESSOR_CURRENT 2

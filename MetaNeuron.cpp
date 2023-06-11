@@ -2,7 +2,9 @@
 
 size_t MetaNeuron::g_Neuron_UID = 0;
 
-MetaNeuron::MetaNeuron(){}
+MetaNeuron::MetaNeuron()
+{
+}
 
 MetaNeuron::MetaNeuron(
 	t_config u_
@@ -15,7 +17,7 @@ MetaNeuron::MetaNeuron(
 	TypesNeuron(
 		u_.type
 	),
-	neuron_UID(++g_Neuron_UID),
+	neuron_UID(g_Neuron_UID++),
 	name(u_.name),
 	expressor(u_.expressor),
 	scaleMin(u_.scaleMin),

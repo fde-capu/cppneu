@@ -16,19 +16,19 @@ void Being::addNeuron(const t_config& u_)
 }
 
 size_t Being::randomNeuronWithOutput() {
-	if (!neuron_table.size()) return 0;
+	if (neuron_table.size() < 1) return 0;
 	size_t beingI = randomValue<size_t>(0, neuron_table.size() - 1);
-	if (!neuron_table[beingI].hasOutput())
+	if (!neuron_table.at(beingI).hasOutput())
 		return randomNeuronWithOutput();
-	return neuron_table[beingI].neuron_UID;
+	return neuron_table.at(beingI).neuron_UID;
 }
 
 size_t Being::randomNeuronWithInput() {
-	if (!neuron_table.size()) return 0;
+	if (neuron_table.size() < 1) return 0;
 	size_t beingI = randomValue<size_t>(0, neuron_table.size() - 1);
-	if (!neuron_table[beingI].hasInput())
+	if (!neuron_table.at(beingI).hasInput())
 		return randomNeuronWithInput();
-	return neuron_table[beingI].neuron_UID;
+	return neuron_table.at(beingI).neuron_UID;
 }
 
 void Being::extraFiringProcess(NEURON& n) {
@@ -86,7 +86,7 @@ void Being::processAxons()
 		axonOut[a.slotOut] += \
 			neuronOut[a.slotIn] \
 			/ inCount[
-				neuron_table[a.slotOut]
+				neuron_table.at(a.slotOut)
 					.neuron_UID] \
 			* a.multiplier;
 	}

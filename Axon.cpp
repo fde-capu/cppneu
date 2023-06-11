@@ -5,7 +5,7 @@ size_t Axon::g_Axon_UID = 0;
 Axon::Axon(size_t slotIn, size_t slotOut)
 : slotIn(slotIn), slotOut(slotOut)
 {
-	axon_UID = ++g_Axon_UID;
+	axon_UID = g_Axon_UID++;
 	multiplier = randomZeroOne();
 }
 
