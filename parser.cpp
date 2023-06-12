@@ -111,7 +111,6 @@ bool looksLikeDamp(const std::string& s)
 {
 	if (!uFormat(s, 'd')) return false;
 	uRead(damp, s);
-	debug(" read damp (" + s + ") " + std::to_string(damp));
 	return true;
 }
 

@@ -50,7 +50,6 @@ DynamicNeuron& DynamicNeuron::operator= (DynamicNeuron const & rhs)
 
 std::string DynamicNeuron::readable() const
 {
-	debug(" CDamp is " + std::to_string(damp));
 	return Neuron::readable() + "d" + 
 		floatUp(damp, PRECISION_DIGITS)
 	 + " ";
