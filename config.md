@@ -1,5 +1,5 @@
 # String : first string must be the name
-# string string string ... any other is part of the scale
+# string string string ... any other string is part of the scale
 # n|b|x		n:neuron|b:bias|x:axon
 # a|m|p|v	a:action|m:measure|p:physical|v:vital
 ## Expressors:
@@ -11,6 +11,7 @@
 #
 ## x123456 : format for setting:
 # (use d1234 for d = 0.1234 and d1.0 for d = 1.0)
+# oxxxx original threshold
 # dxxxx damping 
 #
 # todo: h scale-name word word

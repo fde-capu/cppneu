@@ -20,7 +20,15 @@
 # define T_MEASURE 4
 # define T_BIAS 20
 # define T_AXON 40
+
 # define T_DEFAULT T_MEASURE
+
+# define T_PHYSICAL_CHAR 'p'
+# define T_VITAL_CHAR 'v'
+# define T_ACTION_CHAR 'a'
+# define T_MEASURE_CHAR 'm'
+# define T_BIAS_CHAR 'b'
+# define T_AXON_CHAR 'x'
 
 # define EXPRESSOR_THRESHOLD 1
 # define EXPRESSOR_CURRENT 2

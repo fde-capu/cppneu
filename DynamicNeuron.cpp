@@ -50,7 +50,9 @@ DynamicNeuron& DynamicNeuron::operator= (DynamicNeuron const & rhs)
 
 std::string DynamicNeuron::readable() const
 {
-	return Neuron::readable() + "d" + std::to_string(damp) + ";";
+	return Neuron::readable() + "d" + std::to_string(
+		floatUp(damp, PRECISION_DIGITS)
+	) + " ";
 }
 
 DynamicNeuron::~DynamicNeuron()

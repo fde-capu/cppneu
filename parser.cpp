@@ -116,17 +116,17 @@ void parse(const std::string& l)
 	{
 		if (spl[i].length() == 1)
 		{
-			if (spl[i] == "a") type = T_ACTION;
-			if (spl[i] == "b") make = "bias";
-			if (spl[i] == "c") expressor = EXPRESSOR_CURRENT;
-			if (spl[i] == "m") type = T_MEASURE;
-			if (spl[i] == "n") make = "neuron";
-			if (spl[i] == "o") expressor = EXPRESSOR_ORIGINAL_THRESHOLD;
-			if (spl[i] == "p") type = T_PHYSICAL;
-			if (spl[i] == "s") expressor = EXPRESSOR_THRESHOLD_SHORT;
-			if (spl[i] == "t") expressor = EXPRESSOR_THRESHOLD;
-			if (spl[i] == "v") type = T_VITAL;
-			if (spl[i] == "x") make = "axon";
+			if (spl[i].at(0) == T_ACTION_CHAR) type = T_ACTION;
+			if (spl[i].at(0) == T_BIAS_CHAR) make = "bias";
+			if (spl[i].at(0) == 'c') expressor = EXPRESSOR_CURRENT;
+			if (spl[i].at(0) == T_MEASURE_CHAR) type = T_MEASURE;
+			if (spl[i].at(0) == 'n') make = "neuron";
+			if (spl[i].at(0) == 'o') expressor = EXPRESSOR_ORIGINAL_THRESHOLD;
+			if (spl[i].at(0) == T_PHYSICAL_CHAR) type = T_PHYSICAL;
+			if (spl[i].at(0) == 's') expressor = EXPRESSOR_THRESHOLD_SHORT;
+			if (spl[i].at(0) == 't') expressor = EXPRESSOR_THRESHOLD;
+			if (spl[i].at(0) == T_VITAL_CHAR) type = T_VITAL;
+			if (spl[i].at(0) == T_AXON_CHAR) make = "axon";
 		}
 		if (spl[i].length() > 1)
 		{
