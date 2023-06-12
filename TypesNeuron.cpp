@@ -69,7 +69,7 @@ bool TypesNeuron::hasInput()
 ;}
 
 bool TypesNeuron::hasOutput()
-{ return isNeuron() || isBias(); }
+{ return hasInput() || isBias(); }
 
 TypesNeuron::~TypesNeuron()
 {}

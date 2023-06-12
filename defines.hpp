@@ -53,6 +53,7 @@
 
 typedef struct TypeBeingConfig
 {
+	size_t UID;
 	int type;
 	std::string name;
 	int expressor;

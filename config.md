@@ -14,11 +14,13 @@
 # oxxxx original threshold
 # dxxxx damping 
 #
+# ixxxx id
+#
 # todo: h scale-name word word
 
-n Heart v s 0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper d999
+n Heart v s i42 0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper d0999
 
-n Nose o01234567 p o Short Medium Long d1.0
+#n Nose o01234567 p o Short Medium Long d1.0
 #n Breath v t Empty Neutral Full 0.8
 #n Eyes s Closed Normal "Wide Open" 0.4
 #n Humor Crappy Bad Medium Ok Good Enthusiastic Incredible
@@ -27,4 +29,4 @@ n Nose o01234567 p o Short Medium Long d1.0
 #n Clench a Softly Moderated Hard
 #n a Sleep
 b 1
-x 1
+x 2

@@ -16,18 +16,33 @@ void Being::addNeuron(const t_config& u_)
 }
 
 size_t Being::randomNeuronWithOutput() {
+
 	if (neuron_table.size() < 1) return 0;
-	size_t beingI = randomValue<size_t>(0, neuron_table.size() - 1);
+
+	auto it = neuron_table.begin();
+	std::advance(it, 
+		randomValue<size_t>(0, neuron_table.size() - 1)
+	);
+	size_t beingI = it->first;
+
 	if (!neuron_table.at(beingI).hasOutput())
 		return randomNeuronWithOutput();
+	debug("Found with output: " + std::to_string(beingI) + " ");
 	return neuron_table.at(beingI).neuron_UID;
 }
 
 size_t Being::randomNeuronWithInput() {
 	if (neuron_table.size() < 1) return 0;
-	size_t beingI = randomValue<size_t>(0, neuron_table.size() - 1);
+
+	auto it = neuron_table.begin();
+	std::advance(it, 
+		randomValue<size_t>(0, neuron_table.size() - 1)
+	);
+	size_t beingI = it->first;
+
 	if (!neuron_table.at(beingI).hasInput())
 		return randomNeuronWithInput();
+	debug("Found with input: " + std::to_string(beingI) + " ");
 	return neuron_table.at(beingI).neuron_UID;
 }
 
@@ -71,7 +86,7 @@ void Being::process()
 
 void Being::processAxons()
 {
-	std::vector<size_t> inCount(neuron_table.size(), 0);
+	std::map<size_t, size_t> inCount;
 	for (auto& pair : axon_table)
 	{
 		inCount[pair.second.slotOut]++;

@@ -1,5 +1,6 @@
 #include "parser.hpp"
 
+size_t UID;
 std::string name;
 int type;
 int expressor;
@@ -11,6 +12,7 @@ zo damp;
 
 void parseReset()
 {
+	UID = 0;
 	name = g_default_set.name;
 	type = g_default_set.type;
 	expressor = g_default_set.expressor;
@@ -98,6 +100,13 @@ void uRead(T& v, const std::string& s)
 		v = readZO("0." + s.substr(1));
 }
 
+bool looksLikeId(const std::string& s)
+{
+	if (!uFormat(s, 'i')) return false;
+	UID = readSizeT(s, 1);	
+	return true;
+}
+
 bool looksLikeDamp(const std::string& s)
 {
 	if (!uFormat(s, 'd')) return false;
@@ -133,6 +142,7 @@ void parse(const std::string& l)
 			if (looksLikeName(spl[i])) continue ;
 			if (looksLikeScale(spl[i])) continue ;
 			if (looksLikeDamp(spl[i])) continue ;
+			if (looksLikeId(spl[i])) continue ;
 			if (thenItsScaleName(spl[i])) continue ;
 		}
 	}
@@ -140,6 +150,7 @@ void parse(const std::string& l)
 	if (make == "" || make == "neuron")
 	{
 		g_conf.push_back({
+			.UID = UID,
 			.type = type,
 			.name = name,
 			.expressor = expressor,
