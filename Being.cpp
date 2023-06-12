@@ -1,5 +1,7 @@
 #include "Being.hpp"
 
+size_t Being::g_Neuron_UID = 0;
+
 void Being::addAxon()
 {
 	Axon a(randomNeuronWithOutput(), randomNeuronWithInput());
@@ -7,8 +9,10 @@ void Being::addAxon()
 	count_axon++;
 }
 
-void Being::addNeuron(const t_config& u_)
+void Being::addNeuron(t_config& u_)
 {
+	if (!u_.UID)
+		u_.UID = g_Neuron_UID++;
 	NEURON n(u_);
 	neuron_table[n.neuron_UID] = n;
 	if (n.isNeuron()) count_neuron++;

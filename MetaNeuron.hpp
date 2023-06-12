@@ -23,7 +23,6 @@ class MetaNeuron: public virtual TypesNeuron
 
 		virtual std::string readable() const;
 		std::string getDescription();
-		static size_t g_Neuron_UID;
 };
 
 #endif

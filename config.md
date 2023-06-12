@@ -28,5 +28,7 @@ n Heart v s i42 0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper d999
 #n Drop a
 #n Clench a Softly Moderated Hard
 #n a Sleep
-b 1
+b 2
 x 2
+
+

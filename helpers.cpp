@@ -127,3 +127,11 @@ void toggleBit(int& d, int b)
 {
 	d += d & b ? -b : b;
 }
+
+template <typename T>
+size_t nextUID(std::map<size_t, T>& m, size_t& g_)
+{
+	while(exist(m, g_))
+		g_++;
+	return g_;
+}

@@ -1,9 +1,6 @@
 #include "MetaNeuron.hpp"
 
-size_t MetaNeuron::g_Neuron_UID = 0;
-
-MetaNeuron::MetaNeuron()
-{}
+MetaNeuron::MetaNeuron(){}
 
 MetaNeuron::MetaNeuron(
 	t_config u_
@@ -16,7 +13,7 @@ MetaNeuron::MetaNeuron(
 	TypesNeuron(
 		u_.type
 	),
-	neuron_UID(u_.UID ? u_.UID : g_Neuron_UID++),
+	neuron_UID(u_.UID),
 	name(u_.name),
 	expressor(u_.expressor),
 	scaleMin(u_.scaleMin),
@@ -47,10 +44,11 @@ MetaNeuron& MetaNeuron::operator= (MetaNeuron const& rhs)
 std::string MetaNeuron::readable() const
 {
 	return TypesNeuron::readable() + \
-		"i" + std::to_string(neuron_UID) + " " + \
-		name + "," + std::to_string(expressor) + "," + \
-		std::to_string(scaleMin) + "," + std::to_string(scaleMax) + "," + \
-		unit + "," + to_string(scale) + ";";
+		name + " expressor:" + std::to_string(expressor) + \
+		" " + std::to_string(scaleMin) + \
+		":" + std::to_string(scaleMax) + \
+		":" + unit + \
+		" " + to_string(scale) + " ";
 }
 
 std::string MetaNeuron::getDescription()

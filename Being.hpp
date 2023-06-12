@@ -13,6 +13,8 @@
 
 class Being {
 	public:
+		static size_t g_Neuron_UID;
+
 		std::map<size_t, NEURON> neuron_table = {};
 		std::map<size_t, Axon> axon_table = {};
 		std::map<size_t, zo> neuronOut = {};
@@ -24,7 +26,7 @@ class Being {
 		size_t count_bias = 0;
 
 		void addAxon();
-		void addNeuron(const t_config& u_);
+		void addNeuron(t_config& u_);
 
 		void process();
 		void processAxons();
