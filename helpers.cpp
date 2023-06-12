@@ -8,14 +8,27 @@ std::string tobin(zo n)
 	return ss.str();
 }
 
-int floatUp(zo n, int digits)
+std::string floatUp(zo n, int digits)
 {
-	return static_cast<int>(n * pow(10, digits));
+	if (n == 1.0) return "1.0";
+	std::string floatOut = "";
+	zo t = n;
+	int zeroes = 0;
+	while (digits > 0 && static_cast<int>(t * 10) == 0)
+	{
+		digits--;
+		zeroes++;
+		t *= 10;
+	}
+	while (zeroes-- > 0)
+		floatOut += "0";
+	floatOut += std::to_string(static_cast<int>(t * pow(10, digits - 1)));
+	return floatOut;
 }
 
 std::string zeroOut(zo n)
 {
-	std::string str(std::to_string(floatUp(n)));
+	std::string str(floatUp(n));
 	if (str.length() > LEADING_ZEROS)
 	{
 		str = "";

@@ -39,8 +39,8 @@ void printAllAxons(Being& b)
 	if (!(displaySet & DISPLAY_AXONS)) return ;
 		for (auto& pair : b.axon_table)
 		{
-			printw("%d-%d>%d ",
-				pair.second.slotIn, floatUp(pair.second.multiplier), pair.second.slotOut); 
+			printw("%d-%s>%d ",
+				pair.second.slotIn, floatUp(pair.second.multiplier).c_str(), pair.second.slotOut); 
 		}
 		printw("\n");
 }

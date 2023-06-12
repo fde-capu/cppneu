@@ -31,9 +31,9 @@ Neuron& Neuron::operator= (Neuron const & rhs)
 
 std::string Neuron::readable() const
 {
-	return "o" + std::to_string(
+	return "o" + 
 		floatUp(originalThreshold, PRECISION_DIGITS)
-		) + " ";
+		 + " ";
 }
 
 Neuron::~Neuron()

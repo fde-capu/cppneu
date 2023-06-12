@@ -47,7 +47,7 @@ MetaNeuron& MetaNeuron::operator= (MetaNeuron const& rhs)
 std::string MetaNeuron::readable() const
 {
 	return TypesNeuron::readable() + \
-		std::to_string(neuron_UID) + " " + \
+		"i" + std::to_string(neuron_UID) + " " + \
 		name + "," + std::to_string(expressor) + "," + \
 		std::to_string(scaleMin) + "," + std::to_string(scaleMax) + "," + \
 		unit + "," + to_string(scale) + ";";

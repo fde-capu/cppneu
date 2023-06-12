@@ -27,7 +27,6 @@ size_t Being::randomNeuronWithOutput() {
 
 	if (!neuron_table.at(beingI).hasOutput())
 		return randomNeuronWithOutput();
-	debug("Found with output: " + std::to_string(beingI) + " ");
 	return neuron_table.at(beingI).neuron_UID;
 }
 
@@ -42,7 +41,6 @@ size_t Being::randomNeuronWithInput() {
 
 	if (!neuron_table.at(beingI).hasInput())
 		return randomNeuronWithInput();
-	debug("Found with input: " + std::to_string(beingI) + " ");
 	return neuron_table.at(beingI).neuron_UID;
 }
 
