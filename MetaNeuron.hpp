@@ -23,6 +23,9 @@ class MetaNeuron: public virtual TypesNeuron
 
 		virtual std::string readable() const;
 		std::string getDescription();
+
+	private:
+		bool customScale() const;
 };
 
 #endif

@@ -35,6 +35,11 @@
 # define EXPRESSOR_ORIGINAL_THRESHOLD 3
 # define EXPRESSOR_THRESHOLD_SHORT 4
 
+# define E_THRESHOLD_CHAR 't'
+# define E_CURRENT_CHAR 'c'
+# define E_ORIGINAL_CHAR 'o'
+# define E_SHORT_CHAR 's'
+
 # define DISPLAY_BAR_ALL (1 << 0)
 # define DISPLAY_BAR (1 << 1)
 # define DISPLAY_CHARACTER (1 << 2)

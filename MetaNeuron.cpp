@@ -41,14 +41,42 @@ MetaNeuron& MetaNeuron::operator= (MetaNeuron const& rhs)
 	return *this;
 }
 
+bool MetaNeuron::customScale() const
+{	return scaleMax && unit.length(); }
+
 std::string MetaNeuron::readable() const
 {
-	return TypesNeuron::readable() + \
-		name + " expressor:" + std::to_string(expressor) + \
-		" " + std::to_string(scaleMin) + \
-		":" + std::to_string(scaleMax) + \
-		":" + unit + \
-		" " + to_string(scale) + " ";
+	std::string readOut = TypesNeuron::readable();
+	if (expressor)
+	{
+		switch (expressor)
+		{
+			case EXPRESSOR_CURRENT:
+				readOut += std::string(1, E_CURRENT_CHAR);
+				break;
+			case EXPRESSOR_THRESHOLD:
+				readOut += std::string(1, E_THRESHOLD_CHAR);
+				break;
+			case EXPRESSOR_ORIGINAL_THRESHOLD:
+				readOut += std::string(1, E_ORIGINAL_CHAR);
+				break;
+			case EXPRESSOR_THRESHOLD_SHORT:
+				readOut += std::string(1, E_SHORT_CHAR);
+				break;
+		}
+		readOut += " ";
+	}
+	readOut += "i" + std::to_string(neuron_UID) + " ";
+	if (customScale())
+	{
+		readOut += std::to_string(scaleMin) + \
+			":" + std::to_string(scaleMax) + \
+			":" + unit + \
+			" ";
+	}
+	if (scale.size())
+		readOut += to_string(scale) + " ";
+	return readOut;
 }
 
 std::string MetaNeuron::getDescription()

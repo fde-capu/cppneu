@@ -21,4 +21,5 @@ static bool g_showDebug = true;
 	DISPLAY_WANT + \
 	DISPLAY_BAR_ALL
 
+# define EXPRESSOR_DEFAULT EXPRESSOR_THRESHOLD_SHORT
 #endif

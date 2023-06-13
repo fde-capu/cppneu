@@ -113,13 +113,13 @@ zo max()
 std::string to_string (std::vector<std::string> v)
 {
 	std::stringstream ss;
-	ss << "[";
-	for (size_t i = 0; i < v.size(); i++)
+	for (auto& vi : v)
 	{
-		ss << v[i];
-		if (i + 1 < v.size()) ss << ",";
+		if (vi.find(' ') != std::string::npos) ss << "\"";
+		ss << vi;
+		if (vi.find(' ') != std::string::npos) ss << "\"";
+		ss << " ";
 	}
-	ss << "]";
 	return ss.str();
 }
 

@@ -23,7 +23,6 @@ TypesNeuron& TypesNeuron::operator= (TypesNeuron const & rhs)
 std::string TypesNeuron::readable() const
 {
 	std::string readOut = DynamicNeuron::readable();
-
 	switch (type)
 	{
 			case T_PHYSICAL:
