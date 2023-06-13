@@ -2,7 +2,8 @@
 
 DynamicNeuron::DynamicNeuron(zo u_damp)
 {
-	damp = u_damp != -1.0 ? u_damp : randomZeroOne();
+	damp = u_damp != -1.0 ? u_damp :
+		randomZeroOne();
 	threshold = originalThreshold;
 }
 
@@ -21,7 +22,7 @@ void DynamicNeuron::tick()
 	if (inputValue > threshold)
 	{
 		force = (inputValue - threshold);
-		threshold += force * (1.0 - damp);
+		threshold += force * (1.0 - damp) / 10;
 	}
 	else
 	{
