@@ -72,10 +72,13 @@ void hard_trim(std::string& line)
 	line = out;
 }
 
-std::string readQuoted(const std::string& l, size_t i)
+std::string readQuoted(const std::string& l, size_t& u_i)
 {
+	size_t i(u_i);
 	char f = l.at(i) == '"' ? '"' : ' ';
 	i += f == '"' ? 0 : -1;
+	u_i += f == '"' ? 1 : 0;
+
 	std::string o;
 	while (++i < l.length() && l.at(i) != f)
 		o += l.at(i);

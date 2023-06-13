@@ -121,29 +121,29 @@ void parse(const std::string& l)
 
 	std::vector<std::string> spl = readSplit(l);
 
-	for (size_t i = 0; i < spl.size(); i++)
+	for (auto& s : spl)
 	{
-		if (spl[i].length() == 1)
+		if (s.length() == 1)
 		{
-			if (spl[i].at(0) == T_ACTION_CHAR) type = T_ACTION;
-			if (spl[i].at(0) == T_BIAS_CHAR) make = "bias";
-			if (spl[i].at(0) == 'c') expressor = EXPRESSOR_CURRENT;
-			if (spl[i].at(0) == T_MEASURE_CHAR) type = T_MEASURE;
-			if (spl[i].at(0) == 'n') make = "neuron";
-			if (spl[i].at(0) == 'o') expressor = EXPRESSOR_ORIGINAL_THRESHOLD;
-			if (spl[i].at(0) == T_PHYSICAL_CHAR) type = T_PHYSICAL;
-			if (spl[i].at(0) == 's') expressor = EXPRESSOR_THRESHOLD_SHORT;
-			if (spl[i].at(0) == 't') expressor = EXPRESSOR_THRESHOLD;
-			if (spl[i].at(0) == T_VITAL_CHAR) type = T_VITAL;
-			if (spl[i].at(0) == T_AXON_CHAR) make = "axon";
+			if (s.at(0) == T_ACTION_CHAR) type = T_ACTION;
+			if (s.at(0) == T_BIAS_CHAR) make = "bias";
+			if (s.at(0) == E_CURRENT_CHAR) expressor = EXPRESSOR_CURRENT;
+			if (s.at(0) == T_MEASURE_CHAR) type = T_MEASURE;
+			if (s.at(0) == T_NEURON_CHAR) make = "neuron";
+			if (s.at(0) == E_ORIGINAL_CHAR) expressor = EXPRESSOR_ORIGINAL_THRESHOLD;
+			if (s.at(0) == T_PHYSICAL_CHAR) type = T_PHYSICAL;
+			if (s.at(0) == E_SHORT_CHAR) expressor = EXPRESSOR_THRESHOLD_SHORT;
+			if (s.at(0) == E_THRESHOLD_CHAR) expressor = EXPRESSOR_THRESHOLD;
+			if (s.at(0) == T_VITAL_CHAR) type = T_VITAL;
+			if (s.at(0) == T_AXON_CHAR) make = "axon";
 		}
-		if (spl[i].length() > 1)
+		if (s.length() > 1)
 		{
-			if (looksLikeName(spl[i])) continue ;
-			if (looksLikeScale(spl[i])) continue ;
-			if (looksLikeDamp(spl[i])) continue ;
-			if (looksLikeId(spl[i])) continue ;
-			if (thenItsScaleName(spl[i])) continue ;
+			if (looksLikeName(s)) continue ;
+			if (looksLikeScale(s)) continue ;
+			if (looksLikeDamp(s)) continue ;
+			if (looksLikeId(s)) continue ;
+			if (thenItsScaleName(s)) continue ;
 		}
 	}
 

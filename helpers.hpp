@@ -13,7 +13,7 @@ std::string floatUp(zo n, int digitis = LEADING_ZEROS);
 std::string zeroOut(zo n);
 zo& zoRestrain(zo& n, zo min = 0.0, zo max = 1.0);
 size_t readSizeT(const std::string& l, size_t i);
-std::string readQuoted(const std::string& l, size_t i);
+std::string readQuoted(const std::string& l, size_t&);
 zo readZO(const std::string&l, size_t i = 0);
 std::vector<std::string> readSplit(const std::string& l);
 void hard_trim(std::string& line);
