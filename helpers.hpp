@@ -26,4 +26,6 @@ bool exists (std::map<size_t, T>& m, size_t i) {
 	return m.find(i) != m.end();
 }
 
+std::string removeZerosFromEnd(std::string float000);
+
 #endif

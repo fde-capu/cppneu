@@ -72,6 +72,15 @@ void hard_trim(std::string& line)
 	line = out;
 }
 
+std::string removeZerosFromEnd(std::string float000)
+{
+	size_t i = float000.length();
+	if (!i) return float000;
+	while (--i && float000.at(i) == '0') ;
+	float000 = float000.substr(0, i);
+	return float000;
+}
+
 std::string readQuoted(const std::string& l, size_t& u_i)
 {
 	size_t i(u_i);
