@@ -29,7 +29,6 @@
 # define T_MEASURE_CHAR 'm'
 # define T_BIAS_CHAR 'b'
 # define T_AXON_CHAR 'x'
-# define T_NEURON_CHAR 'n'
 
 # define EXPRESSOR_THRESHOLD 1
 # define EXPRESSOR_CURRENT 2
@@ -79,5 +78,7 @@ void loadConf(const char* u_fn);
 void doQuit();
 void debug(std::string s);
 void switchBias();
+
+# define BIAS_NAME "bias"
 
 #endif

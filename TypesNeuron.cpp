@@ -22,30 +22,30 @@ TypesNeuron& TypesNeuron::operator= (TypesNeuron const & rhs)
 
 std::string TypesNeuron::readable() const
 {
-	std::string readOut = DynamicNeuron::readable();
+	std::string readOut = "";
+	readOut += DynamicNeuron::readable();
 	switch (type)
 	{
-			case T_PHYSICAL:
-					readOut += std::string(1, T_PHYSICAL_CHAR);
-					break;
-			case T_VITAL:
-					readOut += std::string(1, T_VITAL_CHAR);
-					break;
-			case T_ACTION:
-					readOut += std::string(1, T_ACTION_CHAR);
-					break;
-			case T_MEASURE:
-					readOut += std::string(1, T_MEASURE_CHAR);
-					break;
-			case T_BIAS:
-					readOut += std::string(1, T_BIAS_CHAR);
-					break;
-			default:
-					readOut += "--type-error--";
+		case T_PHYSICAL:
+			readOut += std::string(1, T_PHYSICAL_CHAR);
+			break;
+		case T_VITAL:
+			readOut += std::string(1, T_VITAL_CHAR);
+			break;
+		case T_ACTION:
+			readOut += std::string(1, T_ACTION_CHAR);
+			break;
+		case T_MEASURE:
+			readOut += std::string(1, T_MEASURE_CHAR);
+			break;
+		case T_BIAS:
+			readOut += std::string(1, T_BIAS_CHAR);
+			break;
+		default:
+			readOut += "--type-error--";
 	}
-
-		readOut += " ";
-		return readOut;
+	readOut += " ";
+	return readOut;
 }
 
 bool TypesNeuron::isNeuron()

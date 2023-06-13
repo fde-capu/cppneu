@@ -110,12 +110,13 @@ void Being::processAxons()
 }
 
 std::string Being::readable() const {
-	std::string s;
-	s = "{";
+	std::stringstream ss;
 	for (auto& pair : neuron_table)
-		s += pair.second.readable();
-	s += "}";
-	return s;
+	{
+		ss << pair.second.readable();
+		ss << std::endl;
+	}
+	return ss.str();
 }
 
 void Being::switchBias()

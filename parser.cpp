@@ -129,7 +129,6 @@ void parse(const std::string& l)
 			if (s.at(0) == T_BIAS_CHAR) make = "bias";
 			if (s.at(0) == E_CURRENT_CHAR) expressor = EXPRESSOR_CURRENT;
 			if (s.at(0) == T_MEASURE_CHAR) type = T_MEASURE;
-			if (s.at(0) == T_NEURON_CHAR) make = "neuron";
 			if (s.at(0) == E_ORIGINAL_CHAR) expressor = EXPRESSOR_ORIGINAL_THRESHOLD;
 			if (s.at(0) == T_PHYSICAL_CHAR) type = T_PHYSICAL;
 			if (s.at(0) == E_SHORT_CHAR) expressor = EXPRESSOR_THRESHOLD_SHORT;
@@ -147,7 +146,7 @@ void parse(const std::string& l)
 		}
 	}
 
-	if (make == "" || make == "neuron")
+	if (make == "") // default to "neuron"
 	{
 		g_conf.push_back({
 			.UID = UID,
@@ -162,7 +161,7 @@ void parse(const std::string& l)
 		});
 	}
 
-	if (make == "bias")
+	if (make == BIAS_NAME)
 	{
 		size_t a = readSizeT(l, 2);
 		while (a--)

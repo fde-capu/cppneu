@@ -21,7 +21,8 @@ t_config g_default_set =
 t_config g_bias_set =
 {
 		.type = T_BIAS,
-		.name = "bias",
+		.name = BIAS_NAME,
+		.damp = -1.0,
 };
 
 t_config g_axon_set =

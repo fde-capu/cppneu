@@ -32,7 +32,7 @@ Neuron& Neuron::operator= (Neuron const & rhs)
 std::string Neuron::readable() const
 {
 	return "o" + 
-		floatUp(originalThreshold, PRECISION_DIGITS)
+		removeZerosFromEnd(floatUp(originalThreshold, PRECISION_DIGITS))
 		 + " ";
 }
 

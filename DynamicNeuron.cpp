@@ -2,7 +2,7 @@
 
 DynamicNeuron::DynamicNeuron(zo u_damp)
 {
-	damp = u_damp;
+	damp = u_damp != -1.0 ? u_damp : randomZeroOne();
 	threshold = originalThreshold;
 }
 
@@ -50,9 +50,9 @@ DynamicNeuron& DynamicNeuron::operator= (DynamicNeuron const & rhs)
 
 std::string DynamicNeuron::readable() const
 {
-	return damp != 0.0 ? Neuron::readable() + "d" + 
+	return Neuron::readable() + (damp != 0.0 ? "d" + 
 		removeZerosFromEnd(floatUp(damp, PRECISION_DIGITS))
-	 + " " : "";
+	 + " " : "");
 }
 
 DynamicNeuron::~DynamicNeuron()

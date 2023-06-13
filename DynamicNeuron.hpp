@@ -6,19 +6,17 @@
 # include "header.hpp"
 # include <iostream>
 
-# define DEFAULT_DAMP 0.0
-
 class DynamicNeuron: public virtual Neuron
 {
 	public:
-		zo damp = DEFAULT_DAMP;
+		zo damp;
 
 	public:
 		zo threshold = 0.0;
 		zo force = 0.0;
 
 	public:
-		DynamicNeuron(zo u_damp = DEFAULT_DAMP);
+		DynamicNeuron(zo u_damp = -1.0);
 		DynamicNeuron(DynamicNeuron const&);
 		DynamicNeuron& operator= (DynamicNeuron const&);
 		void feed(zo);

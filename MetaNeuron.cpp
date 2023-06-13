@@ -46,7 +46,11 @@ bool MetaNeuron::customScale() const
 
 std::string MetaNeuron::readable() const
 {
-	std::string readOut = TypesNeuron::readable();
+	std::string readOut = "";
+	readOut += "i" + std::to_string(neuron_UID) + " ";
+	if (name != BIAS_NAME)
+		readOut += name + " ";
+	readOut += TypesNeuron::readable();
 	if (expressor)
 	{
 		switch (expressor)
@@ -66,7 +70,6 @@ std::string MetaNeuron::readable() const
 		}
 		readOut += " ";
 	}
-	readOut += "i" + std::to_string(neuron_UID) + " ";
 	if (customScale())
 	{
 		readOut += std::to_string(scaleMin) + \
