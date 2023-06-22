@@ -6,7 +6,7 @@
 std::vector<t_config> g_conf = {};
 bool g_quit = false;
 bool g_running = false;
-size_t g_tick_ms = 100;
+size_t g_tick_ms = INITIAL_TICK_MS;
 
 Being g_being;
 
