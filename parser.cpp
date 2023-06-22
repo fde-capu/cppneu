@@ -53,8 +53,26 @@ bool looksLikeScale(const std::string& s)
 	return true;
 }
 
+bool thenItsScaleName(const std::string& s)
+{
+	if (!name.length()) return false;
+	scale.push_back(s);
+	return true;
+}
+
+bool isGenericUFormat(const std::string& s)
+{
+	size_t i = 0;
+	if (s.at(i) < 'a' || s.at(i) > 'z')
+		return false;
+	while (++i < s.length() && s.at(i) >= '0' && s.at(i) <= '9');
+	return i == s.length();
+}
+
 bool looksLikeName(const std::string& n)
 {
+	if (isGenericUFormat(n))
+		return false;
 	if (!name.length())
 	{
 		name = n;
@@ -63,13 +81,7 @@ bool looksLikeName(const std::string& n)
 	return false;
 }
 
-bool thenItsScaleName(const std::string& s)
-{
-	if (!name.length()) return false;
-	scale.push_back(s);
-	return true;
-}
-
+// m/^{$x}[0-9]*\.?[0-9]+$/
 bool uFormat(const std::string& s, char x)
 {
 	bool one_dot = false;

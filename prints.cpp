@@ -112,7 +112,6 @@ void printAllDescriptions(Being& b)
 //	if (vital.length()) vital = "vital:\t" + vital;
 //	if (action.length()) action = "action:\t" + action;
 //	if (measure.length()) measure = "measure:\t" + measure;
-
 //	if (physical.length()) physical += "\n";
 //	if (vital.length()) vital += "\n";
 //	if (action.length()) action += "\n";
