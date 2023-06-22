@@ -192,9 +192,10 @@ void printAsciiBar(NEURON& n)
 
 void printNumbers(NEURON& n)
 {
-	printw("%s %s %s",
+	printw(">%s :%s d%s o%s",
 		floatUp(n.inputValue).c_str(),
 		floatUp(n.threshold).c_str(),
+		floatUp(n.damp).c_str(),
 		floatUp(n.originalThreshold).c_str());
 }
 
