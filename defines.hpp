@@ -67,6 +67,7 @@ typedef struct TypeBeingConfig
 	std::string unit;
 	std::vector<std::string> scale;
 	zo damp;
+	zo originalThreshold;
 } t_config;
 
 extern bool g_quit;

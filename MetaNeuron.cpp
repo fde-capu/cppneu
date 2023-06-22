@@ -20,7 +20,10 @@ MetaNeuron::MetaNeuron(
 	scaleMax(u_.scaleMax),
 	unit(u_.unit),
 	scale(u_.scale)
-{}
+{
+	if (u_.originalThreshold != 0.0)
+		originalThreshold = u_.originalThreshold;
+}
 
 MetaNeuron::MetaNeuron(MetaNeuron const& src)
 {	*this = src; }

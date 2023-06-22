@@ -9,6 +9,7 @@ int scaleMax;
 std::string unit;
 std::vector<std::string> scale;
 zo damp;
+zo originalThreshold;
 
 void parseReset()
 {
@@ -21,6 +22,7 @@ void parseReset()
 	unit = g_default_set.unit;
 	scale = g_default_set.scale;
 	damp = g_default_set.damp;
+	originalThreshold = g_default_set.originalThreshold;
 }
 
 bool looksLikeScale(const std::string& s)
@@ -119,6 +121,13 @@ bool looksLikeId(const std::string& s)
 	return true;
 }
 
+bool looksLikeOriginalThreshole(const std::string &s)
+{
+	if (!uFormat(s, 'o')) return false;
+	uRead(originalThreshold, s);
+	return true;
+}
+
 bool looksLikeDamp(const std::string& s)
 {
 	if (!uFormat(s, 'd')) return false;
@@ -150,11 +159,12 @@ void parse(const std::string& l)
 		}
 		if (s.length() > 1)
 		{
-			if (looksLikeName(s)) continue ;
-			if (looksLikeScale(s)) continue ;
-			if (looksLikeDamp(s)) continue ;
-			if (looksLikeId(s)) continue ;
-			if (thenItsScaleName(s)) continue ;
+			if (looksLikeName(s)) continue ; // Any string.
+			if (looksLikeScale(s)) continue ; // min:max:unit
+			if (looksLikeDamp(s)) continue ; // dnnn
+			if (looksLikeOriginalThreshole(s)) continue ; // onnn
+			if (looksLikeId(s)) continue ; // innn
+			if (thenItsScaleName(s)) continue ; // Other strings (sequenctialy)
 		}
 	}
 
@@ -170,6 +180,7 @@ void parse(const std::string& l)
 			.unit = unit,
 			.scale = scale,
 			.damp = damp,
+			.originalThreshold = originalThreshold,
 		});
 	}
 

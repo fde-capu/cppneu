@@ -13,6 +13,10 @@ void Being::addNeuron(t_config& u_)
 {
 	if (!u_.UID)
 		u_.UID = g_Neuron_UID++;
+	else
+		g_Neuron_UID =
+			u_.UID + 1 > g_Neuron_UID ?
+			u_.UID + 1 : g_Neuron_UID;
 	NEURON n(u_);
 	neuron_table[n.neuron_UID] = n;
 	if (n.isNeuron()) count_neuron++;

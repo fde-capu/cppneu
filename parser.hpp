@@ -16,6 +16,7 @@ t_config g_default_set =
 		.unit = "",
 		.scale = {},
 		.damp = 0.5,
+		.originalThreshold = 0.0,
 };
 
 t_config g_bias_set =
