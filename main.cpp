@@ -6,6 +6,8 @@
 std::vector<t_config> g_conf = {};
 bool g_quit = false;
 bool g_running = false;
+size_t g_tick_ms = 100;
+
 Being g_being;
 
 void doQuit() { g_quit = true; }
@@ -32,7 +34,7 @@ void run()
 			dealKeyPress(ch);
 		}
 
-		std::this_thread::sleep_for(std::chrono::milliseconds(STEP_MS));
+		std::this_thread::sleep_for(std::chrono::milliseconds(g_tick_ms));
 	}
 }
 

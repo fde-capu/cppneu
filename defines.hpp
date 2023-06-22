@@ -72,12 +72,16 @@ typedef struct TypeBeingConfig
 extern bool g_quit;
 extern bool g_running;
 extern std::vector<t_config> g_conf;
+extern size_t g_tick_ms;
 
 void printDebug();
 void loadConf(const char* u_fn);
 void doQuit();
 void debug(std::string s);
 void switchBias();
+void increment(size_t&, size_t);
+void decrement(size_t&, size_t);
+
 
 # define BIAS_NAME "bias"
 

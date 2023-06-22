@@ -47,3 +47,6 @@ void printDebug()
 }
 
 void toggleShowDebug() { g_showDebug = !g_showDebug; }
+
+void increment(size_t& v, size_t a) { v += a; }
+void decrement(size_t& v, size_t a) { v -= a; }

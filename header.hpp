@@ -7,7 +7,6 @@
 # define LEADING_ZEROS 5
 # define PRECISION_DIGITS 8
 # define ASCII_BAR_LENGTH 32
-# define STEP_MS 100
 
 static bool g_showDebug = true;
 
