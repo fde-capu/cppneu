@@ -19,7 +19,8 @@
 #
 # todo: h scale-name word word
 
-Heart v s i42 0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper d9
+#Heart v s i42 0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper d9
+i42 Heart o3471803 d8999999 v s 0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper
 
 #n Nose o01234567 p o Short Medium Long d1.0
 #n Breath v t Empty Neutral Full 0.8
@@ -31,5 +32,3 @@ Heart v s i42 0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper d9
 #n a Sleep
 b 1
 x 1
-
-

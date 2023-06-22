@@ -41,17 +41,6 @@ void switchBias()
 	g_being.switchBias();
 }
 
-void prepare()
-{
-	srand(time(NULL));
-	initscr();
-	set_tabsize(LEADING_ZEROS + 1);
-	cbreak();
-	noecho();
-	nodelay(stdscr, TRUE);
-	g_conf = {};
-}
-
 void destroy()
 {
 	endwin();
@@ -67,6 +56,17 @@ void config(std::string config_file)
 		else
 			g_being.addNeuron(g_conf[i]);
 	}
+}
+
+void prepare()
+{
+	srand(time(NULL));
+	initscr();
+	set_tabsize(LEADING_ZEROS + 1);
+	cbreak();
+	noecho();
+	nodelay(stdscr, TRUE);
+	g_conf = {};
 }
 
 int main() {
