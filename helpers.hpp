@@ -9,8 +9,7 @@
 # include <map>
 
 std::string tobin(zo n);
-std::string floatUp(zo n, int digitis = LEADING_ZEROS);
-std::string zeroOut(zo n);
+std::string floatUp(zo n, size_t digitis = LEADING_ZEROS);
 zo& zoRestrain(zo& n, zo min = 0.0, zo max = 1.0);
 size_t readSizeT(const std::string& l, size_t i);
 std::string readQuoted(const std::string& l, size_t&);

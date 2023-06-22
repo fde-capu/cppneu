@@ -192,14 +192,10 @@ void printAsciiBar(NEURON& n)
 
 void printNumbers(NEURON& n)
 {
-	zo scaleFactor = 1.0;
-	zo scaledInputValue = static_cast<zo>(n.inputValue * scaleFactor);
-	zo scaledThreshold = static_cast<zo>(n.threshold * scaleFactor);
-	zo scaledOriginalThreshold = static_cast<zo>(n.originalThreshold * scaleFactor);
 	printw("%s %s %s",
-		zeroOut(scaledInputValue).c_str(),
-		zeroOut(scaledThreshold).c_str(),
-		zeroOut(scaledOriginalThreshold).c_str());
+		floatUp(n.inputValue).c_str(),
+		floatUp(n.threshold).c_str(),
+		floatUp(n.originalThreshold).c_str());
 }
 
 bool isStatsVisible(NEURON& n)

@@ -72,7 +72,7 @@ void prepare()
 int main() {
 	prepare();
 	config(CONFIG_FILE);
-//	debug(g_being.readable());
+	debug(g_being.readable());
 	run();
 	destroy();
 	return 0;

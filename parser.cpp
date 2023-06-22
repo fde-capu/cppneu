@@ -60,13 +60,13 @@ bool thenItsScaleName(const std::string& s)
 	return true;
 }
 
+//	m/^\c\d+$/
 bool isGenericUFormat(const std::string& s)
 {
 	size_t i = 0;
-	if (s.at(i) < 'a' || s.at(i) > 'z')
-		return false;
+	if (s.at(i) < 'a' || s.at(i) > 'z') return false;
 	while (++i < s.length() && s.at(i) >= '0' && s.at(i) <= '9');
-	return i == s.length();
+	return i > 1 && i == s.length();
 }
 
 bool looksLikeName(const std::string& n)
