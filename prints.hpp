@@ -18,7 +18,6 @@ void printNumbers(NEURON&);
 void printCharacter(NEURON&);
 void printAsciiBar(NEURON&);
 
-bool isStatsVisible(NEURON&);
 bool isBarVisible(NEURON&);
 bool isCharacterVisible(NEURON&);
 bool isOutBlockVisible(NEURON&);

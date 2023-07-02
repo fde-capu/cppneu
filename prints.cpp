@@ -204,10 +204,6 @@ void printNumbers(NEURON& n)
 		floatUp(n.originalThreshold).c_str());
 }
 
-bool isStatsVisible(NEURON& n)
-{ return
-				n.type == T_MEASURE; }
-
 bool isBarVisible(NEURON& n)
 { return
 			n.type == T_VITAL

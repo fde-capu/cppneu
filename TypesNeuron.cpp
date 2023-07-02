@@ -50,7 +50,7 @@ std::string TypesNeuron::readable() const
 
 bool TypesNeuron::isNeuron()
 { return
-				type == T_PHYSICAL
+			type == T_PHYSICAL
 		||	type == T_VITAL
 		||	type == T_ACTION
 		||	type == T_MEASURE
