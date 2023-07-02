@@ -22,4 +22,5 @@ static bool g_showDebug = true;
 	DISPLAY_BAR_ALL
 
 # define EXPRESSOR_DEFAULT EXPRESSOR_THRESHOLD_SHORT
+# define DEFAULT_DAMP 0.5
 #endif

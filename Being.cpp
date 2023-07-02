@@ -9,6 +9,15 @@ void Being::addAxon()
 	count_axon++;
 }
 
+void Being::addNeuron(t_config& u_)
+{
+	nextId(u_.UID);
+	NEURON n(u_);
+	neuron_table[n.neuron_UID] = n;
+	if (n.isNeuron()) count_neuron++;
+	if (n.isBias()) count_bias++;
+}
+
 void Being::nextId(size_t& u_id) const
 {
 	if (neuron_table.count(u_id) && u_id)
@@ -23,15 +32,6 @@ void Being::nextId(size_t& u_id) const
 			g_Neuron_UID++;
 		u_id = g_Neuron_UID;
 	}
-}
-
-void Being::addNeuron(t_config& u_)
-{
-	nextId(u_.UID);
-	NEURON n(u_);
-	neuron_table[n.neuron_UID] = n;
-	if (n.isNeuron()) count_neuron++;
-	if (n.isBias()) count_bias++;
 }
 
 size_t Being::randomNeuronWithOutput() {

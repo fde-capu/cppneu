@@ -10,12 +10,12 @@ t_config g_default_set =
 {
 		.type = T_MEASURE,
 		.name = "",
-		.expressor = EXPRESSOR_CURRENT,
+		.expressor = EXPRESSOR_DEFAULT,
 		.scaleMin = 0,
 		.scaleMax = 0,
 		.unit = "",
 		.scale = {},
-		.damp = 0.5,
+		.damp = DEFAULT_DAMP,
 		.originalThreshold = 0.0,
 };
 
@@ -23,7 +23,8 @@ t_config g_bias_set =
 {
 		.type = T_BIAS,
 		.name = BIAS_NAME,
-		.damp = -1.0,
+		.expressor = EXPRESSOR_CURRENT,
+		.damp = DEFAULT_DAMP,
 };
 
 t_config g_axon_set =

@@ -26,11 +26,12 @@ i42 Heart o3555555 d8999999 v s 0:260:bpm Frozen Slow Normal Peaced Accelerated 
 #n Breath v t Empty Neutral Full 0.8
 #n Eyes s Closed Normal "Wide Open" Popped d0.4
 #n Humor Crappy Bad Medium Ok Good Enthusiastic Incredible
-#n Tired s
-#n Drop a
+n Tired s
+n Drop a
 #n Clench a Softly Moderated Hard
 #n a Sleep
 
-i1 CustomBiasName o04444 d888 b s Clear Cloudy Rain Storm 0:100:humity
-#b 2
-x 1
+i2 CustomBiasName o04444 d888 b s Clear Cloudy Rain Storm 0:100:umity
+
+b 2
+x 2

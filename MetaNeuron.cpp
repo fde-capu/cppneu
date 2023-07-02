@@ -124,7 +124,7 @@ std::string MetaNeuron::getDescription()
 	{
 		scaleFactor = static_cast<double>(1.0);
 		scaleFactor = static_cast<double>(getExpressor * scaleFactor);
-		ss << ": " << scaleFactor;
+		ss << ": " << floatUp(scaleFactor);
 	}
 	return ss.str();
 }
