@@ -147,7 +147,6 @@ void parse(const std::string& l)
 		if (s.length() == 1)
 		{
 			if (s.at(0) == T_ACTION_CHAR) type = T_ACTION;
-			if (s.at(0) == T_BIAS_CHAR) make = "bias";
 			if (s.at(0) == E_CURRENT_CHAR) expressor = EXPRESSOR_CURRENT;
 			if (s.at(0) == T_MEASURE_CHAR) type = T_MEASURE;
 			if (s.at(0) == E_ORIGINAL_CHAR) expressor = EXPRESSOR_ORIGINAL_THRESHOLD;
@@ -156,6 +155,13 @@ void parse(const std::string& l)
 			if (s.at(0) == E_THRESHOLD_CHAR) expressor = EXPRESSOR_THRESHOLD;
 			if (s.at(0) == T_VITAL_CHAR) type = T_VITAL;
 			if (s.at(0) == T_AXON_CHAR) make = "axon";
+			if (s.at(0) == T_BIAS_CHAR)
+			{
+				make = BIAS_NAME;
+				type = T_BIAS;
+				name = name != "" ? name : BIAS_NAME;
+				damp = damp ? damp : -1.0;
+			}
 		}
 		if (s.length() > 1)
 		{
@@ -168,7 +174,8 @@ void parse(const std::string& l)
 		}
 	}
 
-	if (make == "") // default to "neuron"
+	if ((make == "") // default to "neuron"
+		|| (make == BIAS_NAME && UID))
 	{
 		g_conf.push_back({
 			.UID = UID,
@@ -184,7 +191,7 @@ void parse(const std::string& l)
 		});
 	}
 
-	if (make == BIAS_NAME)
+	if (make == BIAS_NAME && !UID)
 	{
 		size_t a = readSizeT(l, 2);
 		while (a--)

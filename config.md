@@ -1,13 +1,13 @@
 # String : first string must be the name
-# string string string ... any other string is part of the scale
+# string string string ... the scale
 # b n		Make n new bias
 # x n		Make n new axons
 # a|m|p|v	a:action|m:measure|p:physical|v:vital
 ## Expressors:
 # c|o|s|t	c:current
-#					o:original threshold
-#					s:short threshold
-#					t:threshold
+#			o:original threshold
+#			s:short threshold
+#			t:threshold
 # min:max:unit
 #
 ## x123456 : format for setting:
@@ -21,7 +21,6 @@
 
 #Heart v s i42 0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper d9
 i42 Heart o3555555 d8999999 v s 0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper
-i42 Heart o7555555 d8999999 v s 0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper
 
 #n Nose o01234567 p o Short Medium Long d1.0
 #n Breath v t Empty Neutral Full 0.8
@@ -32,5 +31,6 @@ i42 Heart o7555555 d8999999 v s 0:260:bpm Frozen Slow Normal Peaced Accelerated 
 #n Clench a Softly Moderated Hard
 #n a Sleep
 
-b 1
+i1 CustomBiasName o04444 d888 b s Clear Cloudy Rain Storm 0:100:humity
+#b 2
 x 1

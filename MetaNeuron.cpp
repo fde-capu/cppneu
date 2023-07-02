@@ -29,7 +29,7 @@ MetaNeuron::MetaNeuron(
 }
 
 MetaNeuron::MetaNeuron(MetaNeuron const& src)
-{	*this = src; }
+{ *this = src; }
 
 MetaNeuron& MetaNeuron::operator= (MetaNeuron const& rhs)
 {
@@ -48,7 +48,7 @@ MetaNeuron& MetaNeuron::operator= (MetaNeuron const& rhs)
 }
 
 bool MetaNeuron::customScale() const
-{	return scaleMax && unit.length(); }
+{ return scaleMax && unit.length(); }
 
 std::string MetaNeuron::readable() const
 {
