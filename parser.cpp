@@ -146,13 +146,13 @@ void parse(const std::string& l)
 	{
 		if (s.length() == 1)
 		{
-			if (s.at(0) == T_ACTION_CHAR) type = T_ACTION;
 			if (s.at(0) == E_CURRENT_CHAR) expressor = EXPRESSOR_CURRENT;
-			if (s.at(0) == T_MEASURE_CHAR) type = T_MEASURE;
 			if (s.at(0) == E_ORIGINAL_CHAR) expressor = EXPRESSOR_ORIGINAL_THRESHOLD;
-			if (s.at(0) == T_PHYSICAL_CHAR) type = T_PHYSICAL;
 			if (s.at(0) == E_SHORT_CHAR) expressor = EXPRESSOR_THRESHOLD_SHORT;
 			if (s.at(0) == E_THRESHOLD_CHAR) expressor = EXPRESSOR_THRESHOLD;
+			if (s.at(0) == T_ACTION_CHAR) type = T_ACTION;
+			if (s.at(0) == T_MEASURE_CHAR) type = T_MEASURE;
+			if (s.at(0) == T_PHYSICAL_CHAR) type = T_PHYSICAL;
 			if (s.at(0) == T_VITAL_CHAR) type = T_VITAL;
 			if (s.at(0) == T_AXON_CHAR) make = "axon";
 			if (s.at(0) == T_BIAS_CHAR)
