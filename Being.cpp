@@ -9,14 +9,25 @@ void Being::addAxon()
 	count_axon++;
 }
 
+void Being::nextId(size_t& u_id) const
+{
+	if (neuron_table.count(u_id) && u_id)
+	{
+		debug("Warning: overwriting Neuron " + std::to_string(u_id) + ".");
+	}
+	else
+	{
+		if (u_id)
+			return ;
+		while (neuron_table.count(g_Neuron_UID))
+			g_Neuron_UID++;
+		u_id = g_Neuron_UID;
+	}
+}
+
 void Being::addNeuron(t_config& u_)
 {
-	if (!u_.UID)
-		u_.UID = g_Neuron_UID++;
-	else
-		g_Neuron_UID =
-			u_.UID + 1 > g_Neuron_UID ?
-			u_.UID + 1 : g_Neuron_UID;
+	nextId(u_.UID);
 	NEURON n(u_);
 	neuron_table[n.neuron_UID] = n;
 	if (n.isNeuron()) count_neuron++;

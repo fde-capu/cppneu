@@ -37,6 +37,7 @@ class Being {
 		size_t randomNeuronWithInput();
 
 		virtual std::string readable() const ;
+		void nextId(size_t&) const ;
 	
 	public:
 		bool bias_switch = true;
