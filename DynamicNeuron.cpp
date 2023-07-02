@@ -5,6 +5,7 @@ DynamicNeuron::DynamicNeuron(zo u_damp)
 	damp = u_damp != -1.0 ? u_damp :
 		randomZeroOne();
 	threshold = originalThreshold;
+//	std::cout << "SET THRESHOLD " << threshold << std::endl;
 }
 
 void DynamicNeuron::feed(zo in)

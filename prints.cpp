@@ -16,7 +16,7 @@ void printScreen(Being& b)
 void printHeader(Being& b)
 {
 	if (!(displaySet & DISPLAY_HEADER)) return ;
-	printw("%dN %dA %dB\n", b.count_neuron, b.count_axon, b.count_bias);
+	printw("%zuN %zuA %zuB\n", b.count_neuron, b.count_axon, b.count_bias);
 }
 
 void printAllCharacters(Being& b)
@@ -39,8 +39,10 @@ void printAllAxons(Being& b)
 	if (!(displaySet & DISPLAY_AXONS)) return ;
 		for (auto& pair : b.axon_table)
 		{
-			printw("%d-%s>%d ",
-				pair.second.slotIn, floatUp(pair.second.multiplier).c_str(), pair.second.slotOut); 
+			printw("%zu-%s>%zu ",
+				pair.second.slotIn,
+				floatUp(pair.second.multiplier).c_str(),
+				pair.second.slotOut); 
 		}
 		printw("\n");
 }
@@ -118,18 +120,18 @@ void printAllDescriptions(Being& b)
 //	if (measure.length()) measure += "\n";
 	
 	if (displaySet & DISPLAY_PHYSICAL)
-		printw(physical.c_str());
+		printw("%s", physical.c_str());
 	if (displaySet & DISPLAY_VITAL)
-		printw(vital.c_str());
+		printw("%s", vital.c_str());
 	if (displaySet & DISPLAY_AXONS)
-		printw(action.c_str());
+		printw("%s", action.c_str());
 	if (displaySet & DISPLAY_MEASURES)
-		printw(measure.c_str());
+		printw("%s", measure.c_str());
 }
 
 void printDescription(NEURON& n)
 {
-	printw(n.getDescription().c_str());
+	printw("%s", n.getDescription().c_str());
 }
 
 void printAsciiBar(NEURON& n)
@@ -147,7 +149,7 @@ void printAsciiBar(NEURON& n)
 
 	if (displaySet & DISPLAY_BAR)
 	{
-		printw("%u %c", n.neuron_UID, barMap.at(0));
+		printw("%zu %c", n.neuron_UID, barMap.at(0));
 		for (size_t i = 0; i < length; i++) {
 			if (i == scaledOriginalThreshold && i == scaledThreshold) {
 				if (n.outputValue)
