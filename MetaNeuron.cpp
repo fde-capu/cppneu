@@ -22,7 +22,10 @@ MetaNeuron::MetaNeuron(
 	scale(u_.scale)
 {
 	if (u_.originalThreshold != 0.0)
+	{
 		originalThreshold = u_.originalThreshold;
+		threshold = originalThreshold;
+	}
 }
 
 MetaNeuron::MetaNeuron(MetaNeuron const& src)
