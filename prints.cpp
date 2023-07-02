@@ -36,11 +36,14 @@ void printWantedActions(Being& b)
 
 void printAllAxons(Being& b)
 {
+	char fire_char;
 	if (!(displaySet & DISPLAY_AXONS)) return ;
 		for (auto& pair : b.axon_table)
 		{
-			printw("%zu-%s>%zu ",
+			fire_char = b.neuron_table[pair.second.slotIn].firing() ? '*' : '-';
+			printw("%zu%c%s>%zu ",
 				pair.second.slotIn,
+				fire_char,
 				floatUp(pair.second.multiplier).c_str(),
 				pair.second.slotOut); 
 		}
@@ -207,7 +210,7 @@ bool isStatsVisible(NEURON& n)
 
 bool isBarVisible(NEURON& n)
 { return
-				n.type == T_VITAL
+			n.type == T_VITAL
 		||	n.type == T_ACTION
 		||	n.type == T_MEASURE
 		||	n.type == T_BIAS
@@ -216,14 +219,14 @@ bool isBarVisible(NEURON& n)
 
 bool isCharacterVisible(NEURON& n)
 {	return
-				n.type == T_VITAL
+			n.type == T_VITAL
 		||	n.type == T_MEASURE
 		||	n.type == T_BIAS
 ;}
 
 bool isOutBlockVisible(NEURON& n)
 {	return
-				n.type == T_PHYSICAL
+			n.type == T_PHYSICAL
 		||	n.type == T_VITAL
 		||	n.type == T_ACTION
 		||	n.type == T_MEASURE

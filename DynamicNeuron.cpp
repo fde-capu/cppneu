@@ -8,9 +8,12 @@ DynamicNeuron::DynamicNeuron(zo u_damp)
 	debug("SET threshold " + std::to_string(threshold));
 }
 
+bool DynamicNeuron::firing()
+{ return inputValue > threshold; }
+
 void DynamicNeuron::feed(zo in)
 {
-	if (inputValue > threshold)
+	if (firing())
 		inputValue -= threshold;
 	inputValue *= damp;
 	inputValue += in;
@@ -20,7 +23,7 @@ void DynamicNeuron::feed(zo in)
 void DynamicNeuron::tick()
 {
 	Neuron::tick();
-	if (inputValue > threshold)
+	if (firing())
 	{
 		force = (inputValue - threshold);
 		threshold += force * (1.0 - damp) / 10;
@@ -36,7 +39,7 @@ void DynamicNeuron::tick()
 }
 
 DynamicNeuron::DynamicNeuron(DynamicNeuron const& src)
-{	*this = src; }
+{ *this = src; }
 
 DynamicNeuron& DynamicNeuron::operator= (DynamicNeuron const & rhs)
 {

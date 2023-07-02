@@ -23,6 +23,7 @@ class DynamicNeuron: public virtual Neuron
 		void tick();
 		virtual std::string readable() const;
 		virtual ~DynamicNeuron();
+		bool firing();
 };
 
 #endif
