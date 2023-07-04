@@ -44,7 +44,7 @@ void printAllAxons(Being& b)
 			printw("%zu%c%s>%zu ",
 				pair.second.slotIn,
 				fire_char,
-				floatUp(pair.second.multiplier).c_str(),
+				floatUpFire(pair.second.multiplier).c_str(),
 				pair.second.slotOut); 
 		}
 		printw("\n");
@@ -198,10 +198,10 @@ void printAsciiBar(NEURON& n)
 void printNumbers(NEURON& n)
 {
 	printw(">%s :%s d%s o%s",
-		floatUp(n.inputValue).c_str(),
-		floatUp(n.threshold).c_str(),
-		floatUp(n.damp).c_str(),
-		floatUp(n.originalThreshold).c_str());
+		floatUpFire(n.inputValue).c_str(),
+		floatUpFire(n.threshold).c_str(),
+		floatUpFire(n.damp).c_str(),
+		floatUpFire(n.originalThreshold).c_str());
 }
 
 bool isBarVisible(NEURON& n)

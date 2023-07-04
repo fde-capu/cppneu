@@ -8,9 +8,12 @@ std::string tobin(zo n)
 	return ss.str();
 }
 
-std::string floatUp(zo n, size_t digits)
+std::string floatUp(zo n, size_t digits, bool mark)
 {
-	if (n >= 1.0 || n < 0.0) return std::to_string(n).substr(0, digits - 1) + "$";
+	if (n >= 1.0 || n < 0.0)
+		return	std::to_string(n).substr
+			(0, digits - 1) +
+				(mark ? FLOAT_MARK : "");
 	std::string fout(std::to_string(n));
 	fout = fout.substr(fout.find('.') + 1);
 	if (fout.length() > digits) fout = fout.substr(0, digits);
@@ -18,6 +21,9 @@ std::string floatUp(zo n, size_t digits)
 		fout += "0";
 	return fout;
 }
+
+std::string floatUpFire(zo n)
+{ return floatUp(n, LEADING_ZEROS, true); }
 
 zo& zoRestrain(zo& n, zo min, zo max)
 {

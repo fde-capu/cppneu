@@ -54,8 +54,10 @@ DynamicNeuron& DynamicNeuron::operator= (DynamicNeuron const & rhs)
 
 std::string DynamicNeuron::readable() const
 {
-	return Neuron::readable() + (damp != 0.0 ? "d" + 
-		removeZerosFromEnd(floatUp(damp, PRECISION_DIGITS))
+	return Neuron::readable() + (
+		damp != 0.0 ? 
+			"d" + removeZerosFromEnd(
+				floatUp(damp, PRECISION_DIGITS))
 	 + " " : "");
 }
 

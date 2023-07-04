@@ -1,6 +1,7 @@
 #ifndef HELPERS_HPP
 # define HELPERS_HPP
 
+# include "defines.hpp"
 # include <bitset>
 # include <sstream>
 # include <cmath>
@@ -9,7 +10,8 @@
 # include <map>
 
 std::string tobin(zo n);
-std::string floatUp(zo n, size_t digitis = LEADING_ZEROS);
+std::string floatUp(zo n, size_t digitis = LEADING_ZEROS, bool mark = false);
+std::string floatUpFire(zo n);
 zo& zoRestrain(zo& n, zo min = 0.0, zo max = 1.0);
 size_t readSizeT(const std::string& l, size_t i);
 std::string readQuoted(const std::string& l, size_t&);
