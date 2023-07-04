@@ -7,12 +7,9 @@ DynamicNeuron::DynamicNeuron(zo u_damp)
 	threshold = originalThreshold;
 }
 
-bool DynamicNeuron::firing()
-{ return inputValue > threshold; }
-
 void DynamicNeuron::feed(zo in)
 {
-	if (firing())
+	if (fire)
 		inputValue -= threshold;
 	inputValue *= damp;
 	inputValue += in;
@@ -21,8 +18,10 @@ void DynamicNeuron::feed(zo in)
 
 void DynamicNeuron::tick()
 {
-	Neuron::tick();
-	if (firing())
+	if (false) Neuron::tick(); // Ignore.
+	fire = inputValue >= threshold;
+	outputValue = fire ? 1.0 : 0.0;
+	if (fire)
 	{
 		force = (inputValue - threshold);
 		threshold += force * (1.0 - damp) / 10;
@@ -32,7 +31,6 @@ void DynamicNeuron::tick()
 		threshold -= 
 			((threshold - originalThreshold)
 			 * force) * (1.0 - damp);
-		outputValue = 0.0;
 	}
 	zoRestrain(threshold, originalThreshold, 1.0);
 }

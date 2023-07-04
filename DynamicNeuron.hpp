@@ -14,6 +14,7 @@ class DynamicNeuron: public virtual Neuron
 	public:
 		zo threshold = 0.0;
 		zo force = 0.0;
+		bool fire = false;
 
 	public:
 		DynamicNeuron(zo u_damp = -1.0);
@@ -23,7 +24,6 @@ class DynamicNeuron: public virtual Neuron
 		void tick();
 		virtual std::string readable() const;
 		virtual ~DynamicNeuron();
-		bool firing();
 };
 
 #endif

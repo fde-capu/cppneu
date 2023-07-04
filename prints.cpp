@@ -40,7 +40,7 @@ void printAllAxons(Being& b)
 	if (!(displaySet & DISPLAY_AXONS)) return ;
 		for (auto& pair : b.axon_table)
 		{
-			fire_char = b.neuron_table[pair.second.slotIn].firing() ? '*' : '-';
+			fire_char = b.neuron_table[pair.second.slotIn].fire ? '*' : '-';
 			printw("%zu%c%s>%zu ",
 				pair.second.slotIn,
 				fire_char,
@@ -139,7 +139,7 @@ void printDescription(NEURON& n)
 
 void printAsciiBar(NEURON& n)
 {
-	static std::string barMap("[ ,.;:!]");
+	static std::string barMap(ASCII_BAR_SET);
 
 	if (!isBarVisible(n)
 		|| (n.isBias() && !(displaySet & DISPLAY_BIAS)))
@@ -147,8 +147,10 @@ void printAsciiBar(NEURON& n)
 	size_t length = ASCII_BAR_LENGTH;
 	double scaleFactor = static_cast<double>(length);
 	size_t scaledInputValue = static_cast<int>(n.inputValue * scaleFactor);
-	size_t scaledThreshold = static_cast<int>(n.threshold * scaleFactor);
-	size_t scaledOriginalThreshold = static_cast<int>(n.originalThreshold * scaleFactor);
+	size_t scaledThreshold =
+		static_cast<int>(n.threshold * scaleFactor - EPSILON);
+	size_t scaledOriginalThreshold =
+		static_cast<int>(n.originalThreshold * scaleFactor - EPSILON);
 
 	if (displaySet & DISPLAY_BAR)
 	{

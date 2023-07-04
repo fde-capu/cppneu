@@ -101,7 +101,8 @@ std::string MetaNeuron::getDescription()
 		: expressor == EXPRESSOR_ORIGINAL_THRESHOLD ?
 			originalThreshold
 		: expressor == EXPRESSOR_THRESHOLD_SHORT ?
-			(threshold - originalThreshold) / (1.0 + EPSILON - originalThreshold)
+			(threshold - originalThreshold)
+			/ (1.0 + EPSILON - originalThreshold)
 		: 0.0;
 	
 	if (outputValue)
@@ -114,7 +115,6 @@ std::string MetaNeuron::getDescription()
 		scaleFactor = static_cast<double>(scaleMax - scaleMin);
 		scaledExpressor = static_cast<int>(getExpressor * scaleFactor)
 			+ scaleMin;
-		ss << "getExpressor " << getExpressor << " scaleFactor " << scaleFactor << " scaleMin " << scaleMin << " scaleMax " << scaleMax << " ";
 		ss << ": " << scaledExpressor << unit.c_str();
 	}
 	if (scale.size())

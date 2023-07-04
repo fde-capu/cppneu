@@ -88,5 +88,6 @@ void decrement(size_t&, size_t);
 
 # define EPSILON 0.00000001
 # define FLOAT_MARK "$"
+# define ASCII_BAR_SET "[ ,.;:!]"
 
 #endif

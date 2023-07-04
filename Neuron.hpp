@@ -15,6 +15,7 @@ class Neuron
 	public:
 		zo inputValue = 0.0;
 		zo outputValue = 0.0;
+		bool fire = false;
 
 	public:
 		Neuron();

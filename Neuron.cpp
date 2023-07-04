@@ -7,18 +7,20 @@ Neuron::Neuron()
 
 void Neuron::tick()
 {
-	if (inputValue > originalThreshold)
+	if (inputValue >= originalThreshold)
 	{
 		outputValue = 1.0;
+		fire = true;
 	}
 	else
 	{
 		outputValue = 0.0;
+		fire = false;
 	}
 }
 
 Neuron::Neuron(Neuron const & src)
-{	*this = src; }
+{ *this = src; }
 
 Neuron& Neuron::operator= (Neuron const & rhs)
 {
