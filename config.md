@@ -31,7 +31,7 @@ n Drop a
 #n Clench a Softly Moderated Hard
 #n a Sleep
 
-i2 CustomBiasName o04444 d888 b s Clear Cloudy Rain Storm 0:100:umity
+i2 CustomBiasName o1.0 b s Clear Cloudy Rain Storm 0:100:umity
 
 b 2
 x 2
