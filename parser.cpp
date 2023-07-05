@@ -108,10 +108,7 @@ bool uFormat(const std::string& s, char x)
 template <typename T>
 void uRead(T& v, const std::string& s)
 {
-	if (s.substr(1) == "1.0")
-		v = 1.0;
-	else
-		v = readZO("0." + s.substr(1));
+		v = readZO(s.substr(1));
 }
 
 bool looksLikeId(const std::string& s)
@@ -146,15 +143,24 @@ void parse(const std::string& l)
 	{
 		if (s.length() == 1)
 		{
-			if (s.at(0) == E_CURRENT_CHAR) expressor = EXPRESSOR_CURRENT;
-			if (s.at(0) == E_ORIGINAL_CHAR) expressor = EXPRESSOR_ORIGINAL_THRESHOLD;
-			if (s.at(0) == E_SHORT_CHAR) expressor = EXPRESSOR_THRESHOLD_SHORT;
-			if (s.at(0) == E_THRESHOLD_CHAR) expressor = EXPRESSOR_THRESHOLD;
-			if (s.at(0) == T_ACTION_CHAR) type = T_ACTION;
-			if (s.at(0) == T_MEASURE_CHAR) type = T_MEASURE;
-			if (s.at(0) == T_PHYSICAL_CHAR) type = T_PHYSICAL;
-			if (s.at(0) == T_VITAL_CHAR) type = T_VITAL;
-			if (s.at(0) == T_AXON_CHAR) make = "axon";
+			if (s.at(0) == E_CURRENT_CHAR)
+					expressor = EXPRESSOR_CURRENT;
+			if (s.at(0) == E_ORIGINAL_CHAR)
+				expressor = EXPRESSOR_ORIGINAL_THRESHOLD;
+			if (s.at(0) == E_SHORT_CHAR)
+				expressor = EXPRESSOR_THRESHOLD_SHORT;
+			if (s.at(0) == E_THRESHOLD_CHAR)
+				expressor = EXPRESSOR_THRESHOLD;
+			if (s.at(0) == T_ACTION_CHAR)
+				type = T_ACTION;
+			if (s.at(0) == T_MEASURE_CHAR)
+				type = T_MEASURE;
+			if (s.at(0) == T_PHYSICAL_CHAR)
+				type = T_PHYSICAL;
+			if (s.at(0) == T_VITAL_CHAR)
+				type = T_VITAL;
+			if (s.at(0) == T_AXON_CHAR)
+				make = "axon";
 			if (s.at(0) == T_BIAS_CHAR)
 			{
 				make = BIAS_NAME;
@@ -171,11 +177,12 @@ void parse(const std::string& l)
 			if (looksLikeOriginalThreshole(s)) continue ; // onnn
 			if (looksLikeId(s)) continue ; // innn
 			if (thenItsScaleName(s)) continue ; // Other strings (sequenctialy)
+			std::cerr << "Warning: '" << s << "' ignored." << std::endl;
 		}
 	}
 
-	if ((make == "") // default to "neuron"
-		|| (make == BIAS_NAME && UID))
+	if ((make == "")
+	|| (make == BIAS_NAME && UID))
 	{
 		g_conf.push_back({
 			.UID = UID,
@@ -200,9 +207,21 @@ void parse(const std::string& l)
 
 	if (make == "axon")
 	{
-		size_t a = readSizeT(l, 2);
-		while (a--)
-			g_conf.push_back(g_axon_set);
+		std::vector<std::string> newAxon = split(spl[1], '-');
+		if (newAxon.size() == 1)
+		{
+			size_t a = readSizeT(l, 2);
+			while (a--)
+				g_conf.push_back(g_axon_set);
+		}
+		else
+		{
+			t_config u_axon = g_axon_set;
+			u_axon.slotIn = readSizeT(newAxon[0]);
+			u_axon.multiplier = readZO(newAxon[1]);
+			u_axon.slotOut = readSizeT(newAxon[2]);
+			g_conf.push_back(u_axon);
+		}
 	}
 }
 

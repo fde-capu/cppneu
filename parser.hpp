@@ -10,7 +10,7 @@ t_config g_default_set =
 {
 		.type = T_MEASURE,
 		.name = "",
-		.expressor = EXPRESSOR_DEFAULT,
+		.expressor = DEFAULT_EXPRESSOR,
 		.scaleMin = 0,
 		.scaleMax = 0,
 		.unit = "",

@@ -1,16 +1,15 @@
 #include "TypesNeuron.hpp"
 
-TypesNeuron::TypesNeuron(
-	int u_type
-)
-:
-type(u_type)
+TypesNeuron::TypesNeuron(int u_type)
+: type(u_type)
 {}
 
-TypesNeuron::TypesNeuron(TypesNeuron const& src)
+TypesNeuron::TypesNeuron(
+	TypesNeuron const& src)
 { *this = src; }
 
-TypesNeuron& TypesNeuron::operator= (TypesNeuron const & rhs)
+TypesNeuron& TypesNeuron::operator=
+	(TypesNeuron const & rhs)
 {
 	if (this != &rhs)
 	{
@@ -41,8 +40,6 @@ std::string TypesNeuron::readable() const
 		case T_BIAS:
 			readOut += std::string(1, T_BIAS_CHAR);
 			break;
-		default:
-			readOut += "--type-error--";
 	}
 	readOut += " ";
 	return readOut;
@@ -50,7 +47,7 @@ std::string TypesNeuron::readable() const
 
 bool TypesNeuron::isNeuron()
 { return
-			type == T_PHYSICAL
+				type == T_PHYSICAL
 		||	type == T_VITAL
 		||	type == T_ACTION
 		||	type == T_MEASURE
@@ -70,5 +67,4 @@ bool TypesNeuron::hasInput()
 bool TypesNeuron::hasOutput()
 { return hasInput() || isBias(); }
 
-TypesNeuron::~TypesNeuron()
-{}
+TypesNeuron::~TypesNeuron() {}

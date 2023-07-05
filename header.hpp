@@ -1,13 +1,16 @@
 #ifndef HEADER_HPP
 # define HEADER_HPP
 
-# define CONFIG_FILE "config.md"
+# define DEFAULT_CONFIG_FILE "config.md"
+# define DEFAULT_EXPRESSOR EXPRESSOR_THRESHOLD_SHORT
+# define DEFAULT_DAMP 0.5
+
 # define MEMORY_TYPE_SIZE unsigned int
 # define zo float
 # define LEADING_ZEROS 3
 # define PRECISION_DIGITS 8
-# define ASCII_BAR_LENGTH 32
-# define INITIAL_TICK_MS 100
+# define ASCII_BAR_LENGTH 10
+# define DEFAULT_TICK_MS 100
 
 static bool g_showDebug = true;
 
@@ -21,6 +24,4 @@ static bool g_showDebug = true;
 	DISPLAY_WANT + \
 	DISPLAY_BAR_ALL
 
-# define EXPRESSOR_DEFAULT EXPRESSOR_THRESHOLD_SHORT
-# define DEFAULT_DAMP 0.5
 #endif

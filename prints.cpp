@@ -36,15 +36,23 @@ void printWantedActions(Being& b)
 
 void printAllAxons(Being& b)
 {
-	char fire_char;
+	char fire_char_a;
+	char fire_char_b;
+
 	if (!(displaySet & DISPLAY_AXONS)) return ;
 		for (auto& pair : b.axon_table)
 		{
-			fire_char = b.neuron_table[pair.second.slotIn].fire ? '*' : '-';
-			printw("%zu%c%s>%zu ",
+			fire_char_a = b.neuron_table
+				[pair.second.slotIn].fire ?
+				'*' : '-';
+			fire_char_b = b.neuron_table
+				[pair.second.slotIn].fire ?
+				'>' : '|';
+			printw("%zu%c%s%c%zu ",
 				pair.second.slotIn,
-				fire_char,
+				fire_char_a,
 				floatUpFire(pair.second.multiplier).c_str(),
+				fire_char_b,
 				pair.second.slotOut); 
 		}
 		printw("\n");

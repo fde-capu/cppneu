@@ -6,7 +6,7 @@
 std::vector<t_config> g_conf = {};
 bool g_quit = false;
 bool g_running = false;
-size_t g_tick_ms = INITIAL_TICK_MS;
+size_t g_tick_ms = DEFAULT_TICK_MS;
 
 Being g_being;
 
@@ -54,7 +54,7 @@ void config(std::string config_file)
 	for (size_t i = 0; i < g_conf.size(); i++)
 	{
 		if (g_conf[i].type & T_AXON)
-			g_being.addAxon();
+			g_being.addAxon(g_conf[i]);
 		else
 			g_being.addNeuron(g_conf[i]);
 	}
@@ -73,7 +73,7 @@ void prepare()
 
 int main() {
 	prepare();
-	config(CONFIG_FILE);
+	config(DEFAULT_CONFIG_FILE);
 	debug(g_being.readable());
 	run();
 	destroy();

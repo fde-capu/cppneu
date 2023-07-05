@@ -68,6 +68,9 @@ typedef struct TypeBeingConfig
 	std::vector<std::string> scale;
 	zo damp;
 	zo originalThreshold;
+	size_t slotIn;
+	size_t slotOut;
+	zo multiplier;
 } t_config;
 
 extern bool g_quit;
@@ -82,7 +85,7 @@ void debug(std::string s);
 void switchBias();
 void increment(size_t&, size_t);
 void decrement(size_t&, size_t);
-
+std::string zeroDotOut(zo n);
 
 # define BIAS_NAME "bias"
 

@@ -33,10 +33,7 @@ Neuron& Neuron::operator= (Neuron const & rhs)
 
 std::string Neuron::readable() const
 {
-	return "o" + 
-		(originalThreshold == 1.0 ? "1.0" :
-		removeZerosFromEnd(floatUp(originalThreshold, PRECISION_DIGITS)))
-		 + " ";
+	return "o" + zeroDotOut(originalThreshold) + " ";
 }
 
 Neuron::~Neuron()

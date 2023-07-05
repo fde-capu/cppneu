@@ -1,11 +1,18 @@
 #include "Being.hpp"
 
 size_t Being::g_Neuron_UID = 0;
+size_t Being::g_Axon_UID = 0;
 
-void Being::addAxon()
+void Being::addAxon(t_config& u_)
 {
-	Axon a(randomNeuronWithOutput(), randomNeuronWithInput());
-	axon_table[a.axon_UID] = a;
+	Axon a(
+		u_.slotIn ?
+			u_.slotIn : randomNeuronWithOutput(),
+		u_.slotOut ?
+			u_.slotOut : randomNeuronWithInput(),
+		u_.multiplier ? u_.multiplier : -1.0
+	);
+	axon_table[g_Axon_UID++] = a;
 	count_axon++;
 }
 
@@ -22,7 +29,8 @@ void Being::nextId(size_t& u_id) const
 {
 	if (neuron_table.count(u_id) && u_id)
 	{
-		debug("Warning: overwriting Neuron " + std::to_string(u_id) + ".");
+		std::cerr << "Warning: overwriting Neuron "
+			<< u_id << "." << std::endl;
 	}
 	else
 	{
@@ -34,36 +42,34 @@ void Being::nextId(size_t& u_id) const
 	}
 }
 
-size_t Being::randomNeuronWithOutput() {
-
+size_t Being::randomNeuronWithOutput()
+{
 	if (neuron_table.size() < 1) return 0;
-
 	auto it = neuron_table.begin();
 	std::advance(it, 
-		randomValue<size_t>(0, neuron_table.size() - 1)
-	);
+		randomValue<size_t>
+		(0, neuron_table.size() - 1));
 	size_t beingI = it->first;
-
 	if (!neuron_table.at(beingI).hasOutput())
 		return randomNeuronWithOutput();
 	return neuron_table.at(beingI).neuron_UID;
 }
 
-size_t Being::randomNeuronWithInput() {
+size_t Being::randomNeuronWithInput()
+{
 	if (neuron_table.size() < 1) return 0;
-
 	auto it = neuron_table.begin();
 	std::advance(it, 
-		randomValue<size_t>(0, neuron_table.size() - 1)
-	);
+		randomValue<size_t>
+		(0, neuron_table.size() - 1));
 	size_t beingI = it->first;
-
 	if (!neuron_table.at(beingI).hasInput())
 		return randomNeuronWithInput();
 	return neuron_table.at(beingI).neuron_UID;
 }
 
-void Being::extraFiringProcess(NEURON& n) {
+void Being::extraFiringProcess(NEURON& n)
+{
 	if (!n.isBias())
 	{
 		if (n.force > actionScore)
@@ -105,13 +111,9 @@ void Being::processAxons()
 {
 	std::map<size_t, size_t> inCount;
 	for (auto& pair : axon_table)
-	{
 		inCount[pair.second.slotOut]++;
-	}
-
 	for (auto& pair : axonOut)
 		pair.second = 0.0;
-
 	for (auto& pair : axon_table)
 	{
 		Axon& a = pair.second;
@@ -127,10 +129,9 @@ void Being::processAxons()
 std::string Being::readable() const {
 	std::stringstream ss;
 	for (auto& pair : neuron_table)
-	{
-		ss << pair.second.readable();
-		ss << std::endl;
-	}
+		ss << pair.second.readable() << std::endl;
+	for (auto& pair : axon_table)
+		ss << pair.second.readable() << std::endl;
 	return ss.str();
 }
 

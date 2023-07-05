@@ -25,6 +25,13 @@ std::string floatUp(zo n, size_t digits, bool mark)
 std::string floatUpFire(zo n)
 { return floatUp(n, LEADING_ZEROS, true); }
 
+std::string zeroDotOut(zo n)
+{
+	return n == 1.0 ? "1.0" :
+		removeZerosFromEnd(
+		floatUp(n, PRECISION_DIGITS));
+}
+
 zo& zoRestrain(zo& n, zo min, zo max)
 {
 	n = n > max ? max : n < min ? min : n;
@@ -65,7 +72,8 @@ std::string removeZerosFromEnd(std::string float000)
 	return float000;
 }
 
-std::string readQuoted(const std::string& l, size_t& u_i)
+std::string readQuoted(const std::string& l,
+	size_t& u_i)
 {
 	size_t i(u_i);
 	char f = l.at(i) == '"' ? '"' : ' ';
@@ -78,17 +86,22 @@ std::string readQuoted(const std::string& l, size_t& u_i)
 	return o;
 }
 
-size_t readSizeT(const std::string& l, size_t i)
+size_t readSizeT(const std::string& l,
+	size_t i)
 {
 		return std::atoi(readQuoted(l, i).c_str());
 }
 
-zo readZO(const std::string&l, size_t i)
+zo readZO(const std::string& l, size_t i)
 {
-	return std::stof(readQuoted(l, i).c_str());
+	if (l == "1.0")
+		return 1.0;
+	return std::stof(readQuoted(
+		"0." + l, i).c_str());
 }
 
-std::vector<std::string> readSplit(const std::string& l)
+std::vector<std::string> readSplit
+	(const std::string& l)
 {
 	std::vector<std::string> o = {};
 	size_t s = 0;
@@ -101,6 +114,17 @@ std::vector<std::string> readSplit(const std::string& l)
 		s += n.length() + 1;
 	}
 	return o;
+}
+
+std::vector<std::string> split(const std::string &s, char delimiter)
+{
+		std::vector<std::string> tokens;
+		std::string token;
+		std::istringstream tokenStream(s);
+		while (std::getline(tokenStream, token, delimiter)) {
+				tokens.push_back(token);
+		}
+		return tokens;
 }
 
 zo max()

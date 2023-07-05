@@ -37,7 +37,7 @@ std::string g_debugString("");
 
 void debug(std::string s)
 {
-	g_debugString += s + " ";
+	g_debugString += s + "\n";
 }
 
 void printDebug()

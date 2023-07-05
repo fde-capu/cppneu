@@ -1,12 +1,11 @@
 #include "Axon.hpp"
 
-size_t Axon::g_Axon_UID = 0;
-
-Axon::Axon(size_t slotIn, size_t slotOut)
+Axon::Axon(size_t slotIn, size_t slotOut,
+	zo u_multiplier)
 : slotIn(slotIn), slotOut(slotOut)
 {
-	axon_UID = g_Axon_UID++;
-	multiplier = randomZeroOne();
+	multiplier = u_multiplier == -1.0 ?
+		randomZeroOne() : u_multiplier;
 }
 
 Axon::Axon(Axon const& src)
@@ -18,7 +17,6 @@ Axon& Axon::operator= (Axon const& rhs)
 {
 	if (this != &rhs)
 	{
-		this->axon_UID = rhs.axon_UID;
 		this->slotIn = rhs.slotIn;
 		this->slotOut = rhs.slotOut;
 		this->multiplier = rhs.multiplier;
@@ -26,5 +24,13 @@ Axon& Axon::operator= (Axon const& rhs)
 	return *this;
 }
 
-Axon::~Axon()
-{}
+std::string Axon::readable() const
+{
+	std::string readOut = "x " + 
+		std::to_string(slotIn)
+		+ "-" + zeroDotOut(multiplier)
+		+ "-" + std::to_string(slotOut);
+	return readOut;
+}
+
+Axon::~Axon(){}

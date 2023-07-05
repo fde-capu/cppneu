@@ -1,38 +1,48 @@
 # String : first string must be the name
-# string string string ... the scale
-# b n		Make n new bias
-# x n		Make n new axons
-# a|m|p|v	a:action|m:measure|p:physical|v:vital
-## Expressors:
-# c|o|s|t	c:current
+# All rest is optional. Check header.h for defaults.
+# string string string ... : verbal scale
+# min:max:unit : custom measurable scale
+# ixxxx id (xxxx as integer)
+
+# Types:
+# v|a|m|p
+#			v:vital
+#			a:action
+#			m:measure
+#			p:physical
+
+# Expressors:
+# c|o|s|t
+#			c:current
 #			o:original threshold
 #			s:short threshold
 #			t:threshold
-# min:max:unit
-#
-## x123456 : format for setting:
-# (use d1234 for d = 0.1234,  d1.0 for d = 1.0)
+
+# For cases below, "xxxx" represents "0.xxxx":
 # oxxxx original threshold
 # dxxxx damping 
-#
-# ixxxx id
-#
+# Use o1.0 if needed.
+
+# b n		Make n new bias
+# x n		Make n new axons
+
 # todo: h scale-name word word
 
-#Heart v s i42 0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper d9
-i42 Heart o3555555 d8999999 v s 0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper
+i42 Heart o111 d222 v s	0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper
 
-#n Nose o01234567 p o Short Medium Long d1.0
-#n Breath v t Empty Neutral Full 0.8
-#n Eyes s Closed Normal "Wide Open" Popped d0.4
-#n Humor Crappy Bad Medium Ok Good Enthusiastic Incredible
-n Tired s
-n Drop a
-#n Clench a Softly Moderated Hard
-#n a Sleep
+# n Nose o01234567 p o Short Medium Long d1.0
+# n Breath v t Empty Neutral Full 0.8
+# n Eyes s Closed Normal "Wide Open" Popped d0.4
+# n Humor Crappy Bad Medium Ok Good Enthusiastic Incredible
+# n Tired s
+# n Drop a
 
-i2 CustomBiasName o1.0 b s Clear Cloudy Rain Storm 0:100:umity
-i4 o099113 d5 b c
+# n a Sleep
 
-b 2
-x 2
+
+i2 CustomBiasName o1.0 b o Clear Cloudy Rain Storm 0:100:umity
+
+x 2-555-42
+
+b 1
+x 1

@@ -22,6 +22,7 @@ VALFLAG	=	--tool=memcheck \
 			--track-origins=yes \
 			--show-reachable=yes
 all:		$(NAME)
+	echo
 $(NAME):	$(OBJS)
 	$(CC) $(CCFLAGS) $(OBJS) -o $(NAME) $(CCLINKS) -lncurses
 $(OBJS):	%.o : %.cpp $(HEAD)
