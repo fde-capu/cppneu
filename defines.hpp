@@ -82,6 +82,11 @@ void printDebug();
 void loadConf(const char* u_fn);
 void doQuit();
 void debug(std::string s);
+
+template <typename T>
+void debug(std::string s, T any)
+{ debug(s + " " + std::to_string(any)); }
+
 void switchBias();
 void increment(size_t&, size_t);
 void decrement(size_t&, size_t);
@@ -92,5 +97,6 @@ std::string zeroDotOut(zo n);
 # define EPSILON 0.00000001
 # define FLOAT_MARK "$"
 # define ASCII_BAR_SET "[ ,.;:!]"
+# define AXON_DISPLAY_SET "--**"
 
 #endif

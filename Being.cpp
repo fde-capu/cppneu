@@ -27,15 +27,15 @@ void Being::addNeuron(t_config& u_)
 
 void Being::nextId(size_t& u_id) const
 {
-	if (neuron_table.count(u_id) && u_id)
+	if (u_id && neuron_table.count(u_id))
 	{
 		std::cerr << "Warning: overwriting Neuron "
 			<< u_id << "." << std::endl;
 	}
 	else
 	{
-		if (u_id)
-			return ;
+		if (u_id || !g_Neuron_UID)
+			return (void)g_Neuron_UID++;
 		while (neuron_table.count(g_Neuron_UID))
 			g_Neuron_UID++;
 		u_id = g_Neuron_UID;
@@ -44,7 +44,8 @@ void Being::nextId(size_t& u_id) const
 
 size_t Being::randomNeuronWithOutput()
 {
-	if (count_neuron < 1) return 0;
+	if (count_neuron < 1)
+		throw std::runtime_error("Not enough neurons.");
 	auto it = neuron_table.begin();
 	std::advance(it, 
 		randomValue<size_t>
@@ -57,7 +58,8 @@ size_t Being::randomNeuronWithOutput()
 
 size_t Being::randomNeuronWithInput()
 {
-	if (count_neuron < 1) return 0;
+	if (count_neuron < 1)
+		throw std::runtime_error("Not enough neurons.");
 	auto it = neuron_table.begin();
 	std::advance(it, 
 		randomValue<size_t>
@@ -84,9 +86,13 @@ void Being::extraFiringProcess(NEURON& n)
 void Being::readInput(NEURON& n) {
 	n.feed(
 		n.isBias() ?
-			bias_switch ? randomZeroOne() : 0.0
+			bias_switch ?
+				randomZeroOne()
+				: 0.0
 		:
-			axonOut[n.neuron_UID]
+			n.neuron_UID ?
+				axonOut[n.neuron_UID]
+				: 0.0
 	);
 }
 
@@ -122,11 +128,12 @@ void Being::processAxons()
 		Axon& a = pair.second;
 		if (!neuron_table.count(a.slotOut))
 			continue ;
-		axonOut[a.slotOut] += \
+		axonOut[a.slotOut] +=
 			neuronOut[a.slotIn] \
 			/ inCount[
-				neuron_table.at(a.slotOut)
-					.neuron_UID] \
+				neuron_table.at(a.slotOut) \
+					.neuron_UID
+				] \
 			* a.multiplier;
 	}
 }

@@ -36,6 +36,7 @@ void printWantedActions(Being& b)
 
 void printAllAxons(Being& b)
 {
+	static std::string c_set(AXON_DISPLAY_SET);
 	char fire_char_a;
 	char fire_char_b;
 
@@ -44,10 +45,10 @@ void printAllAxons(Being& b)
 		{
 			fire_char_a = b.neuron_table
 				[pair.second.slotIn].fire ?
-				'*' : '-';
+				c_set.at(2) : c_set.at(0);
 			fire_char_b = b.neuron_table
 				[pair.second.slotIn].fire ?
-				'>' : '|';
+				c_set.at(3) : c_set.at(1);
 			printw("%zu%c%s%c%zu ",
 				pair.second.slotIn,
 				fire_char_a,

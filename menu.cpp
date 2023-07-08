@@ -1,5 +1,7 @@
 #include "menu.hpp"
 
+std::string g_debugString("");
+
 void toggleShowMenu() { g_showMenu = !g_showMenu; }
 void toggleRunning() { g_running = !g_running; }
 
@@ -32,8 +34,6 @@ void dealKeyPress(int ch)
 	if (g_menu.find(ch) != g_menu.end())
 		g_menu[ch].functionPtr();
 }
-
-std::string g_debugString("");
 
 void debug(std::string s)
 {

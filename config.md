@@ -37,7 +37,7 @@
 # n Tired s
 # n Drop a
 
-# n a Sleep
+n a Sleep
 
 # i0 b top m o o0
 
@@ -45,5 +45,5 @@
 
  b 3
 
-x 22-555-42
+ x 4-555-0
 # x 5

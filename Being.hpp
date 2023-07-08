@@ -10,6 +10,7 @@
 # include LAST_NEURON_IMPLEMENTATION
 # include "header.hpp"
 # include "Axon.hpp"
+# include <stdexcept>
 
 class Being {
 	public:
