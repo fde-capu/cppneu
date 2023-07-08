@@ -44,7 +44,7 @@ void Being::nextId(size_t& u_id) const
 
 size_t Being::randomNeuronWithOutput()
 {
-	if (neuron_table.size() < 1) return 0;
+	if (count_neuron < 1) return 0;
 	auto it = neuron_table.begin();
 	std::advance(it, 
 		randomValue<size_t>
@@ -57,7 +57,7 @@ size_t Being::randomNeuronWithOutput()
 
 size_t Being::randomNeuronWithInput()
 {
-	if (neuron_table.size() < 1) return 0;
+	if (count_neuron < 1) return 0;
 	auto it = neuron_table.begin();
 	std::advance(it, 
 		randomValue<size_t>
@@ -117,6 +117,8 @@ void Being::processAxons()
 	for (auto& pair : axon_table)
 	{
 		Axon& a = pair.second;
+		if (!neuron_table.count(a.slotOut))
+			continue ;
 		axonOut[a.slotOut] += \
 			neuronOut[a.slotIn] \
 			/ inCount[

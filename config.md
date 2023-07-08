@@ -28,7 +28,7 @@
 
 # todo: h scale-name word word
 
-i42 Heart o111 d222 v s	0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper
+# i42 Heart o111 d222 v s	0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper
 
 # n Nose o01234567 p o Short Medium Long d1.0
 # n Breath v t Empty Neutral Full 0.8
@@ -39,10 +39,8 @@ i42 Heart o111 d222 v s	0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyp
 
 # n a Sleep
 
-
 i2 CustomBiasName o1.0 b o Clear Cloudy Rain Storm 0:100:umity
 
 x 2-555-42
-
-b 1
 x 1
+b 1
