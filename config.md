@@ -39,8 +39,11 @@
 
 # n a Sleep
 
-i2 CustomBiasName o1.0 b o Clear Cloudy Rain Storm 0:100:umity
+# i0 b top m o o0
 
-x 2-555-42
-x 1
-b 1
+# i2 CustomBiasName o1.0 b o Clear Cloudy Rain Storm 0:100:umity
+
+ b 3
+
+x 22-555-42
+# x 5

@@ -107,11 +107,14 @@ void Being::process()
 	processAxons();
 }
 
-void Being::processAxons()
+void Being::on()
 {
-	std::map<size_t, size_t> inCount;
 	for (auto& pair : axon_table)
 		inCount[pair.second.slotOut]++;
+}
+
+void Being::processAxons()
+{
 	for (auto& pair : axonOut)
 		pair.second = 0.0;
 	for (auto& pair : axon_table)

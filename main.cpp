@@ -58,6 +58,7 @@ void config(std::string config_file)
 		else
 			g_being.addNeuron(g_conf[i]);
 	}
+	g_being.on();
 }
 
 void prepare()

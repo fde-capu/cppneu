@@ -20,6 +20,7 @@ class Being {
 		std::map<size_t, Axon> axon_table = {};
 		std::map<size_t, zo> neuronOut = {};
 		std::map<size_t, zo> axonOut = {};
+		std::map<size_t, size_t> inCount = {};
 		zo actionScore = 0.0;
 		std::string bestAction = "";
 		size_t count_neuron = 0;
@@ -37,8 +38,10 @@ class Being {
 		size_t randomNeuronWithOutput();
 		size_t randomNeuronWithInput();
 
-		virtual std::string readable() const ;
-		void nextId(size_t&) const ;
+		virtual std::string readable() const;
+		void nextId(size_t&) const;
+
+		void on();
 	
 	public:
 		bool bias_switch = true;

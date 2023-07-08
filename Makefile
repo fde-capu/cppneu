@@ -40,3 +40,5 @@ t:			all
 	./$(NAME) $(ARGS)
 v:			all
 	$(VAL) ./$(NAME) $(ARGS)
+g:			all
+	gdb ./$(NAME) $(ARGS)
