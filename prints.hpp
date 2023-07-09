@@ -2,6 +2,7 @@
 # define PRINTS_HPP
 
 # include "Being.hpp"
+# include "helpers.hpp"
 
 void printScreen(Being&);
 void printHeader(Being&);

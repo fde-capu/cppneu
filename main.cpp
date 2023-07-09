@@ -86,10 +86,13 @@ void prepare()
 {
 	srand(time(NULL));
 	initscr();
-	start_color();
 
-	init_pair(1, COLOR_WHITE, COLOR_BLACK);
-	wbkgd(stdscr, COLOR_PAIR(1));
+	if (g_colors)
+	{
+		start_color();
+		init_pair(1, COLOR_WHITE, COLOR_BLACK);
+		wbkgd(stdscr, COLOR_PAIR(1));
+	}
 
 	set_tabsize(LEADING_ZEROS + 1);
 	cbreak();

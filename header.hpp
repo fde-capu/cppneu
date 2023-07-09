@@ -16,6 +16,7 @@
 # include "defines.hpp"
 
 static bool g_showDebug = true;
+static bool g_colors = false;
 
 # define DISPLAY_SET_DEFAULT \
 	DISPLAY_BAR + \
