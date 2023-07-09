@@ -21,6 +21,7 @@
 # define T_AXON 'x'
 # define T_BIAS 'b'
 # define T_NEURON 'n'
+# define T_QUIET 'q'
 # define ID_CHAR 'i'
 
 # define E_THRESHOLD 't'
@@ -43,6 +44,7 @@
 # define DISPLAY_ACTION (1 << 12)
 # define DISPLAY_MEASURES (1 << 13)
 # define DISPLAY_WANT (1 << 14)
+# define DISPLAY_QUIETS (1 << 15)
 
 extern bool g_quit;
 extern bool g_running;

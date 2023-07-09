@@ -68,13 +68,10 @@ void printOuts(Being& b)
 		printw("|");
 		for (auto& pair : b.neuron_table)
 		{
-			if (isOutBlockVisible(pair.second))
-			{
-				if (pair.second.outputValue)
-					printw("*|");
-				else
-					printw(" |");
-			}
+			if (pair.second.outputValue)
+				printw("*|");
+			else
+				printw(" |");
 		}
 		printw("\n");
 }
@@ -84,8 +81,6 @@ void printCharacter(NEURON& n)
 	static std::string shadowGray(ASCII_CHAR_SCALE);
 	if (n.fire)
 		attron(A_BOLD);
-	if (!isCharacterVisible(n))
-		return;
 	double scaleFactor = static_cast<double>(shadowGray.length() - 1);
 	int scaledInputValue = static_cast<int>(n.inputValue * scaleFactor);
 	int scaledThreshold = static_cast<int>(n.threshold * scaleFactor);
@@ -156,8 +151,9 @@ void printAsciiBar(NEURON& n)
 {
 	static std::string barMap(ASCII_BAR_SET);
 
-	if (!isBarVisible(n)
-		|| (n.isBias() && !(displaySet & DISPLAY_BIAS)))
+	if (n.isBias() && !(displaySet & DISPLAY_BIAS))
+		return ;
+	if (n.type == T_QUIET && !(displaySet & DISPLAY_QUIETS))
 		return ;
 	size_t length = ASCII_BAR_LENGTH;
 	double scaleFactor = static_cast<double>(length);
@@ -223,31 +219,6 @@ void printNumbers(NEURON& n)
 		floatUpFire(n.damp).c_str(),
 		floatUpFire(n.originalThreshold).c_str());
 }
-
-bool isBarVisible(NEURON& n)
-{ return
-			n.type == T_VITAL
-		||	n.type == T_ACTION
-		||	n.type == T_MEASURE
-		||	n.type == T_BIAS
-		||	n.type == T_PHYSICAL
-;}
-
-bool isCharacterVisible(NEURON& n)
-{	return
-			n.type == T_VITAL
-		||	n.type == T_MEASURE
-		||	n.type == T_BIAS
-;}
-
-bool isOutBlockVisible(NEURON& n)
-{	return
-			n.type == T_PHYSICAL
-		||	n.type == T_VITAL
-		||	n.type == T_ACTION
-		||	n.type == T_MEASURE
-		||	n.type == T_BIAS
-;}
 
 void setDisplay(int bit_value)
 {

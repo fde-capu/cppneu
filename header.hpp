@@ -25,6 +25,7 @@ static bool g_showDebug = true;
 	DISPLAY_HEADER + \
 	DISPLAY_CHARS + \
 	DISPLAY_WANT + \
+	DISPLAY_QUIETS + \
 	DISPLAY_BAR_ALL
 
 #endif

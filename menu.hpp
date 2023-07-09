@@ -60,6 +60,7 @@ g_menu_tree =
 	{'c', {"characters", []() -> void { setDisplay(DISPLAY_CHARACTER); }}},
 	{'d', {"description", []() -> void { setDisplay(DISPLAY_DESCRIPTION); }}},
 	{'i', {"bias", []() -> void { setDisplay(DISPLAY_BIAS); }}},
+	{'Q', {"quiets", []() -> void { setDisplay(DISPLAY_QUIETS); }}},
 }}
 };
 

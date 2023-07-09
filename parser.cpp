@@ -124,7 +124,7 @@ bool looksLikeId(const std::string& s)
 	return true;
 }
 
-bool looksLikeOriginalThreshole(const std::string &s)
+bool looksLikeOriginalThreshold(const std::string &s)
 {
 	if (!uFormat(s, 'o')) return false;
 	uRead(originalThreshold, s);
@@ -157,6 +157,8 @@ void autoGen(const std::string& l)
 		make == "bias" ? g_bias_set :
 		make == "axon" ? g_axon_set :
 		g_default_set;
+	if (make == "neuron")
+		set.type = T_QUIET;
 	while (a--)
 		g_conf.push_back(set);
 }
@@ -247,7 +249,7 @@ void parse(const std::string& l)
 			if (looksLikeName(s)) continue ; // Any string.
 			if (looksLikeScale(s)) continue ; // min:max:unit
 			if (looksLikeDamp(s)) continue ; // dnnn
-			if (looksLikeOriginalThreshole(s)) continue ; // onnn
+			if (looksLikeOriginalThreshold(s)) continue ; // onnn
 			if (looksLikeId(s)) continue ; // innn, bnnn, nnnn
 			if (thenItsScaleName(s)) continue ; // Other strings (sequenctialy)
 			std::cerr << "Warning: '" << s << "' ignored." << std::endl;

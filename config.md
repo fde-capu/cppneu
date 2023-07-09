@@ -8,13 +8,14 @@
 # same as nxxxx, or bxxxx for bias.
 
 # Types:
-# n|v|a|m|p|b
+# n|v|a|m|p|b|q
 #			n:neuron
 #			v:vital
 #			a:action
 #			m:measure
 #			p:physical
 #			b:bias
+#			q:quiet
 
 # Expressors:
 # c|o|s|t
@@ -52,5 +53,5 @@ b 1
 n 1
 
 # x 4-555-0
-# x 1
-x 0-555-1
+x 1
+# x 0-555-1
