@@ -21,6 +21,7 @@ class Being {
 		std::map<size_t, zo> neuronOut = {};
 		std::map<size_t, zo> axonOut = {};
 		std::map<size_t, size_t> inCount = {};
+		std::map<size_t, std::vector<zo> > fireCount = {};
 		zo actionScore = 0.0;
 		std::string bestAction = "";
 		size_t count_neuron = 0;
@@ -31,6 +32,7 @@ class Being {
 		void addNeuron(t_config& u_);
 
 		void process();
+		void balanceAxons();
 		void processAxons();
 		void readInput(NEURON&);
 		void extraFiringProcess(NEURON&);

@@ -15,7 +15,7 @@ t_config g_default_set =
 		.scaleMax = 0,
 		.unit = "",
 		.scale = {},
-		.damp = DEFAULT_DAMP,
+		.damp = -1.0,
 		.originalThreshold = 0.0,
 };
 
@@ -23,7 +23,7 @@ t_config g_bias_set =
 {
 		.type = T_BIAS,
 		.expressor = DEFAULT_EXPRESSOR,
-		.damp = DEFAULT_DAMP,
+		.damp = -1.0,
 };
 
 t_config g_axon_set =

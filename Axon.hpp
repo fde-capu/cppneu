@@ -10,6 +10,8 @@ class Axon
 		size_t slotIn;
 		size_t slotOut;
 		zo multiplier;
+		zo originalMultiplier;
+		zo charge;
 
 	public:
 		Axon(
@@ -21,6 +23,7 @@ class Axon
 		Axon& operator= (Axon const &);
 		virtual ~Axon();
 		std::string readable() const;
+		void feed(zo);
 };
 
 #endif

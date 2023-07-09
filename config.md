@@ -1,38 +1,4 @@
-# String : first string must be the name
-# All rest is optional. Check header.h for defaults.
-# string string string ... : verbal scale
-# min:max:unit : custom measurable scale
-
-# Id:
-# ixxxx  id (xxxx as integer)
-# same as nxxxx, or bxxxx for bias.
-
-# Types:
-# n|v|a|m|p|b|q
-#			n:neuron
-#			v:vital
-#			a:action
-#			m:measure
-#			p:physical
-#			b:bias
-#			q:quiet
-
-# Expressors:
-# c|o|s|t
-#			c:current
-#			o:original threshold
-#			s:short threshold
-#			t:threshold
-
-# For cases below, "xxxx" represents "0.xxxx":
-# oxxxx original threshold
-# dxxxx damping 
-# Use o1.0 if needed.
-
-# b n		Make n new bias
-# x n		Make n new axons
-
-# todo: h scale-name word word
+# a Sleep
 
 # i42 Heart o111 d222 v s	0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper
 
@@ -43,26 +9,18 @@
 # n Tired s
 # n Drop a
 
-# n a Sleep
-
 # i0 b top m o o0
 
 # i2 CustomBiasName o1.0 b o Clear Cloudy Rain Storm 0:100:umity
 
-# b 4
-# n 4
+ n neuron o99 d0 c
+ n neuron2 o03 d0 c
+ n 3
+
+ b o199
+
+ x 8
+ x 5-1.0-1
 
 # x 4-555-0
-# x 2
 # x 0-555-1
-
-i0 o476512 d5 b s
-i1 o724164 d5 b s
-i2 o778076 d5 b s
-i3 o78862 d5 b s
-i4 o433653 d5 q s
-i5 o490709 d5 q s
-i6 o130231 d5 q s
-i7 o441781 d5 q s
-x 3-069101-4
-x 1-679812-4

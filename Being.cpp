@@ -3,6 +3,12 @@
 size_t Being::g_Neuron_UID = 0;
 size_t Being::g_Axon_UID = 0;
 
+void Being::on()
+{
+	for (auto& pair : axon_table)
+		inCount[pair.second.slotOut]++;
+}
+
 void Being::addAxon(t_config& u_)
 {
 	if ((u_.slotIn != ST_MAX && !neuron_table.count(u_.slotIn))
@@ -113,31 +119,45 @@ void Being::process()
 		if (n.outputValue)
 			extraFiringProcess(n);
 	}
+	balanceAxons();
 	processAxons();
 }
 
-void Being::on()
+void Being::balanceAxons()
 {
 	for (auto& pair : axon_table)
-		inCount[pair.second.slotOut]++;
+	{
+		Axon& a = pair.second;
+		if (neuronOut[a.slotOut]
+			&& a.charge)
+		{
+			zo sum = 0.0;
+			size_t count;
+			for (auto& v : fireCount[a.slotOut])
+				sum += v;
+			count = fireCount[a.slotOut].size();
+			zo med = sum/count;
+			a.multiplier += (med - a.multiplier) / count * 0.1;
+		}
+	}
 }
 
 void Being::processAxons()
 {
 	for (auto& pair : axonOut)
 		pair.second = 0.0;
+	for (auto& pair : fireCount)
+		pair.second = {};
 	for (auto& pair : axon_table)
 	{
 		Axon& a = pair.second;
 		if (!neuron_table.count(a.slotOut))
 			continue ;
-		axonOut[a.slotOut] +=
-			neuronOut[a.slotIn] \
-			/ inCount[
-				neuron_table.at(a.slotOut) \
-					.neuron_UID
-				] \
-					 * a.multiplier;
+		a.feed(neuronOut[a.slotIn]);
+		axonOut[a.slotOut] += a.charge \
+			/ inCount[a.slotOut];
+		if (a.charge)
+			fireCount[a.slotOut].push_back(a.charge);
 	}
 }
 
