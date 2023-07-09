@@ -4,15 +4,13 @@
 # include "DynamicNeuron.hpp"
 # include "defines.hpp"
 
-# define DEFAULT_TYPE T_DEFAULT
-
 class TypesNeuron: public virtual DynamicNeuron
 {
 	public:
 		int type;
 
 	public:
-		TypesNeuron(int type = DEFAULT_TYPE);
+		TypesNeuron(int type = DEFAULT_NEURON_TYPE);
 		TypesNeuron(TypesNeuron const&);
 		TypesNeuron& operator= (TypesNeuron const&);
 		bool isNeuron();

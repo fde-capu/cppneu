@@ -42,14 +42,15 @@
 # n Tired s
 # n Drop a
 
-n a Sleep
+# n a Sleep
 
 # i0 b top m o o0
 
 # i2 CustomBiasName o1.0 b o Clear Cloudy Rain Storm 0:100:umity
 
-n 2
-b 3
+b 1
+n 1
 
-x 4-555-0
-# x 5
+# x 4-555-0
+# x 1
+x 0-555-1

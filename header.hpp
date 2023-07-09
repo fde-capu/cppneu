@@ -1,18 +1,19 @@
 #ifndef HEADER_HPP
 # define HEADER_HPP
+# include "defines.hpp"
 
 # define DEFAULT_CONFIG_FILE "config.md"
 
 # define DEFAULT_NEURON_TYPE T_MEASURE
-# define DEFAULT_EXPRESSOR EXPRESSOR_THRESHOLD_SHORT
+# define DEFAULT_EXPRESSOR E_SHORT
 # define DEFAULT_DAMP 0.5
 
-# define MEMORY_TYPE_SIZE unsigned int
-# define zo float
 # define LEADING_ZEROS 3
 # define PRECISION_DIGITS 8
 # define ASCII_BAR_LENGTH 10
 # define DEFAULT_TICK_MS 100
+
+# include "defines.hpp"
 
 static bool g_showDebug = true;
 

@@ -9,7 +9,7 @@ SRCS	=	main.cpp Being.cpp randoms.cpp helpers.cpp \
 				TypesNeuron.cpp MetaNeuron.cpp prints.cpp Axon.cpp
 HEAD	=	Makefile header.hpp Being.hpp defines.hpp randoms.hpp \
 				Neuron.hpp DynamicNeuron.hpp menu.hpp TypesNeuron.hpp \
-				MetaNeuron.hpp prints.hpp parser.hpp Axon.hpp
+				MetaNeuron.hpp prints.hpp parser.hpp Axon.hpp types.hpp
 SHELL	=	/bin/sh
 CC		=	clang++ -Wfatal-errors -std=c++20 -Wc++20-extensions -pthread
 CCFLAGS	=	-Wall -Werror -Wextra -g -Wfatal-errors

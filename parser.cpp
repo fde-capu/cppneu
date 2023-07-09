@@ -2,8 +2,8 @@
 
 size_t UID;
 std::string name;
-int type;
-int expressor;
+char type;
+char expressor;
 int scaleMin;
 int scaleMax;
 std::string unit;
@@ -138,38 +138,13 @@ bool looksLikeDamp(const std::string& s)
 	return true;
 }
 
-//	 /^\c{ }1\d+$/
-bool looksLikeAutoGen(const std::string& s)
-{
-	enum phase { p_char , space , digit };
-	phase c_phase = 0;
-	for (size_t i = 0; i < s.length(); i++)
-	{
-		if (c_phase == p_char
-			&& s.at(i) >= 'a' && s.at(i) <= 'z')
-			{ c_phase++; continue; }
-		if (c_phase == space
-			&& s.at(i) == ' ')
-			{ c_phase++; continue; }
-		if (c_phase == digit
-			&& s.at(i) >= '0' && s.at(i) <= 9)
-			continue;
-		return false;
-	}
-	autoGen(s);
-	return true;
-}
-
 void autoGen(const std::string& l)
 {
-	std::string make = "";
-
-	if (l.at(0) == T_NEURON
-		make = "neuron";
-	if (l.at(0) == T_AXON
-		make = "axon";
-	if (l.at(0) == T_BIAS
-		make = "bias";
+	std::string make = 
+		l.at(0) == T_NEURON ? "neuron" : 
+		l.at(0) == T_AXON ? "axon" :
+		l.at(0) == T_BIAS ? "bias" :
+		"";
 
 	if (make == "")
 	{
@@ -182,9 +157,30 @@ void autoGen(const std::string& l)
 		make == "bias" ? g_bias_set :
 		make == "axon" ? g_axon_set :
 		g_default_set;
+	while (a--)
+		g_conf.push_back(set);
+}
 
-		while (a--)
-			g_conf.push_back(set);
+//	 /^\c{ }1\d+$/
+bool looksLikeAutoGen(const std::string& s)
+{
+	enum phase { p_char , space , digit };
+	phase c_phase = p_char;
+	for (size_t i = 0; i < s.length(); i++)
+	{
+		if (c_phase == p_char
+			&& s.at(i) >= 'a' && s.at(i) <= 'z')
+			{ c_phase = space; continue; }
+		if (c_phase == space
+			&& s.at(i) == ' ')
+			{ c_phase = digit ; continue; }
+		if (c_phase == digit
+			&& s.at(i) >= '0' && s.at(i) <= '9')
+			continue;
+		return false;
+	}
+	autoGen(s);
+	return true;
 }
 
 bool looksLikeAxon(const std::string& l)
@@ -269,8 +265,8 @@ void parse(const std::string& l)
 
 	g_conf.push_back({
 		.UID = UID,
-		.type = type ? type : g_default_set.type,
 		.name = name,
+		.type = type ? type : g_default_set.type,
 		.expressor = expressor ? expressor : g_default_set.expressor,
 		.scaleMin = scaleMin,
 		.scaleMax = scaleMax,

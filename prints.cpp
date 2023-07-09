@@ -23,7 +23,7 @@ void printAllCharacters(Being& b)
 {
 	if (!(displaySet & DISPLAY_CHARS)) return ;
 	for (auto& pair : b.neuron_table)
-			printCharacter(pair.second);
+		printCharacter(pair.second);
 	printw("\n");
 }
 
@@ -49,12 +49,15 @@ void printAllAxons(Being& b)
 			fire_char_b = b.neuron_table
 				[pair.second.slotIn].fire ?
 				c_set.at(3) : c_set.at(1);
+			if (b.neuron_table[pair.second.slotIn].fire)
+				attron(A_BOLD);
 			printw("%zu%c%s%c%zu ",
 				pair.second.slotIn,
 				fire_char_a,
 				floatUpFire(pair.second.multiplier).c_str(),
 				fire_char_b,
 				pair.second.slotOut); 
+			attroff(A_BOLD);
 		}
 		printw("\n");
 }
@@ -78,9 +81,11 @@ void printOuts(Being& b)
 
 void printCharacter(NEURON& n)
 {
+	static std::string shadowGray(ASCII_CHAR_SCALE);
+	if (n.fire)
+		attron(A_BOLD);
 	if (!isCharacterVisible(n))
 		return;
-	std::string shadowGray(" -~=+*oO&#%@");
 	double scaleFactor = static_cast<double>(shadowGray.length() - 1);
 	int scaledInputValue = static_cast<int>(n.inputValue * scaleFactor);
 	int scaledThreshold = static_cast<int>(n.threshold * scaleFactor);
@@ -93,6 +98,7 @@ void printCharacter(NEURON& n)
 	printw("%c", shadowGray.at(scaledInputValue));
 	printw("%c", shadowGray.at(scaledThreshold));
 	printw("%c", shadowGray.at(scaledOriginalThreshold));
+	attron(A_BOLD);
 }
 
 void printAllBars(Being& b)
@@ -186,8 +192,10 @@ void printAsciiBar(NEURON& n)
 				printw("%c", barMap.at(1));
 			}
 		}
-		printw("%c ", barMap.at(7));
+		printw("%c", barMap.at(7));
 	}
+	if (n.fire)
+		attron(A_BOLD);
 	if (displaySet & DISPLAY_CHARACTER)
 	{
 		printw(" ");
@@ -203,6 +211,7 @@ void printAsciiBar(NEURON& n)
 		printw(" ");
 		printDescription(n);
 	}
+	attroff(A_BOLD);
 	printw("\n");
 }
 

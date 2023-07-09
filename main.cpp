@@ -10,6 +10,26 @@ size_t g_tick_ms = DEFAULT_TICK_MS;
 
 Being g_being;
 
+std::ostream& operator<< (std::ostream& o, t_config const& self)
+{
+	o << "t_config {" <<
+		 " UID: " << self.UID <<
+		", type: " << self.type <<
+		", name: " << self.name <<
+		", expressor: " << self.expressor <<
+		", scaleMin: " << self.scaleMin <<
+		", scaleMax: " << self.scaleMax <<
+		", unit: " << self.unit <<
+		", scale: " << self.scale.size() <<
+		", damp: " << self.damp <<
+		", originalThreshold: " << self.originalThreshold <<
+		", slotIn: " << self.slotIn <<
+		", slotOut: " << self.slotOut <<
+		", multiplier: " << self.multiplier <<
+		" }" << std::endl;
+	return o;
+}
+
 void doQuit() { g_quit = true; }
 
 void run()
@@ -53,7 +73,7 @@ void config(std::string config_file)
 	loadConf(config_file.c_str());
 	for (size_t i = 0; i < g_conf.size(); i++)
 	{
-		if (g_conf[i].type & T_AXON)
+		if (g_conf[i].type == T_AXON)
 			g_being.addAxon(g_conf[i]);
 		else
 			g_being.addNeuron(g_conf[i]);
@@ -65,6 +85,11 @@ void prepare()
 {
 	srand(time(NULL));
 	initscr();
+	start_color();
+
+	init_pair(1, COLOR_WHITE, COLOR_BLACK);
+	wbkgd(stdscr, COLOR_PAIR(1));
+
 	set_tabsize(LEADING_ZEROS + 1);
 	cbreak();
 	noecho();

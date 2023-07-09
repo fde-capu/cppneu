@@ -8,8 +8,8 @@
 
 t_config g_default_set =
 {
-		.type = DEFAULT_NEURON_TYPE,
 		.name = "",
+		.type = DEFAULT_NEURON_TYPE,
 		.expressor = DEFAULT_EXPRESSOR,
 		.scaleMin = 0,
 		.scaleMax = 0,
@@ -21,9 +21,9 @@ t_config g_default_set =
 
 t_config g_bias_set =
 {
-		.type = T_BIAS,
 		.name = BIAS_NAME,
-		.expressor = EXPRESSOR_CURRENT,
+		.type = T_BIAS,
+		.expressor = DEFAULT_EXPRESSOR,
 		.damp = DEFAULT_DAMP,
 };
 

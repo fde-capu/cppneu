@@ -1,10 +1,10 @@
 #ifndef DEFINES_HPP
 # define DEFINES_HPP
+# include "types.hpp"
 
 # define LAST_NEURON_IMPLEMENTATION "MetaNeuron.hpp"
 # define NEURON MetaNeuron
 
-# include "header.hpp"
 # include <string>
 # include <map>
 # include <ncurses.h>
@@ -44,25 +44,6 @@
 # define DISPLAY_MEASURES (1 << 13)
 # define DISPLAY_WANT (1 << 14)
 
-# define ST_MAX std::numeric_limits<size_t>::max()
-
-typedef struct TypeBeingConfig
-{
-	size_t UID;
-	int type;
-	std::string name;
-	int expressor;
-	int scaleMin;
-	int scaleMax;
-	std::string unit;
-	std::vector<std::string> scale;
-	zo damp;
-	zo originalThreshold;
-	size_t slotIn = ST_MAX;
-	size_t slotOut = ST_MAX;
-	zo multiplier;
-} t_config;
-
 extern bool g_quit;
 extern bool g_running;
 extern std::vector<t_config> g_conf;
@@ -88,5 +69,6 @@ std::string zeroDotOut(zo n);
 # define FLOAT_MARK "$"
 # define ASCII_BAR_SET "[ ,.;:!]"
 # define AXON_DISPLAY_SET "--**"
+# define ASCII_CHAR_SCALE " -~=+*oO&#%@"
 
 #endif

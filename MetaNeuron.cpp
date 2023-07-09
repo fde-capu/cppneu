@@ -59,24 +59,7 @@ std::string MetaNeuron::readable() const
 		readOut += name + " ";
 	readOut += TypesNeuron::readable();
 	if (expressor)
-	{
-		switch (expressor)
-		{
-			case EXPRESSOR_CURRENT:
-				readOut += std::string(1, E_CURRENT_CHAR);
-				break;
-			case EXPRESSOR_THRESHOLD:
-				readOut += std::string(1, E_THRESHOLD_CHAR);
-				break;
-			case EXPRESSOR_ORIGINAL_THRESHOLD:
-				readOut += std::string(1, E_ORIGINAL_CHAR);
-				break;
-			case EXPRESSOR_THRESHOLD_SHORT:
-				readOut += std::string(1, E_SHORT_CHAR);
-				break;
-		}
-		readOut += " ";
-	}
+		readOut += std::string(1, expressor) + " ";
 	if (customScale())
 	{
 		readOut += std::to_string(scaleMin) + \
@@ -97,11 +80,11 @@ std::string MetaNeuron::getDescription()
 	std::stringstream ss;
 
 	getExpressor =
-		expressor == EXPRESSOR_CURRENT ? inputValue
-		: expressor == EXPRESSOR_THRESHOLD ? threshold
-		: expressor == EXPRESSOR_ORIGINAL_THRESHOLD ?
+		expressor == E_CURRENT ? inputValue
+		: expressor == E_THRESHOLD ? threshold
+		: expressor == E_ORIGINAL ?
 			originalThreshold
-		: expressor == EXPRESSOR_THRESHOLD_SHORT ?
+		: expressor == E_SHORT ?
 			(threshold - originalThreshold)
 			/ (1.0 + EPSILON - originalThreshold)
 		: 0.0;
@@ -110,26 +93,33 @@ std::string MetaNeuron::getDescription()
 		ss << "* ";
 	else
 		ss << "  ";
-	ss << name;
+	if (name.length())
+		ss << name;
 	if (scaleMax)
 	{
 		scaleFactor = static_cast<double>(scaleMax - scaleMin);
 		scaledExpressor = static_cast<int>(getExpressor * scaleFactor)
 			+ scaleMin;
-		ss << ": " << scaledExpressor << unit.c_str();
+		if (name.length())
+			ss << ": ";
+		ss << scaledExpressor << unit.c_str();
 	}
 	if (scale.size())
 	{
 		scaleFactor = static_cast<double>(scale.size());
 		scaledExpressor = static_cast<int>(getExpressor * scaleFactor);
 		if (scaledExpressor > scale.size() - 1) scaledExpressor = scale.size() - 1;
-		ss << ": " << scale[scaledExpressor];
+		if (name.length())
+			ss << ": ";
+		ss << scale[scaledExpressor];
 	}
 	if (!scale.size() && !scaleMax)
 	{
 		scaleFactor = static_cast<double>(1.0);
 		scaleFactor = static_cast<double>(getExpressor * scaleFactor);
-		ss << ": " << floatUpFire(scaleFactor);
+		if (name.length())
+			ss << ": ";
+		ss << floatUpFire(scaleFactor);
 	}
 	return ss.str();
 }

@@ -1,14 +1,13 @@
 #ifndef BEING_HPP
 # define BEING_HPP
 
+# include "header.hpp"
 # include <vector>
-# include "defines.hpp"
 # include <string>
 # include "randoms.hpp"
 # include <ncurses.h>
 # include <sstream>
 # include LAST_NEURON_IMPLEMENTATION
-# include "header.hpp"
 # include "Axon.hpp"
 # include <stdexcept>
 
