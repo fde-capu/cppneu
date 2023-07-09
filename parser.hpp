@@ -8,7 +8,7 @@
 
 t_config g_default_set =
 {
-		.type = T_MEASURE,
+		.type = DEFAULT_NEURON_TYPE,
 		.name = "",
 		.expressor = DEFAULT_EXPRESSOR,
 		.scaleMin = 0,
@@ -29,7 +29,7 @@ t_config g_bias_set =
 
 t_config g_axon_set =
 {
-		.type = T_AXON,
+		.type = T_AXON
 };
 
 #endif

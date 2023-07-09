@@ -137,7 +137,7 @@ void Being::processAxons()
 				neuron_table.at(a.slotOut) \
 					.neuron_UID
 				] \
-			* a.multiplier;
+					 * a.multiplier;
 	}
 }
 

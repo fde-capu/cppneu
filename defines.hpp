@@ -14,29 +14,19 @@
 # include <vector>
 # include <iostream>
 
-# define T_PHYSICAL 1
-# define T_VITAL 2
-# define T_ACTION 3
-# define T_MEASURE 4
-# define T_BIAS 20
-# define T_AXON 40
+# define T_PHYSICAL 'p'
+# define T_VITAL 'v'
+# define T_ACTION 'a'
+# define T_MEASURE 'm'
+# define T_AXON 'x'
+# define T_BIAS 'b'
+# define T_NEURON 'n'
+# define ID_CHAR 'i'
 
-# define T_PHYSICAL_CHAR 'p'
-# define T_VITAL_CHAR 'v'
-# define T_ACTION_CHAR 'a'
-# define T_MEASURE_CHAR 'm'
-# define T_BIAS_CHAR 'b'
-# define T_AXON_CHAR 'x'
-
-# define EXPRESSOR_THRESHOLD 1
-# define EXPRESSOR_CURRENT 2
-# define EXPRESSOR_ORIGINAL_THRESHOLD 3
-# define EXPRESSOR_THRESHOLD_SHORT 4
-
-# define E_THRESHOLD_CHAR 't'
-# define E_CURRENT_CHAR 'c'
-# define E_ORIGINAL_CHAR 'o'
-# define E_SHORT_CHAR 's'
+# define E_THRESHOLD 't'
+# define E_CURRENT 'c'
+# define E_ORIGINAL 'o'
+# define E_SHORT 's'
 
 # define DISPLAY_BAR_ALL (1 << 0)
 # define DISPLAY_BAR (1 << 1)
@@ -98,7 +88,5 @@ std::string zeroDotOut(zo n);
 # define FLOAT_MARK "$"
 # define ASCII_BAR_SET "[ ,.;:!]"
 # define AXON_DISPLAY_SET "--**"
-# define T_DEFAULT T_MEASURE
-
 
 #endif

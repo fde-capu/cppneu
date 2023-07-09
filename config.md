@@ -2,10 +2,14 @@
 # All rest is optional. Check header.h for defaults.
 # string string string ... : verbal scale
 # min:max:unit : custom measurable scale
-# ixxxx id (xxxx as integer)
+
+# Id:
+# ixxxx  id (xxxx as integer)
+# same as nxxxx, or bxxxx for bias.
 
 # Types:
-# v|a|m|p|b
+# n|v|a|m|p|b
+#			n:neuron
 #			v:vital
 #			a:action
 #			m:measure
@@ -47,5 +51,5 @@ n a Sleep
 n 2
 b 3
 
- x 3-555-0
+x 4-555-0
 # x 5
