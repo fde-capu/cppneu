@@ -7,7 +7,10 @@ void Being::addAxon(t_config& u_)
 {
 	if ((u_.slotIn && !neuron_table.count(u_.slotIn))
 	|| (u_.slotOut && !neuron_table.count(u_.slotOut)))
-		throw std::runtime_error("Invalid axon slot.");
+	{
+		std::cerr << "Warning: invalid slot, axon ignored.";
+		return ;
+	}
 	Axon a(
 		u_.slotIn ?
 			u_.slotIn : randomNeuronWithOutput(),
