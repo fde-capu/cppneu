@@ -10,6 +10,8 @@
 # include LAST_NEURON_IMPLEMENTATION
 # include "Axon.hpp"
 # include <stdexcept>
+# include <deque>
+# include <algorithm>
 
 class Being {
 	public:
@@ -23,7 +25,7 @@ class Being {
 		std::map<size_t, size_t> inCount = {};
 		std::map<size_t, std::vector<zo> > fireCount = {};
 		zo actionScore = 0.0;
-		std::string bestAction = "";
+		std::deque<size_t> bestAction;
 		size_t count_neuron = 0;
 		size_t count_axon = 0;
 		size_t count_bias = 0;
@@ -36,6 +38,9 @@ class Being {
 		void processAxons();
 		void readInput(NEURON&);
 		void extraFiringProcess(NEURON&);
+
+		void inaction();
+		void ponderAction(const NEURON&);
 
 		size_t randomNeuronWithOutput();
 		size_t randomNeuronWithInput();

@@ -7,6 +7,11 @@ void Being::on()
 {
 	for (auto& pair : axon_table)
 		inCount[pair.second.slotOut]++;
+	for (auto& pair : neuron_table)
+	{
+		if (pair.second.isNeuron() && pair.second.type != T_QUIET)
+			bestAction.push_back(pair.second.neuron_UID);
+	}
 }
 
 void Being::addAxon(t_config& u_)
@@ -89,7 +94,7 @@ void Being::extraFiringProcess(NEURON& n)
 		if (n.force > actionScore)
 		{
 			actionScore = n.force;
-			bestAction = n.getDescription();
+			ponderAction(n);
 			return;
 		}
 	}
@@ -105,11 +110,37 @@ void Being::readInput(NEURON& n) {
 	);
 }
 
+void Being::inaction()
+{
+  auto it = std::find(bestAction.begin(), bestAction.end(), ST_MAX);
+  if (it != bestAction.end())
+    std::rotate(bestAction.begin(), it, it + 1);
+	else
+	{
+		bestAction.push_front(ST_MAX);
+		if (bestAction.size() > 10)
+			bestAction.pop_back();
+	}
+}
+
+void Being::ponderAction(const NEURON& n)
+{
+  auto it = std::find(bestAction.begin(), bestAction.end(), n.neuron_UID);
+  if (it != bestAction.end())
+    std::rotate(bestAction.begin(), it, it + 1);
+	else
+	{
+		bestAction.push_front(n.neuron_UID);
+		if (bestAction.size() > 10)
+			bestAction.pop_back();
+	}
+}
+
 void Being::process()
 {
-	actionScore *= 0.99;
+	actionScore *= 0.4;
 	if (actionScore < EPSILON)
-		bestAction = "-";
+		inaction();
 	for (auto & pair : neuron_table)
 	{
 		NEURON& n = pair.second;

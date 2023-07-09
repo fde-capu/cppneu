@@ -30,8 +30,13 @@ void printAllCharacters(Being& b)
 void printWantedActions(Being& b)
 {
 	if (!(displaySet & DISPLAY_WANT)) return ;
-	printw("%s", b.bestAction.c_str());
-	printw("\n");
+	for (auto& n : b.bestAction)
+	{
+		if (n != ST_MAX)
+			printw("%s\n", b.neuron_table[n].getDescription().c_str());
+		else
+			printw("-\n");
+	}
 }
 
 void printAllAxons(Being& b)
@@ -40,26 +45,28 @@ void printAllAxons(Being& b)
 	char fire_char_a;
 	char fire_char_b;
 
-	if (!(displaySet & DISPLAY_AXONS)) return ;
-		for (auto& pair : b.axon_table)
-		{
-			fire_char_a = b.neuron_table
-				[pair.second.slotIn].fire ?
-				c_set.at(2) : c_set.at(0);
-			fire_char_b = b.neuron_table
-				[pair.second.slotIn].fire ?
-				c_set.at(3) : c_set.at(1);
-			if (b.neuron_table[pair.second.slotIn].fire)
-			BOLD
-			printw("%zu%c%s%c%zu ",
-				pair.second.slotIn,
-				fire_char_a,
-				floatUpFire(pair.second.multiplier).c_str(),
-				fire_char_b,
-				pair.second.slotOut); 
-			UNBOLD
-		}
-		printw("\n");
+	if (!(displaySet & DISPLAY_AXONS))
+		return ;
+
+	for (auto& pair : b.axon_table)
+	{
+		fire_char_a = b.neuron_table
+			[pair.second.slotIn].fire ?
+			c_set.at(2) : c_set.at(0);
+		fire_char_b = b.neuron_table
+			[pair.second.slotIn].fire ?
+			c_set.at(3) : c_set.at(1);
+		if (b.neuron_table[pair.second.slotIn].fire)
+		BOLD
+		printw("%zu%c%s%c%zu ",
+			pair.second.slotIn,
+			fire_char_a,
+			floatUpFire(pair.second.multiplier).c_str(),
+			fire_char_b,
+			pair.second.slotOut); 
+		UNBOLD
+	}
+	printw("\n");
 }
 
 void printOuts(Being& b)
