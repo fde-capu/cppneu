@@ -165,7 +165,7 @@ void printAsciiBar(NEURON& n)
 
 	if (displaySet & DISPLAY_BAR)
 	{
-		printw("%zu %c", n.neuron_UID, barMap.at(0));
+		printw("%zu %c", n.neuron_UID, barMap.at(n.isBias() ? 8 : 0));
 		for (size_t i = 0; i < length; i++) {
 			if (i == scaledOriginalThreshold && i == scaledThreshold) {
 				if (n.outputValue)
@@ -188,7 +188,7 @@ void printAsciiBar(NEURON& n)
 				printw("%c", barMap.at(1));
 			}
 		}
-		printw("%c", barMap.at(7));
+		printw("%c", barMap.at(n.isBias() ? 9 : 7));
 	}
 	if (n.fire)
 		attron(A_BOLD);

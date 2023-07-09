@@ -55,7 +55,7 @@ std::string MetaNeuron::readable() const
 	std::string readOut = "";
 	readOut += "i" + 
 		std::to_string(neuron_UID) + " ";
-	if (name != BIAS_NAME && name.length())
+	if (name.length())
 		readOut += name + " ";
 	readOut += TypesNeuron::readable();
 	if (expressor)

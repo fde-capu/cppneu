@@ -21,7 +21,6 @@ t_config g_default_set =
 
 t_config g_bias_set =
 {
-		.name = BIAS_NAME,
 		.type = T_BIAS,
 		.expressor = DEFAULT_EXPRESSOR,
 		.damp = DEFAULT_DAMP,
