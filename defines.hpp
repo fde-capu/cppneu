@@ -21,8 +21,6 @@
 # define T_BIAS 20
 # define T_AXON 40
 
-# define T_DEFAULT T_MEASURE
-
 # define T_PHYSICAL_CHAR 'p'
 # define T_VITAL_CHAR 'v'
 # define T_ACTION_CHAR 'a'
@@ -56,6 +54,8 @@
 # define DISPLAY_MEASURES (1 << 13)
 # define DISPLAY_WANT (1 << 14)
 
+# define ST_MAX std::numeric_limits<size_t>::max()
+
 typedef struct TypeBeingConfig
 {
 	size_t UID;
@@ -68,8 +68,8 @@ typedef struct TypeBeingConfig
 	std::vector<std::string> scale;
 	zo damp;
 	zo originalThreshold;
-	size_t slotIn;
-	size_t slotOut;
+	size_t slotIn = ST_MAX;
+	size_t slotOut = ST_MAX;
 	zo multiplier;
 } t_config;
 
@@ -98,5 +98,7 @@ std::string zeroDotOut(zo n);
 # define FLOAT_MARK "$"
 # define ASCII_BAR_SET "[ ,.;:!]"
 # define AXON_DISPLAY_SET "--**"
+# define T_DEFAULT T_MEASURE
+
 
 #endif

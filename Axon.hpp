@@ -12,8 +12,11 @@ class Axon
 		zo multiplier;
 
 	public:
-		Axon(size_t slotIn = 0, size_t slotOut = 0,
-			zo u_multiplier = -1.0);
+		Axon(
+			size_t slotIn = ST_MAX,
+			size_t slotOut = ST_MAX,
+			zo u_multiplier = -1.0
+		);
 		Axon(Axon const &);
 		Axon& operator= (Axon const &);
 		virtual ~Axon();

@@ -5,11 +5,12 @@
 # ixxxx id (xxxx as integer)
 
 # Types:
-# v|a|m|p
+# v|a|m|p|b
 #			v:vital
 #			a:action
 #			m:measure
 #			p:physical
+#			b:bias
 
 # Expressors:
 # c|o|s|t
@@ -43,7 +44,8 @@ n a Sleep
 
 # i2 CustomBiasName o1.0 b o Clear Cloudy Rain Storm 0:100:umity
 
- b 3
+n 2
+b 3
 
- x 4-555-0
+ x 3-555-0
 # x 5

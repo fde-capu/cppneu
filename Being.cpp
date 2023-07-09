@@ -5,16 +5,16 @@ size_t Being::g_Axon_UID = 0;
 
 void Being::addAxon(t_config& u_)
 {
-	if ((u_.slotIn && !neuron_table.count(u_.slotIn))
-	|| (u_.slotOut && !neuron_table.count(u_.slotOut)))
+	if ((u_.slotIn != ST_MAX && !neuron_table.count(u_.slotIn))
+	|| (u_.slotOut != ST_MAX && !neuron_table.count(u_.slotOut)))
 	{
 		std::cerr << "Warning: invalid slot, axon ignored.";
 		return ;
 	}
 	Axon a(
-		u_.slotIn ?
+		u_.slotIn != ST_MAX ?
 			u_.slotIn : randomNeuronWithOutput(),
-		u_.slotOut ?
+		u_.slotOut != ST_MAX ?
 			u_.slotOut : randomNeuronWithInput(),
 		u_.multiplier ? u_.multiplier : -1.0
 	);
@@ -95,17 +95,14 @@ void Being::readInput(NEURON& n) {
 			bias_switch ?
 				randomZeroOne()
 				: 0.0
-		:
-			n.neuron_UID ?
-				axonOut[n.neuron_UID]
-				: 0.0
+		: axonOut[n.neuron_UID]
 	);
 }
 
 void Being::process()
 {
 	actionScore *= 0.99;
-	if (actionScore < 0.001)
+	if (actionScore < EPSILON)
 		bestAction = "-";
 	for (auto & pair : neuron_table)
 	{
