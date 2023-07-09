@@ -37,7 +37,7 @@ void dealKeyPress(int ch)
 
 void debug(std::string s)
 {
-	g_debugString += s + "\n";
+	g_debugString += s;
 }
 
 void printDebug()

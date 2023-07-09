@@ -78,7 +78,7 @@ size_t Being::randomNeuronWithInput()
 
 void Being::extraFiringProcess(NEURON& n)
 {
-	if (!n.isBias())
+	if (!n.isBias() && !(n.type == T_QUIET))
 	{
 		if (n.force > actionScore)
 		{

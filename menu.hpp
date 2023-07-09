@@ -13,6 +13,15 @@ void printMenu();
 void dealKeyPress(int ch);
 void menuInit();
 void gotoMenu(std::string);
+void debug(std::string s);
+void printDebug();
+
+void increment(size_t&, size_t);
+void decrement(size_t&, size_t);
+
+template <typename T>
+void debug(std::string s, T any)
+{ debug(s + " " + std::to_string(any)); }
 
 typedef void (*voidFuncPtr)(void);
 
@@ -60,7 +69,7 @@ g_menu_tree =
 	{'c', {"characters", []() -> void { setDisplay(DISPLAY_CHARACTER); }}},
 	{'d', {"description", []() -> void { setDisplay(DISPLAY_DESCRIPTION); }}},
 	{'i', {"bias", []() -> void { setDisplay(DISPLAY_BIAS); }}},
-	{'Q', {"quiets", []() -> void { setDisplay(DISPLAY_QUIETS); }}},
+	{'s', {"quiets", []() -> void { setDisplay(DISPLAY_QUIETS); }}},
 }}
 };
 

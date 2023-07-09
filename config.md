@@ -49,9 +49,20 @@
 
 # i2 CustomBiasName o1.0 b o Clear Cloudy Rain Storm 0:100:umity
 
-b 1
-n 1
+# b 4
+# n 4
 
 # x 4-555-0
-x 1
+# x 2
 # x 0-555-1
+
+i0 o476512 d5 b s
+i1 o724164 d5 b s
+i2 o778076 d5 b s
+i3 o78862 d5 b s
+i4 o433653 d5 q s
+i5 o490709 d5 q s
+i6 o130231 d5 q s
+i7 o441781 d5 q s
+x 3-069101-4
+x 1-679812-4

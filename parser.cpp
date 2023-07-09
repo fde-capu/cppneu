@@ -88,7 +88,7 @@ bool uFormat(const std::string& s, char x)
 {
 	bool one_dot = false;
 	if (s.at(0) != x) return false;
-	for (size_t i = 1; i < s.length() - 1; i++)
+	for (size_t i = 1; i < s.length(); i++)
 	{
 		if (s.at(i) == '.')
 		{
@@ -113,12 +113,12 @@ void uRead(T& v, const std::string& s)
 
 bool looksLikeId(const std::string& s)
 {
-	if (
-		!uFormat(s, ID_CHAR)
-		|| !uFormat(s, T_BIAS)
-		|| !uFormat(s, T_NEURON)
-	) return false;
-	type = s.at(0);
+	if (!(	uFormat(s, ID_CHAR)
+			||	uFormat(s, T_BIAS)
+			||	uFormat(s, T_NEURON)
+	)) return false;
+
+	type = s.at(0) != ID_CHAR ? s.at(0) : type;
 	type = type == T_NEURON ? 0 : type;
 	UID = readSizeT(s, 1);	
 	return true;
@@ -225,7 +225,7 @@ void parse(const std::string& l)
 			)
 			{
 				if (expressor)
-					throw std::runtime_error("Multiple expressor.");
+					std::cerr << "Multiple expressors: " << l << std::endl;
 				expressor = s.at(0);
 			}
 			
@@ -236,10 +236,11 @@ void parse(const std::string& l)
 			||	s.at(0) == T_MEASURE
 			||	s.at(0) == T_BIAS
 			||	s.at(0) == T_AXON
+			||	s.at(0) == T_QUIET
 			)
 			{
 				if (type)
-					throw std::runtime_error("Syntax error for neuron type.");
+					std::cerr << "Type given more than once: " << l << std::endl;
 				type = s.at(0);
 			}
 		}
@@ -260,8 +261,6 @@ void parse(const std::string& l)
 	{
 		name = name.length() ? name : g_bias_set.name;
 		expressor = expressor ? expressor : g_bias_set.expressor;
-		if (type && type != T_BIAS)
-			throw std::runtime_error("Bias type overwrite.");
 		type = g_bias_set.type;
 	}
 
