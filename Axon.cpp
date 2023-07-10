@@ -26,12 +26,21 @@ Axon& Axon::operator= (Axon const& rhs)
 	return *this;
 }
 
-std::string Axon::readable() const
+std::string Axon::readable(std::map<size_t, std::string>& name_map) const
 {
 	std::string readOut = "x " + 
-		std::to_string(slotIn)
+		(
+			name_map.count(slotIn) ?
+				name_map[slotIn] :
+				std::to_string(slotIn)
+		)
 		+ "-" + zeroDotOut(multiplier)
-		+ "-" + std::to_string(slotOut);
+		+ "-" + 
+		(
+			name_map.count(slotOut) ?
+				name_map[slotOut] :
+				std::to_string(slotOut)
+		);
 	return readOut;
 }
 

@@ -72,6 +72,14 @@ std::string removeZerosFromEnd(std::string float000)
 	return float000;
 }
 
+bool isAllDigits(const std::string& s)
+{
+	for (size_t i = 0; i < s.length(); i++)
+		if (s.at(i) < '0' || s.at(i) > '9')
+			return false;
+	return true;
+}
+
 std::string readQuoted(const std::string& l,
 	size_t& u_i)
 {

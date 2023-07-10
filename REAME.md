@@ -24,12 +24,20 @@
 #			s:short threshold
 #			t:threshold
 
-# For cases below, "xxxx" represents "0.xxxx":
+# About uF notation:
+# For cases >= 0.0, < 1.0, "xxxx" represents "0.xxxx":
+# For 1.0, use "1.0"
+
 # oxxxx original threshold
 # dxxxx damping 
-# Use o1.0 if needed.
 
 # b n		Make n new bias
 # x n		Make n new axons
+
+# Axons:
+# x in-val-out
+#			in:		UID or Name
+#			val:	uF notation multiplier
+#			out:	UID or Name
 
 # todo: h scale-name word word

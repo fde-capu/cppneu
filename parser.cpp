@@ -1,5 +1,6 @@
 #include "parser.hpp"
 
+static size_t g_UID = 0;
 size_t UID;
 std::string name;
 char type;
@@ -13,7 +14,7 @@ zo originalThreshold;
 
 void parseReset()
 {
-	UID = 0;
+	UID = g_UID++;
 	name = g_default_set.name;
 	type = 0;
 	expressor = 0;
@@ -120,7 +121,14 @@ bool looksLikeId(const std::string& s)
 
 	type = s.at(0) != ID_CHAR ? s.at(0) : type;
 	type = type == T_NEURON ? 0 : type;
-	UID = readSizeT(s, 1);	
+	size_t new_UID = readSizeT(s, 1);	
+	if (!idTaken(new_UID))
+		UID = new_UID;
+	else
+	{
+		std::cerr << "Conflict id: " << s << "." << std::endl;
+		return false;
+	}
 	return true;
 }
 
@@ -185,6 +193,25 @@ bool looksLikeAutoGen(const std::string& s)
 	return true;
 }
 
+bool idTaken(const size_t& id)
+{
+	for (auto& c : g_conf)
+		if (id == c.UID)
+			return true;
+	return false;
+}
+
+size_t idOrIdByName(const std::string& v)
+{
+	if (isAllDigits(v))
+		return readSizeT(v);
+	for (auto& c : g_conf)
+		if (v == c.name)
+			return c.UID;
+	std::cerr << "Error! Name not found: '" << v << "'." << std::endl;
+	return ST_MAX;
+}
+
 bool looksLikeAxon(const std::string& l)
 {
 	if (l.at(0) != T_AXON)
@@ -194,9 +221,14 @@ bool looksLikeAxon(const std::string& l)
 	if (newAxon.size() == 3)
 	{
 		t_config u_axon = g_axon_set;
-		u_axon.slotIn = readSizeT(newAxon[0]);
+		u_axon.slotIn = idOrIdByName(newAxon[0]);
 		u_axon.multiplier = readZO(newAxon[1]);
-		u_axon.slotOut = readSizeT(newAxon[2]);
+		u_axon.slotOut = idOrIdByName(newAxon[2]);
+		if (u_axon.slotIn == ST_MAX || u_axon.slotOut == ST_MAX)
+		{
+			std::cerr << "While processing '" << l << "'. Skipping." << std::endl;
+			return false;
+		}
 		g_conf.push_back(u_axon);
 		return true;
 	}
@@ -235,7 +267,6 @@ void parse(const std::string& l)
 			||	s.at(0) == T_ACTION
 			||	s.at(0) == T_MEASURE
 			||	s.at(0) == T_BIAS
-			||	s.at(0) == T_AXON
 			||	s.at(0) == T_QUIET
 			)
 			{
@@ -253,7 +284,9 @@ void parse(const std::string& l)
 			if (looksLikeOriginalThreshold(s)) continue ; // onnn
 			if (looksLikeId(s)) continue ; // innn, bnnn, nnnn
 			if (thenItsScaleName(s)) continue ; // Other strings (sequenctialy)
-			std::cerr << "Warning: '" << s << "' ignored." << std::endl;
+			std::cerr << "Error: id '" << s << "' on '" << l << "'. Not created." << std::endl;
+			g_UID--;
+			return ;
 		}
 	}
 

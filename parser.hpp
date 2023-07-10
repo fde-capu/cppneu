@@ -31,4 +31,6 @@ t_config g_axon_set =
 		.type = T_AXON
 };
 
+bool idTaken(const size_t&);
+
 #endif

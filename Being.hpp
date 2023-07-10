@@ -45,10 +45,11 @@ class Being {
 		size_t randomNeuronWithOutput();
 		size_t randomNeuronWithInput();
 
-		virtual std::string readable() const;
+		virtual std::string readable();
 		void nextId(size_t&) const;
 
 		void on();
+		std::map<size_t, std::string> nameList = {};
 		NEURON& neuronByName(const std::string&);
 		void poke(const std::string&);
 	

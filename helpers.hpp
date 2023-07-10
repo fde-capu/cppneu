@@ -33,4 +33,6 @@ std::string removeZerosFromEnd(std::string float000);
 # define BOLD if (g_colors) attron(A_BOLD);
 # define UNBOLD if (g_colors) attroff(A_BOLD);
 
+bool isAllDigits(const std::string& s);
+
 #endif

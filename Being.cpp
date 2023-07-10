@@ -13,6 +13,8 @@ void Being::on()
 	{
 		if (pair.second.isNeuron() && pair.second.type != T_QUIET)
 			bestAction.push_back(pair.second.neuron_UID);
+		if (pair.second.name.length())
+			nameList[pair.second.neuron_UID] = pair.second.name;
 	}
 }
 
@@ -207,12 +209,12 @@ void Being::processAxons()
 	}
 }
 
-std::string Being::readable() const {
+std::string Being::readable() {
 	std::stringstream ss;
 	for (auto& pair : neuron_table)
 		ss << pair.second.readable() << std::endl;
 	for (auto& pair : axon_table)
-		ss << pair.second.readable() << std::endl;
+		ss << pair.second.readable(nameList) << std::endl;
 	return ss.str();
 }
 

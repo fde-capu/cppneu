@@ -22,7 +22,7 @@ class Axon
 		Axon(Axon const &);
 		Axon& operator= (Axon const &);
 		virtual ~Axon();
-		std::string readable() const;
+		std::string readable(std::map<size_t, std::string>&) const;
 		void feed(zo);
 };
 
