@@ -49,6 +49,8 @@ class Being {
 		void nextId(size_t&) const;
 
 		void on();
+		NEURON& neuronByName(const std::string&);
+		void poke(const std::string&);
 	
 	public:
 		bool bias_switch = true;

@@ -12,20 +12,14 @@
 # define ASCII_BAR_LENGTH 10
 # define DEFAULT_TICK_MS 100
 
-# include "defines.hpp"
-
 static bool g_showDebug = false;
 static bool g_colors = true;
 
 # define DISPLAY_SET_DEFAULT \
 	DISPLAY_BAR + \
 	DISPLAY_DESCRIPTION + \
-	DISPLAY_AXONS + \
-	DISPLAY_BIAS + \
 	DISPLAY_HEADER + \
-	DISPLAY_CHARS + \
 	DISPLAY_WANT + \
-	DISPLAY_QUIETS + \
 	DISPLAY_BAR_ALL
 
 #endif

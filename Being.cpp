@@ -5,8 +5,10 @@ size_t Being::g_Axon_UID = 0;
 
 void Being::on()
 {
+	inCount = {};
 	for (auto& pair : axon_table)
 		inCount[pair.second.slotOut]++;
+	bestAction = {};
 	for (auto& pair : neuron_table)
 	{
 		if (pair.second.isNeuron() && pair.second.type != T_QUIET)
@@ -87,6 +89,19 @@ size_t Being::randomNeuronWithInput()
 	return neuron_table.at(beingI).neuron_UID;
 }
 
+NEURON& Being::neuronByName(const std::string& name)
+{
+	for (auto& n : neuron_table)
+		if (n.second.name == name)
+			return n.second;
+	return neuron_table.at(0); // Should return null.
+}
+
+void Being::poke(const std::string& name)
+{
+	neuronByName(name).poke();
+}
+
 void Being::extraFiringProcess(NEURON& n)
 {
 	if (!n.isBias() && !(n.type == T_QUIET))
@@ -138,7 +153,7 @@ void Being::ponderAction(const NEURON& n)
 
 void Being::process()
 {
-	actionScore *= 0.4;
+	actionScore *= 0.9;
 	if (actionScore < EPSILON)
 		inaction();
 	for (auto & pair : neuron_table)

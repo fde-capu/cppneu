@@ -11,7 +11,6 @@ void DynamicNeuron::feed(zo in)
 {
 	if (fire)
 		inputValue -= threshold;
-	inputValue *= damp;
 	inputValue += in;
 	zoRestrain(inputValue);
 }
@@ -31,6 +30,7 @@ void DynamicNeuron::tick()
 		threshold -= 
 			((threshold - originalThreshold)
 			 * force) * (1.0 - damp);
+		inputValue *= damp;
 	}
 	zoRestrain(threshold, originalThreshold, 1.0);
 }

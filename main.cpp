@@ -109,3 +109,7 @@ int main() {
 	destroy();
 	return 0;
 }
+
+void poke() {
+	g_being.poke("Pleasure");
+}

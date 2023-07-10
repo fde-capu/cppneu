@@ -1,7 +1,7 @@
 #ifndef MENU_HPP
 # define MENU_HPP
 # include "Being.hpp"
-# include "defines.hpp"
+# include "header.hpp"
 # include "prints.hpp"
 
 void toggleShowMenu();
@@ -47,6 +47,7 @@ g_menu_tree =
 	{'b', {"bias_on/off", []() -> void { switchBias(); }}},
 	{'s', {"speed_down", []() -> void { increment(g_tick_ms, 10); }}},
 	{'S', {"speed_up", []() -> void { decrement(g_tick_ms, g_tick_ms >= 20 ? 10 : 0); }}},
+	{'p', {"poke", []() -> void { poke(); }}},
 }},
 { "display", {
 	{'d', {"back", []() -> void { gotoMenu("main"); }}},

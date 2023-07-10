@@ -2,8 +2,8 @@
 # define DEFINES_HPP
 # include "types.hpp"
 
-# define LAST_NEURON_IMPLEMENTATION "MetaNeuron.hpp"
-# define NEURON MetaNeuron
+# define LAST_NEURON_IMPLEMENTATION "InteractiveNeuron.hpp"
+# define NEURON InteractiveNeuron
 
 # include <string>
 # include <map>
@@ -56,6 +56,7 @@ void doQuit();
 
 void switchBias();
 std::string zeroDotOut(zo n);
+void poke();
 
 # define EPSILON 0.00000001
 # define FLOAT_MARK "$"
