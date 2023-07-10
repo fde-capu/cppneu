@@ -23,7 +23,9 @@ void Being::addAxon(t_config& u_)
 	if ((u_.slotIn != ST_MAX && !neuron_table.count(u_.slotIn))
 	|| (u_.slotOut != ST_MAX && !neuron_table.count(u_.slotOut)))
 	{
-		std::cerr << "Warning: invalid slot, axon ignored.";
+		std::cerr << "Warning: invalid slot, axon " << \
+		u_.slotIn << "-" << u_.multiplier << "-" << u_.slotOut <<	\
+		" ignored.";
 		return ;
 	}
 	Axon a(
@@ -33,8 +35,27 @@ void Being::addAxon(t_config& u_)
 			u_.slotOut : randomNeuronWithInput(),
 		u_.multiplier ? u_.multiplier : -1.0
 	);
-	axon_table[g_Axon_UID++] = a;
-	count_axon++;
+	bool merge = false;
+	for (auto& pair : axon_table)
+	{
+		if (pair.second.slotIn == a.slotIn
+		&&	pair.second.slotOut == a.slotOut)
+		{
+			std::cerr << "Merging axon " << \
+				a.slotIn << "-" << a.multiplier << "-" << a.slotOut <<	\
+				" to existent." << std::endl;
+			if (a.multiplier != -1.0)
+				pair.second.multiplier = \
+					(pair.second.multiplier + a.multiplier) / 2;
+			merge = true;
+			break ;
+		}
+	}
+	if (!merge)
+	{
+		axon_table[g_Axon_UID++] = a;
+		count_axon++;
+	}
 }
 
 void Being::addNeuron(t_config& u_)
