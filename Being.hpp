@@ -50,6 +50,7 @@ class Being {
 
 		void on();
 		std::map<size_t, std::string> nameList = {};
+		std::map<size_t, size_t> axonMergeCount = {};
 		NEURON& neuronByName(const std::string&);
 		void poke(const std::string&);
 	

@@ -50,21 +50,30 @@ void printAllAxons(Being& b)
 
 	for (auto& pair : b.axon_table)
 	{
-		fire_char_a = b.neuron_table
-			[pair.second.slotIn].fire ?
+		const NEURON& nIn = b.neuron_table[pair.second.slotIn];
+		const NEURON& nOut = b.neuron_table[pair.second.slotOut];
+
+		fire_char_a = nIn.fire ?
 			c_set.at(2) : c_set.at(0);
-		fire_char_b = b.neuron_table
-			[pair.second.slotIn].fire ?
+		fire_char_b = nIn.fire ?
 			c_set.at(3) : c_set.at(1);
-		if (b.neuron_table[pair.second.slotIn].fire)
-		BOLD
-		printw("%zu%c%s%c%zu ",
-			pair.second.slotIn,
+		if (nIn.fire)
+			BOLD
+		if (nIn.name != "")
+			printw("%s", nIn.name.c_str());
+		else
+			printw("%zu", pair.second.slotIn);
+		printw("%c%s%c",
 			fire_char_a,
 			floatUpFire(pair.second.multiplier).c_str(),
-			fire_char_b,
-			pair.second.slotOut); 
-		UNBOLD
+			fire_char_b);
+		if (nOut.name != "")
+			printw("%s", nOut.name.c_str());
+		else
+			printw("%zu", pair.second.slotOut);
+		printw(" ");
+		if (nIn.fire)
+			UNBOLD
 	}
 	printw("\n");
 }

@@ -16,11 +16,11 @@
 
 # n neuron o99 d0 c
 # n neuron2 o03 d0 c
- b 0
+ b 1
 # x 2-1.0-1
 
- n 0
- x 20
+ n 10
+ x 50
 
  x Pleasure-1.0-Heart
  x Heart-555-Breath

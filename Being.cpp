@@ -33,7 +33,7 @@ void Being::addAxon(t_config& u_)
 			u_.slotIn : randomNeuronWithOutput(),
 		u_.slotOut != ST_MAX ?
 			u_.slotOut : randomNeuronWithInput(),
-		u_.multiplier ? u_.multiplier : -1.0
+		u_.multiplier ? u_.multiplier : randomZeroOne()
 	);
 	bool merge = false;
 	for (auto& pair : axon_table)
@@ -41,12 +41,14 @@ void Being::addAxon(t_config& u_)
 		if (pair.second.slotIn == a.slotIn
 		&&	pair.second.slotOut == a.slotOut)
 		{
-			std::cerr << "Merging axon " << \
-				a.slotIn << "-" << a.multiplier << "-" << a.slotOut <<	\
-				" to existent." << std::endl;
-			if (a.multiplier != -1.0)
-				pair.second.multiplier = \
-					(pair.second.multiplier + a.multiplier) / 2;
+			size_t div = ++axonMergeCount[pair.first] + 1;
+			pair.second.multiplier = \
+					(pair.second.multiplier / div * (div - 1))
+					+ (a.multiplier / div);
+//			std::cerr << "Merge " << div << "x: " << \
+//				a.slotIn << "->" << a.slotOut << ":" <<
+//				zeroDotOut(a.multiplier) << "->" <<
+//				zeroDotOut(pair.second.multiplier) << ". ";
 			merge = true;
 			break ;
 		}
