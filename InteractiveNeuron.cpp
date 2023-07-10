@@ -17,6 +17,14 @@ InteractiveNeuron::InteractiveNeuron(t_config u_)
 void InteractiveNeuron::poke()
 {
 	feed(1.0);
+	poked = true;
+}
+
+bool InteractiveNeuron::isPoked()
+{
+	bool old_poke = poked;
+	poked = false;
+	return old_poke;
 }
 
 InteractiveNeuron::InteractiveNeuron(InteractiveNeuron const& src)
@@ -27,6 +35,7 @@ InteractiveNeuron& InteractiveNeuron::operator= (InteractiveNeuron const& rhs)
 	if (this != &rhs)
 	{
 		MetaNeuron::operator=(rhs);
+		this->poked = rhs.poked;
 	}
 	return *this;
 }

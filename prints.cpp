@@ -80,16 +80,27 @@ void printAllAxons(Being& b)
 
 void printOuts(Being& b)
 {
-	if (!(displaySet & DISPLAY_OUTS)) return;
-		printw("|");
-		for (auto& pair : b.neuron_table)
+	if (!(displaySet & DISPLAY_OUTS))
+		return;
+	printw("|");
+	for (auto& pair : b.neuron_table)
+	{
+		if (pair.second.fire)
 		{
-			if (pair.second.outputValue)
-				printw("*|");
-			else
-				printw(" |");
+			if (pair.second.isNeuron())
+			{
+				if (pair.second.isPoked())
+					printw("_");
+				else
+					printw("*");
+			}
+			else if (pair.second.isBias())
+				printw(".");
 		}
-		printw("\n");
+		else
+			printw(" ");
+	}
+	printw("|\n");
 }
 
 void printCharacter(NEURON& n)

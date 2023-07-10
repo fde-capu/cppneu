@@ -10,6 +10,9 @@ class InteractiveNeuron: public virtual MetaNeuron
 		void poke();
 
 	public:
+		bool isPoked();
+
+	public:
 		InteractiveNeuron(t_config);
 		InteractiveNeuron();
 		InteractiveNeuron(InteractiveNeuron const&);

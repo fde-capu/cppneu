@@ -20,7 +20,7 @@
 # x 2-1.0-1
 
  n 10
- x 50
+ x 500
 
  x Pleasure-1.0-Heart
  x Heart-555-Breath

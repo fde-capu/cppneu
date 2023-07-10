@@ -60,7 +60,7 @@ void poke();
 
 # define EPSILON 0.00000001
 # define FLOAT_MARK "$"
-# define ASCII_BAR_SET "[ ,.;:!].]"
+# define ASCII_BAR_SET "[ ,.;:!]{}"
 # define AXON_DISPLAY_SET "--**"
 # define ASCII_CHAR_SCALE " -~=+*oO&#%@"
 
