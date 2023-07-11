@@ -37,7 +37,7 @@ bool TypesNeuron::isNeuron()
 		||	type == T_QUIET
 ;}
 
-bool TypesNeuron::isBias()
+bool TypesNeuron::isBias() const
 { return type == T_BIAS; }
 
 bool TypesNeuron::hasInput()

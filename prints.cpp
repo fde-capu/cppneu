@@ -13,6 +13,15 @@ void printScreen(Being& b)
 	printWantedActions(b);
 }
 
+bool canDisplay(const NEURON& n)
+{
+	if (n.isBias() && !(displaySet & DISPLAY_BIAS))
+		return false;
+	if (n.type == T_QUIET && !(displaySet & DISPLAY_QUIETS))
+		return false;
+	return true;
+}
+
 void printHeader(Being& b)
 {
 	if (!(displaySet & DISPLAY_HEADER)) return ;
@@ -23,7 +32,8 @@ void printAllCharacters(Being& b)
 {
 	if (!(displaySet & DISPLAY_CHARS)) return ;
 	for (auto& pair : b.neuron_table)
-		printCharacter(pair.second);
+		if (canDisplay(pair.second))
+			printCharacter(pair.second);
 	printw("\n");
 }
 
@@ -81,10 +91,12 @@ void printAllAxons(Being& b)
 void printOuts(Being& b)
 {
 	if (!(displaySet & DISPLAY_OUTS))
-		return;
+		return ;
 	printw("|");
 	for (auto& pair : b.neuron_table)
 	{
+		if (!canDisplay(pair.second))
+			continue ;
 		if (pair.second.fire)
 		{
 			if (pair.second.isNeuron())
@@ -125,8 +137,10 @@ void printCharacter(NEURON& n)
 void printAllBars(Being& b)
 {
 	if (!displaySet || !(displaySet & DISPLAY_BAR_ALL)) return;
+
 	for (auto& n : b.neuron_table)
-		printAsciiBar(n.second);
+		if (canDisplay(n.second))
+			printAsciiBar(n.second);
 }
 
 void printAllDescriptions(Being& b)
@@ -149,20 +163,11 @@ void printAllDescriptions(Being& b)
 		}
 	}
 
-//	if (physical.length()) physical = "physical:\t" + physical;
-//	if (vital.length()) vital = "vital:\t" + vital;
-//	if (action.length()) action = "action:\t" + action;
-//	if (measure.length()) measure = "measure:\t" + measure;
-//	if (physical.length()) physical += "\n";
-//	if (vital.length()) vital += "\n";
-//	if (action.length()) action += "\n";
-//	if (measure.length()) measure += "\n";
-	
 	if (displaySet & DISPLAY_PHYSICAL)
 		printw("%s", physical.c_str());
 	if (displaySet & DISPLAY_VITAL)
 		printw("%s", vital.c_str());
-	if (displaySet & DISPLAY_AXONS)
+	if (displaySet & DISPLAY_ACTION)
 		printw("%s", action.c_str());
 	if (displaySet & DISPLAY_MEASURES)
 		printw("%s", measure.c_str());
@@ -177,10 +182,6 @@ void printAsciiBar(NEURON& n)
 {
 	static std::string barMap(ASCII_BAR_SET);
 
-	if (n.isBias() && !(displaySet & DISPLAY_BIAS))
-		return ;
-	if (n.type == T_QUIET && !(displaySet & DISPLAY_QUIETS))
-		return ;
 	size_t length = ASCII_BAR_LENGTH;
 	double scaleFactor = static_cast<double>(length);
 	size_t scaledInputValue = static_cast<int>(n.inputValue * scaleFactor);

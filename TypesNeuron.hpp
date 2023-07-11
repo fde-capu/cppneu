@@ -14,7 +14,7 @@ class TypesNeuron: public virtual DynamicNeuron
 		TypesNeuron(TypesNeuron const&);
 		TypesNeuron& operator= (TypesNeuron const&);
 		bool isNeuron();
-		bool isBias();
+		bool isBias() const;
 		bool hasInput();
 		bool hasOutput();
 		virtual std::string readable() const;
