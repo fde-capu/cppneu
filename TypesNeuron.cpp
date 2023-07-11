@@ -22,7 +22,6 @@ TypesNeuron& TypesNeuron::operator=
 std::string TypesNeuron::readable() const
 {
 	std::string readOut = "";
-	readOut += DynamicNeuron::readable();
 	if (type)
 		readOut += std::string(1, type);
 	readOut += " ";

@@ -53,11 +53,12 @@ bool MetaNeuron::customScale() const
 std::string MetaNeuron::readable() const
 {
 	std::string readOut = "";
-	readOut += "i" + 
-		std::to_string(neuron_UID) + " ";
+//	readOut += "i" + 
+//		std::to_string(neuron_UID) + " ";
+	readOut += TypesNeuron::readable();
 	if (name.length())
 		readOut += name + " ";
-	readOut += TypesNeuron::readable();
+	readOut += DynamicNeuron::readable();
 	if (expressor)
 		readOut += std::string(1, expressor) + " ";
 	if (customScale())

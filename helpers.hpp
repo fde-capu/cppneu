@@ -32,7 +32,30 @@ std::string removeZerosFromEnd(std::string float000);
 
 # define BOLD if (g_colors) attron(A_BOLD);
 # define UNBOLD if (g_colors) attroff(A_BOLD);
+# define NORMAL if (g_colors) attron(A_NORMAL);
+# define UNNORMAL if (g_colors) attroff(A_NORMAL);
+# define STANDOUT if (g_colors) attron(A_STANDOUT);
+# define UNSTANDOUT if (g_colors) attroff(A_STANDOUT);
+# define UNDERLINE if (g_colors) attron(A_UNDERLINE);
+# define UNUNDERLINE if (g_colors) attroff(A_UNDERLINE);
+# define REVERSE if (g_colors) attron(A_REVERSE);
+# define UNREVERSE if (g_colors) attroff(A_REVERSE);
+# define BLINK if (g_colors) attron(A_BLINK);
+# define UNBLINK if (g_colors) attroff(A_BLINK);
+# define DIM if (g_colors) attron(A_DIM);
+# define UNDIM if (g_colors) attroff(A_DIM);
+# define PROTECT if (g_colors) attron(A_PROTECT);
+# define UNPROTECT if (g_colors) attroff(A_PROTECT);
+# define INVIS if (g_colors) attron(A_INVIS);
+# define UNINVIS if (g_colors) attroff(A_INVIS);
+# define ALTCHARSET if (g_colors) attron(A_ALTCHARSET);
+# define UNALTCHARSET if (g_colors) attroff(A_ALTCHARSET);
+# define CHARTEXT if (g_colors) attron(A_CHARTEXT);
+# define UNCHARTEXT if (g_colors) attroff(A_CHARTEXT);
 
 bool isAllDigits(const std::string& s);
+
+# define UPC - 32
+# define DNC + 32
 
 #endif

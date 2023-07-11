@@ -50,8 +50,9 @@ g_menu_tree =
 	{'p', {"poke", []() -> void { poke(); }}},
 }},
 { "display", {
-	{'d', {"back", []() -> void { gotoMenu("main"); }}},
+	{'d', {"<-", []() -> void { gotoMenu("main"); }}},
 	{'b', {"bar", []() -> void { gotoMenu("bar"); }}},
+	{'i', {"bias", []() -> void { setDisplay(DISPLAY_BIAS); }}},
 	{'h', {"header", []() -> void { setDisplay(DISPLAY_HEADER); }}},
 	{'c', {"chars", []() -> void { setDisplay(DISPLAY_CHARS); }}},
 	{'p', {"physical", []() -> void { setDisplay(DISPLAY_PHYSICAL); }}},
@@ -63,13 +64,12 @@ g_menu_tree =
 	{'o', {"outs", []() -> void { setDisplay(DISPLAY_OUTS); }}},
 }},
 { "bar", {
-	{'b', {"back", []() -> void { gotoMenu("display"); }}},
+	{'b', {"<-", []() -> void { gotoMenu("display"); }}},
 	{'o', {"on/off", []() -> void { setDisplay(DISPLAY_BAR_ALL); }}},
 	{'g', {"gauge", []() -> void { setDisplay(DISPLAY_BAR); }}},
 	{'n', {"numbers", []() -> void { setDisplay(DISPLAY_NUMBERS); }}},
 	{'c', {"characters", []() -> void { setDisplay(DISPLAY_CHARACTER); }}},
 	{'d', {"description", []() -> void { setDisplay(DISPLAY_DESCRIPTION); }}},
-	{'i', {"bias", []() -> void { setDisplay(DISPLAY_BIAS); }}},
 	{'s', {"quiets", []() -> void { setDisplay(DISPLAY_QUIETS); }}},
 }}
 };

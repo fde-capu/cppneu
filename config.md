@@ -12,15 +12,15 @@
 
 # i0 b top m o o0
 
-# i2 CustomBiasName o1.0 b o Clear Cloudy Rain Storm 0:100:umity
+ b CustomBiasName o1.0 o Clear Cloudy Rain Storm 0:100:umity
 
 # n neuron o99 d0 c
 # n neuron2 o03 d0 c
  b 1
+
+# n 100
+# x 1000
+
 # x 2-1.0-1
-
- n 10
- x 500
-
  x Pleasure-1.0-Heart
  x Heart-555-Breath

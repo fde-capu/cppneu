@@ -16,14 +16,66 @@ void menuInit()
 	gotoMenu("main");
 }
 
+void menuHighlight(const std::string& entry, char key, bool underline = false, bool divisor = true)
+{
+	if (entry == "<-")
+		return;
+
+	char p;
+	bool high;
+	bool key_match;
+
+	key_match =
+		( entry.find(key) != std::string::npos
+		|| entry.find(key DNC) != std::string::npos );
+
+	if (key && !key_match)
+	{
+		BOLD
+		printw("%c", key);
+		UNBOLD
+		printw(":");
+	}
+
+	for (size_t i = 0; i < entry.length(); i++)
+	{
+		p = entry.at(i);
+		p = key && p UPC == key ? key : p;
+		high = p == key;
+		if (high) BOLD;
+		if (high && underline) UNDERLINE;
+		printw("%c", p);
+		if (high && underline) UNUNDERLINE;
+		if (high) UNBOLD;
+	}
+
+	if (divisor)
+		printw(" | ");
+	else
+		printw(" ");
+}
+
 void printMenu()
 {
-	if (!g_showMenu) return;
-	printw("%s ", g_menu_name.c_str());
+	if (!g_showMenu)
+		return;
+
+	char back_key = 0;
+
 	for (const auto& kv : g_menu)
-		printw("%c:%s ", kv.first, kv.second.description.c_str());
+		if (kv.second.description == "<-")
+			back_key = kv.first;
+
+	menuHighlight("[ " + g_menu_name + " ]", back_key, true, false);
+
+	for (const auto& kv : g_menu)
+		menuHighlight(kv.second.description, kv.first);
+
+	printw("\n| ");
+
 	for (const auto& kv : g_menu_global)
-		printw("%c:%s ", kv.first, kv.second.description.c_str());
+		menuHighlight(kv.second.description, kv.first);
+
 	printw("\n");
 }
 
