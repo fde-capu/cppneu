@@ -1,4 +1,4 @@
- Heart o01 d99 v t 0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper
+ Heart12 o01 d99 v t 0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper
  Breath o01 v t Empty Neutral Full
  Humor Crappy Bad Medium Ok Good Enthusiastic Incredible
  Pleasure
@@ -23,5 +23,5 @@
  x 10
 
 # x 2-1.0-1
- x Pleasure-1.0-Heart
- x Heart-555-Breath
+ x Pleasure-1.0-Heart12
+ x Heart12-555-Breath

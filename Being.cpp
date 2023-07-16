@@ -45,10 +45,6 @@ void Being::addAxon(t_config& u_)
 			pair.second.multiplier = \
 					(pair.second.multiplier / div * (div - 1))
 					+ (a.multiplier / div);
-//			std::cerr << "Merge " << div << "x: " << \
-//				a.slotIn << "->" << a.slotOut << ":" <<
-//				zeroDotOut(a.multiplier) << "->" <<
-//				zeroDotOut(pair.second.multiplier) << ". ";
 			merge = true;
 			break ;
 		}
@@ -63,6 +59,9 @@ void Being::addAxon(t_config& u_)
 void Being::addNeuron(t_config& u_)
 {
 	nextId(u_.UID);
+	if (!u_.name.length())
+		u_.name = "_" +
+			std::to_string(u_.UID) + "_";
 	NEURON n(u_);
 	neuron_table[n.neuron_UID] = n;
 	if (n.isNeuron()) count_neuron++;

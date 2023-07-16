@@ -11,11 +11,12 @@ std::string unit;
 std::vector<std::string> scale;
 zo damp;
 zo originalThreshold;
+bool named;
 
 void parseReset()
 {
 	UID = g_UID++;
-	name = g_default_set.name;
+	name = std::to_string(UID);
 	type = 0;
 	expressor = 0;
 	scaleMin = g_default_set.scaleMin;
@@ -24,6 +25,7 @@ void parseReset()
 	scale = g_default_set.scale;
 	damp = 0;
 	originalThreshold = g_default_set.originalThreshold;
+	named = false;
 }
 
 bool looksLikeScale(const std::string& s)
@@ -58,7 +60,7 @@ bool looksLikeScale(const std::string& s)
 
 bool thenItsScaleName(const std::string& s)
 {
-	if (!name.length()) return false;
+	if (!named) return false;
 	scale.push_back(s);
 	return true;
 }
@@ -76,9 +78,10 @@ bool looksLikeName(const std::string& n)
 {
 	if (isGenericUFormat(n))
 		return false;
-	if (!name.length())
+	if (!named)
 	{
 		name = n;
+		named = true;
 		return true;
 	}
 	return false;
@@ -168,7 +171,9 @@ void autoGen(const std::string& l)
 	if (make == "neuron")
 		set.type = T_QUIET;
 	while (a--)
+	{
 		g_conf.push_back(set);
+	}
 }
 
 //	 /^\c{ }1\d+$/
@@ -259,6 +264,8 @@ void parse(const std::string& l)
 				if (expressor)
 					std::cerr << "Multiple expressors: " << l << std::endl;
 				expressor = s.at(0);
+				if (!named)
+					name += std::string(expressor, 1);
 			}
 			
 			if (
@@ -273,6 +280,8 @@ void parse(const std::string& l)
 				if (type)
 					std::cerr << "Type given more than once: " << l << std::endl;
 				type = s.at(0);
+				if (!named)
+					name = std::string(type, 1) + name;
 			}
 		}
 
@@ -292,7 +301,6 @@ void parse(const std::string& l)
 
 	if (type == T_BIAS)
 	{
-		name = name.length() ? name : g_bias_set.name;
 		expressor = expressor ? expressor : g_bias_set.expressor;
 		type = g_bias_set.type;
 	}
