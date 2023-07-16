@@ -45,9 +45,10 @@ g_menu_tree =
 { "main", {
 	{'d', {"display", []() -> void { gotoMenu("display"); }}},
 	{'b', {"bias_on/off", []() -> void { switchBias(); }}},
-	{'s', {"speed_down", []() -> void { increment(g_tick_ms, 10); }}},
-	{'S', {"speed_up", []() -> void { decrement(g_tick_ms, g_tick_ms >= 20 ? 10 : 0); }}},
+	{'=', {"speed_down", []() -> void { increment(g_tick_ms, 10); }}},
+	{'-', {"speed_up", []() -> void { decrement(g_tick_ms, g_tick_ms >= 20 ? 10 : 0); }}},
 	{'p', {"poke", []() -> void { poke(); }}},
+	{'s', {"save", []() -> void { save(); }}},
 }},
 { "display", {
 	{'d', {"<-", []() -> void { gotoMenu("main"); }}},

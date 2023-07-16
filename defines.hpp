@@ -51,12 +51,15 @@ extern bool g_running;
 extern std::vector<t_config> g_conf;
 extern size_t g_tick_ms;
 
-void loadConf(const char* u_fn);
 void doQuit();
 
 void switchBias();
 std::string zeroDotOut(zo n);
 void poke();
+void save();
+void loadConf(const char* u_fn);
+void saveConf(const char* u_fn);
+
 
 # define EPSILON 0.00000001
 # define FLOAT_MARK "$"

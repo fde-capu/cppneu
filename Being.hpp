@@ -57,6 +57,8 @@ class Being {
 	public:
 		bool bias_switch = true;
 		void switchBias();
+
+		void save(const char* u_fn = "save1.md");
 };
 
 #endif

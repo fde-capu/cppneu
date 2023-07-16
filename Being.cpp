@@ -243,3 +243,13 @@ std::string Being::readable() {
 
 void Being::switchBias()
 { bias_switch = !bias_switch; }
+
+void Being::save(const char* u_fn)
+{
+	std::ofstream fn(u_fn);
+	if (fn.is_open())
+	{
+		fn << readable();
+		fn.close();
+	}
+}

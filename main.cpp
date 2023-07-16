@@ -113,3 +113,7 @@ int main() {
 void poke() {
 	g_being.poke("Pleasure");
 }
+
+void save() {
+	g_being.save();
+}
