@@ -2,6 +2,7 @@
 #include "helpers.hpp"
 
 std::string g_debugString("");
+std::vector<std::string> g_status({""});
 
 void toggleShowMenu() { g_showMenu = !g_showMenu; }
 void toggleRunning() { g_running = !g_running; }
@@ -93,13 +94,25 @@ void debug(std::string s)
 	g_debugString += s;
 }
 
+void status(const std::string& s)
+{
+	g_status.push_back(s);
+}
+
 void printDebug()
 {
 	if (g_showDebug)
 		printw("%s\n", g_debugString.c_str());
 }
 
+void printStatus()
+{
+	if (g_showStatus)
+		printw("%s\n", (g_status.back()).c_str());
+}
+
 void toggleShowDebug() { g_showDebug = !g_showDebug; }
+void toggleShowStatus() { g_showStatus = !g_showStatus; }
 
 void increment(size_t& v, size_t a) { v += a; }
 void decrement(size_t& v, size_t a) { v -= a; }

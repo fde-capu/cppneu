@@ -18,10 +18,12 @@
 # define LEADING_ZEROS 3
 
 static bool g_showDebug = false;
+static bool g_showStatus = true;
 static bool g_colors = true;
 extern long displaySet;
 
-void debug(std::string s);
+void debug(const std::string& s);
+void status(const std::string& s);
 
 template <typename T>
 void debug(std::string s, T any)

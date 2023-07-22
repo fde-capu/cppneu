@@ -39,6 +39,7 @@ void run()
 {
 	menuInit();
 	g_running = true;
+	status("Running.");
 	while (!g_quit)
 	{
 		if (g_running)
@@ -49,6 +50,7 @@ void run()
 			clear();
 			printMenu();
 			printDebug();
+			printStatus();
 			printScreen(g_being);
 			refresh();
 		}
@@ -111,7 +113,7 @@ void prepare()
 	}
 
 	set_tabsize(LEADING_ZEROS + 1);
-	cbreak();
+	nocbreak();
 	noecho();
 	nodelay(stdscr, TRUE);
 	g_conf = {};

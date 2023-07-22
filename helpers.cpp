@@ -171,3 +171,23 @@ std::fstream loadFile(const char* u_fn)
 	}
 	return file_read;
 }
+
+std::string getstring()
+{
+    std::string input;
+    echo();
+    int ch = getch();
+    while ( ch != '\n' )
+    {
+        input.push_back( ch );
+        ch = getch();
+    }
+		noecho();
+    return input;
+}
+
+std::string prompt(const std::string& question)
+{
+	printw("%s ", question.c_str());
+	return getstring();
+}

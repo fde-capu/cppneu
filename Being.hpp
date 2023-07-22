@@ -4,6 +4,7 @@
 # include "defines.hpp"
 # include LAST_NEURON_IMPLEMENTATION
 # include "Axon.hpp"
+# include "helpers.hpp"
 
 class Being {
 	public:

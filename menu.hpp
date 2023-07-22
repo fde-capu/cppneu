@@ -5,6 +5,7 @@
 
 void toggleShowMenu();
 void toggleShowDebug();
+void toggleShowStatus();
 void toggleRunning();
 
 static bool g_showMenu = true;
@@ -13,6 +14,7 @@ void dealKeyPress(int ch);
 void menuInit();
 void gotoMenu(std::string);
 void printDebug();
+void printStatus();
 
 void increment(size_t&, size_t);
 void decrement(size_t&, size_t);
@@ -32,6 +34,7 @@ g_menu_tree =
 {
 { "global", {
 	{'!', {"debug", &toggleShowDebug}},
+	{'t', {"status", &toggleShowStatus}},
 	{'?', {"menu", &toggleShowMenu}},
 	{'q', {"quit", &doQuit}},
 	{'P', {"pause", &toggleRunning}},
