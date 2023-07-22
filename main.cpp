@@ -76,9 +76,12 @@ void sysconfig(std::string sys_conf)
 {
 	std::fstream file_read = loadFile(sys_conf.c_str());
 	std::string line;
+	std::vector<std::string> kv;
 	while (std::getline(file_read, line))
 	{
-		displaySet = std::atoi(line.c_str());
+		kv = split(line, ':');
+		if (kv[0] == "displaySet")
+			displaySet = std::atol(kv[1].c_str());
 	}
 }
 
@@ -136,7 +139,7 @@ void sysSave() {
 	std::ofstream fn(DEFAULT_SYS_CONFIG_FILE);
 	if (fn.is_open())
 	{
-		fn << displaySet;
+		fn << "displaySet:" << displaySet;
 		fn.close();
 	}
 }
