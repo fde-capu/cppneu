@@ -1,4 +1,6 @@
 #include "Axon.hpp"
+#include "randoms.hpp"
+#include "helpers.hpp"
 
 Axon::Axon(size_t slotIn, size_t slotOut,
 	zo u_multiplier)

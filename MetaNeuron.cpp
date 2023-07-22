@@ -1,4 +1,6 @@
 #include "MetaNeuron.hpp"
+#include "extern.hpp"
+#include "helpers.hpp"
 
 MetaNeuron::MetaNeuron(){}
 

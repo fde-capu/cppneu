@@ -1,9 +1,7 @@
 #ifndef TYPES_HPP
 # define TYPES_HPP
-# include <cstddef>
-# include <string>
-# include <vector>
-# include <limits>
+
+# include "extern.hpp"
 
 # define MEMORY_TYPE_SIZE unsigned int
 # define zo float

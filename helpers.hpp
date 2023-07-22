@@ -1,13 +1,10 @@
 #ifndef HELPERS_HPP
 # define HELPERS_HPP
 
-# include "defines.hpp"
-# include <bitset>
-# include <sstream>
-# include <cmath>
+# include "extern.hpp"
+# include "types.hpp"
 # include "header.hpp"
-# include <vector>
-# include <map>
+# include "defines.hpp"
 
 std::string tobin(zo n);
 std::string floatUp(zo n, size_t digitis = LEADING_ZEROS, bool mark = false);
@@ -21,7 +18,10 @@ std::vector<std::string> split(const std::string &s, char delimiter);
 void hard_trim(std::string& line);
 zo max();
 std::string to_string(std::vector<std::string>);
-void toggleBit(int&, int);
+
+template <typename T>
+void toggleBit(T& d, T b)
+{ d += d & b ? -b : b; }
 
 template <typename T>
 bool exists (std::map<size_t, T>& m, size_t i) {
@@ -57,5 +57,7 @@ bool isAllDigits(const std::string& s);
 
 # define UPC - 32
 # define DNC + 32
+
+std::fstream loadFile(const char* u_fn);
 
 #endif

@@ -1,10 +1,8 @@
 #ifndef PARSER_HPP
 # define PARSER_HPP
 
-#include "defines.hpp"
-#include "Being.hpp"
-#include "helpers.hpp"
-#include <string>
+# include "types.hpp"
+# include "header.hpp"
 
 t_config g_default_set =
 {

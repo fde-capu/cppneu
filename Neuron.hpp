@@ -1,10 +1,7 @@
 #ifndef NEURON_HPP
 # define NEURON_HPP
 
-# include "header.hpp"
-# include "randoms.hpp"
-# include <sstream>
-# include "helpers.hpp"
+# include "types.hpp"
 
 class Neuron
 {

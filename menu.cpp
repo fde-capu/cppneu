@@ -1,4 +1,5 @@
 #include "menu.hpp"
+#include "helpers.hpp"
 
 std::string g_debugString("");
 

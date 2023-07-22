@@ -1,0 +1,16 @@
+# include <algorithm>
+# include <bitset>
+# include <cmath>
+# include <cstddef>
+# include <deque>
+# include <fstream>
+# include <iostream>
+# include <limits>
+# include <map>
+# include <ncurses.h>
+# include <random>
+# include <sstream>
+# include <stdexcept>
+# include <string>
+# include <thread>
+# include <vector>

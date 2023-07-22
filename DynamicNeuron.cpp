@@ -1,4 +1,6 @@
 #include "DynamicNeuron.hpp"
+#include "randoms.hpp"
+#include "helpers.hpp"
 
 DynamicNeuron::DynamicNeuron(zo u_damp)
 {

@@ -1,8 +1,8 @@
 #ifndef RANDOMS_HPP
 # define RANDOMS_HPP
 
-# include <random>
-# include "header.hpp"
+# include "types.hpp"
+# include "extern.hpp"
 
 zo randomZeroOne();
 zo variateZeroOne(zo & value, zo band = 1.0);

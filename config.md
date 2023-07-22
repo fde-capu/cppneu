@@ -1,4 +1,4 @@
- Heart12 o01 d99 v t 0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper
+ Heart o01 d99 v t 0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper
  Breath o01 v t Empty Neutral Full
  Humor Crappy Bad Medium Ok Good Enthusiastic Incredible
  Pleasure
@@ -12,7 +12,7 @@
 
 # i0 b top m o o0
 
- b CustomBiasName o1.0 o Clear Cloudy Rain Storm 0:100:umity
+ b CustomBiasName o1.0 o Clear Cloudy Rain Storm 0:100:humity
 
 # n neuron o99 d0 c
 # n neuron2 o03 d0 c
@@ -23,5 +23,5 @@
  x 10
 
 # x 2-1.0-1
- x Pleasure-1.0-Heart12
- x Heart12-555-Breath
+ x Pleasure-1.0-Heart
+ x Heart-555-Breath

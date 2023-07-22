@@ -1,17 +1,9 @@
 #ifndef BEING_HPP
 # define BEING_HPP
 
-# include "header.hpp"
-# include <vector>
-# include <string>
-# include "randoms.hpp"
-# include <ncurses.h>
-# include <sstream>
+# include "defines.hpp"
 # include LAST_NEURON_IMPLEMENTATION
 # include "Axon.hpp"
-# include <stdexcept>
-# include <deque>
-# include <algorithm>
 
 class Being {
 	public:

@@ -1,7 +1,6 @@
 #ifndef MENU_HPP
 # define MENU_HPP
-# include "Being.hpp"
-# include "header.hpp"
+
 # include "prints.hpp"
 
 void toggleShowMenu();
@@ -13,15 +12,10 @@ void printMenu();
 void dealKeyPress(int ch);
 void menuInit();
 void gotoMenu(std::string);
-void debug(std::string s);
 void printDebug();
 
 void increment(size_t&, size_t);
 void decrement(size_t&, size_t);
-
-template <typename T>
-void debug(std::string s, T any)
-{ debug(s + " " + std::to_string(any)); }
 
 typedef void (*voidFuncPtr)(void);
 
@@ -49,6 +43,7 @@ g_menu_tree =
 	{'-', {"speed_up", []() -> void { decrement(g_tick_ms, g_tick_ms >= 20 ? 10 : 0); }}},
 	{'p', {"poke", []() -> void { poke(); }}},
 	{'s', {"save", []() -> void { save(); }}},
+	{'y', {"system_save", []() -> void { sysSave(); }}},
 }},
 { "display", {
 	{'d', {"<-", []() -> void { gotoMenu("main"); }}},

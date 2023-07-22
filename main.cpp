@@ -1,12 +1,15 @@
-#include "defines.hpp"
+#include "header.hpp"
+#include "types.hpp"
 #include "Being.hpp"
 #include "menu.hpp"
-#include "prints.hpp"
+#include "helpers.hpp"
+#include "defines.hpp"
 
 std::vector<t_config> g_conf = {};
 bool g_quit = false;
 bool g_running = false;
 size_t g_tick_ms = DEFAULT_TICK_MS;
+long displaySet;
 
 Being g_being;
 
@@ -69,6 +72,16 @@ void destroy()
 	endwin();
 }
 
+void sysconfig(std::string sys_conf)
+{
+	std::fstream file_read = loadFile(sys_conf.c_str());
+	std::string line;
+	while (std::getline(file_read, line))
+	{
+		displaySet = std::atoi(line.c_str());
+	}
+}
+
 void config(std::string config_file)
 {
 	loadConf(config_file.c_str());
@@ -103,17 +116,27 @@ void prepare()
 
 int main() {
 	prepare();
+	sysconfig(DEFAULT_SYS_CONFIG_FILE);
 	config(DEFAULT_CONFIG_FILE);
-	debug(g_being.readable());
+//	debug(g_being.readable());
 	run();
 	destroy();
 	return 0;
 }
 
 void poke() {
-	g_being.poke("Pleasure");
+	g_being.poke("CustomBiasName");
 }
 
 void save() {
 	g_being.save();
+}
+
+void sysSave() {
+	std::ofstream fn(DEFAULT_SYS_CONFIG_FILE);
+	if (fn.is_open())
+	{
+		fn << displaySet;
+		fn.close();
+	}
 }

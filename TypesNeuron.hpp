@@ -2,7 +2,7 @@
 # define TYPESNEURON_HPP
 
 # include "DynamicNeuron.hpp"
-# include "defines.hpp"
+# include "header.hpp"
 
 class TypesNeuron: public virtual DynamicNeuron
 {

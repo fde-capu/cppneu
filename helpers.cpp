@@ -151,15 +151,23 @@ std::string to_string (std::vector<std::string> v)
 	return ss.str();
 }
 
-void toggleBit(int& d, int b)
-{
-	d += d & b ? -b : b;
-}
-
 template <typename T>
 size_t nextUID(std::map<size_t, T>& m, size_t& g_)
 {
 	while(exist(m, g_))
 		g_++;
 	return g_;
+}
+
+std::fstream loadFile(const char* u_fn)
+{
+	std::string fn(u_fn);
+	std::fstream file_read;
+	file_read.open(u_fn, std::ios::in);
+	if (!file_read)
+	{
+		file_read.close();
+		std::cout << "Failed to load or empty string for file " << u_fn << "." << std::endl;
+	}
+	return file_read;
 }

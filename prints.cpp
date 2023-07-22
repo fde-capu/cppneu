@@ -1,6 +1,6 @@
 #include "prints.hpp"
-
-static int displaySet = DISPLAY_SET_DEFAULT;
+#include "helpers.hpp"
+#include "header.hpp"
 
 void printScreen(Being& b)
 {
@@ -239,14 +239,27 @@ void printAsciiBar(NEURON& n)
 
 void printNumbers(NEURON& n)
 {
-	printw(">%s :%s d%s o%s",
-		floatUpFire(n.inputValue).c_str(),
-		floatUpFire(n.threshold).c_str(),
-		floatUpFire(n.damp).c_str(),
-		floatUpFire(n.originalThreshold).c_str());
+	static bool originalInfo = false;
+	if (originalInfo)
+	{
+		printw(">%s :%s d%s o%s",
+				floatUpFire(n.inputValue).c_str(),
+				floatUpFire(n.threshold).c_str(),
+				floatUpFire(n.damp).c_str(),
+				floatUpFire(n.originalThreshold).c_str()
+			);
+	}
+	else
+	{
+		printw("%c%s:%s",
+				n.isBias() ? '~' : '>',
+				floatUpFire(n.inputValue).c_str(),
+				floatUpFire(n.threshold).c_str()
+			);
+	}
 }
 
-void setDisplay(int bit_value)
+void setDisplay(long bit_value)
 {
 	toggleBit(displaySet, bit_value);
 }

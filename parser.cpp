@@ -1,4 +1,5 @@
 #include "parser.hpp"
+#include "helpers.hpp"
 
 static size_t g_UID = 0;
 size_t UID;
@@ -321,15 +322,7 @@ void parse(const std::string& l)
 
 void loadConf(const char* u_fn)
 {
-	std::string fn(u_fn);
-	std::fstream file_read;
-	file_read.open(u_fn, std::ios::in);
-	if (!file_read)
-	{
-		file_read.close();
-		std::cout << "Failed to load or empty string for file " << u_fn << "." << std::endl;
-		return ;
-	}
+	std::fstream file_read = loadFile(u_fn);
 	std::string line;
 	while (std::getline(file_read, line))
 	{

@@ -2,7 +2,6 @@
 # define PRINTS_HPP
 
 # include "Being.hpp"
-# include "helpers.hpp"
 
 void printScreen(Being&);
 void printHeader(Being&);
@@ -23,6 +22,6 @@ bool isBarVisible(NEURON&);
 bool isCharacterVisible(NEURON&);
 bool isOutBlockVisible(NEURON&);
 
-void setDisplay(int);
+void setDisplay(long);
 
 #endif

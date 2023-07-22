@@ -1,8 +1,8 @@
 #ifndef AXON_HPP
 # define AXON_HPP
 
-# include "defines.hpp"
-# include "randoms.hpp"
+# include "extern.hpp"
+# include "types.hpp"
 
 class Axon
 {

@@ -1,4 +1,5 @@
 #include "Being.hpp"
+#include "randoms.hpp"
 
 size_t Being::g_Neuron_UID = 0;
 size_t Being::g_Axon_UID = 0;

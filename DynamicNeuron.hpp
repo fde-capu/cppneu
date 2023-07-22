@@ -2,8 +2,6 @@
 # define DYNAMICNEURON_HPP
 
 # include "Neuron.hpp"
-# include "header.hpp"
-# include <iostream>
 
 class DynamicNeuron: public virtual Neuron
 {

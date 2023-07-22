@@ -1,18 +1,11 @@
 #ifndef DEFINES_HPP
 # define DEFINES_HPP
+
+# include "extern.hpp"
 # include "types.hpp"
 
 # define LAST_NEURON_IMPLEMENTATION "InteractiveNeuron.hpp"
 # define NEURON InteractiveNeuron
-
-# include <string>
-# include <map>
-# include <ncurses.h>
-# include <thread>
-# include <string>
-# include <fstream>
-# include <vector>
-# include <iostream>
 
 # define T_PHYSICAL 'p'
 # define T_VITAL 'v'
@@ -57,9 +50,9 @@ void switchBias();
 std::string zeroDotOut(zo n);
 void poke();
 void save();
+void sysSave();
 void loadConf(const char* u_fn);
 void saveConf(const char* u_fn);
-
 
 # define EPSILON 0.00000001
 # define FLOAT_MARK "$"

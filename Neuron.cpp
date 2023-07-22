@@ -1,4 +1,6 @@
 #include "Neuron.hpp"
+#include "randoms.hpp"
+#include "defines.hpp"
 
 Neuron::Neuron()
 {
