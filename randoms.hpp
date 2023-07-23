@@ -36,9 +36,7 @@ T variateValue(T& value, zo band = 1.0)
 	T max =
 		value + valBand > value ?
 		value + valBand : std::numeric_limits<T>::max();
-//	printw("preval %u, max * band %u , min %u, max %u, ", value, valBand, min, max);
 	value = randomValue<T>(min, max);
-//	printw("val %u\n", value);
 	return value;
 }
 

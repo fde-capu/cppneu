@@ -13,7 +13,7 @@ size_t g_tick_ms = DEFAULT_TICK_MS;
 long displaySet;
 std::string baseNames;
 
-Being g_being;
+std::vector<Being> g_being;
 
 std::ostream& operator<< (std::ostream& o, t_config const& self)
 {
@@ -47,13 +47,13 @@ void run()
 		if (g_running)
 		{
 
-			g_being.process();
+			g_being[0].process();
 
 			clear();
 			printMenu();
 			printDebug();
 			printStatus();
-			printScreen(g_being);
+			printScreen(g_being[0]);
 			refresh();
 		}
 
@@ -67,7 +67,7 @@ void run()
 
 void switchBias()
 {
-	g_being.switchBias();
+	g_being[0].switchBias();
 }
 
 void destroy()
@@ -90,18 +90,19 @@ void sysconfig(std::string sys_conf)
 	}
 }
 
-void config(std::string config_file)
+void config()
 {
-	loadConf(config_file.c_str());
+	Being newBeing;
+	g_being.insert(g_being.begin(), newBeing);
 	for (size_t i = 0; i < g_conf.size(); i++)
 	{
 		if (g_conf[i].type == T_AXON)
-			g_being.addAxon(g_conf[i]);
+			g_being[0].addAxon(g_conf[i]);
 		else
-			g_being.addNeuron(g_conf[i]);
+			g_being[0].addNeuron(g_conf[i]);
 	}
-	g_being.name = funnyName(baseNames);
-	g_being.on();
+	g_being[0].name = funnyName(baseNames);
+	g_being[0].on();
 }
 
 void prepare()
@@ -126,19 +127,24 @@ void prepare()
 int main() {
 	prepare();
 	sysconfig(DEFAULT_SYS_CONFIG_FILE);
-	config(DEFAULT_CONFIG_FILE);
-//	debug(g_being.readable());
+	loadConf(DEFAULT_CONFIG_FILE);
+	config();
+//	debug(g_being[0].readable());
 	run();
 	destroy();
 	return 0;
 }
 
+void createNewBeing() {
+	config();
+}
+
 void poke() {
-	g_being.poke("CustomBiasName");
+	g_being[0].poke("CustomBiasName");
 }
 
 void save() {
-	g_being.save();
+	g_being[0].save();
 }
 
 void sysSave() {

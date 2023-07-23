@@ -55,6 +55,7 @@ class Being {
 		std::string name;
 
 		Being();
+		virtual ~Being();
 };
 
 #endif

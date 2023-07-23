@@ -37,6 +37,7 @@ g_menu_tree =
 	{'t', {"status", &toggleShowStatus}},
 	{'?', {"menu", &toggleShowMenu}},
 	{'q', {"quit", &doQuit}},
+	{'n', {"new", &createNewBeing}},
 	{'P', {"pause", &toggleRunning}},
 }},
 { "main", {

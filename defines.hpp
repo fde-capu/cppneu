@@ -49,6 +49,7 @@ void doQuit();
 void switchBias();
 std::string zeroDotOut(zo n);
 void poke();
+void createNewBeing();
 void save();
 void sysSave();
 void loadConf(const char* u_fn);

@@ -139,3 +139,6 @@ void Being::save()
 		status("Failed to save.");
 	}
 }
+
+Being::~Being()
+{}
