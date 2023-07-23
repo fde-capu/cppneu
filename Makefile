@@ -7,7 +7,7 @@ ARGS	=
 SRCS	=	main.cpp Being.cpp randoms.cpp helpers.cpp \
 				Neuron.cpp DynamicNeuron.cpp menu.cpp parser.cpp \
 				TypesNeuron.cpp MetaNeuron.cpp prints.cpp Axon.cpp \
-				InteractiveNeuron.cpp
+				InteractiveNeuron.cpp Being_helpers.cpp
 HEAD	=	Makefile header.hpp Being.hpp defines.hpp randoms.hpp \
 				Neuron.hpp DynamicNeuron.hpp menu.hpp TypesNeuron.hpp \
 				MetaNeuron.hpp prints.hpp parser.hpp Axon.hpp types.hpp \

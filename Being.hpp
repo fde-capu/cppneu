@@ -52,6 +52,7 @@ class Being {
 		void switchBias();
 
 		void save(const char* u_fn = "save1.md");
+		std::string name;
 };
 
 #endif
