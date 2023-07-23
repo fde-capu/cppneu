@@ -246,18 +246,19 @@ void Being::switchBias()
 
 void Being::save(const char* u_fn)
 {
-	std::string name = prompt("Name:");
-(void)u_fn;
-
-//	std::ofstream fn(u_fn);
-
-	status("Filename is: " + name);
+	std::string name(u_fn);
+	prompt("Name:", name);
+	if (!name.length())
+	{
+		status("Save aborted.");
+		return ;
+	}
 	std::ofstream fn(name.c_str());
 	if (fn.is_open())
 	{
 		fn << readable();
 		fn.close();
-		status("File saved.");
+		status("File saved: " + name);
 	}
 	else
 	{

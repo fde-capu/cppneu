@@ -60,7 +60,6 @@ bool isAllDigits(const std::string& s);
 
 std::fstream loadFile(const char* u_fn);
 
-std::string getstring();
-std::string prompt(const std::string& question);
+void prompt(const std::string& question, std::string& var);
 
 #endif

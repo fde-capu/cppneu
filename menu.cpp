@@ -2,7 +2,7 @@
 #include "helpers.hpp"
 
 std::string g_debugString("");
-std::vector<std::string> g_status({""});
+std::vector<std::string> g_status({});
 
 void toggleShowMenu() { g_showMenu = !g_showMenu; }
 void toggleRunning() { g_running = !g_running; }
@@ -99,6 +99,11 @@ void status(const std::string& s)
 	g_status.push_back(s);
 }
 
+void statusAppend(const std::string& s)
+{
+	g_status.back() += s;
+}
+
 void printDebug()
 {
 	if (g_showDebug)
@@ -107,12 +112,21 @@ void printDebug()
 
 void printStatus()
 {
-	if (g_showStatus)
+	if (g_showStatus == 3)
+		g_showStatus = 0;
+	if (!g_status.size())
+		return ;
+	if (g_showStatus == 1)
 		printw("%s\n", (g_status.back()).c_str());
+	if (g_showStatus == 2)
+	{
+		for (auto s : g_status)
+			printw("%s\n", s.c_str());
+	}
 }
 
 void toggleShowDebug() { g_showDebug = !g_showDebug; }
-void toggleShowStatus() { g_showStatus = !g_showStatus; }
+void toggleShowStatus() { g_showStatus++; }
 
 void increment(size_t& v, size_t a) { v += a; }
 void decrement(size_t& v, size_t a) { v -= a; }

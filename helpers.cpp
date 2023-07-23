@@ -172,22 +172,42 @@ std::fstream loadFile(const char* u_fn)
 	return file_read;
 }
 
-std::string getstring()
+void prompt(const std::string& question, std::string& var)
 {
-    std::string input;
-    echo();
-    int ch = getch();
-    while ( ch != '\n' )
-    {
-        input.push_back( ch );
-        ch = getch();
-    }
-		noecho();
-    return input;
-}
-
-std::string prompt(const std::string& question)
-{
-	printw("%s ", question.c_str());
-	return getstring();
+	std::string answer(var);
+	int ch;
+	clear();
+	printw("%s %s", question.c_str(), answer.c_str());
+	refresh();
+	while (true)
+	{
+		ch = getch();
+		if (ch == ERR)
+			continue ;
+		if (ch == '\n')
+		{
+			var = answer;
+			return ;
+		}
+		if (ch == '\b' || ch == KEY_BACKSPACE || ch == 127)
+		{
+			if (!answer.length())
+				continue ;
+			answer.pop_back();
+			clear();
+			printw("%s %s", question.c_str(), answer.c_str());
+			refresh();
+			continue ;
+		}
+		if (ch >= '!' && ch <= '~')
+		{
+			answer.push_back(ch);
+			clear();
+			printw("%s %s", question.c_str(), answer.c_str());
+			refresh();
+			continue ;
+		}
+		var = "";
+		return ;
+	}
 }

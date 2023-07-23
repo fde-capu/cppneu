@@ -56,9 +56,8 @@ void run()
 		}
 
 		int ch = getch();
-		if (ch != ERR) {
-			dealKeyPress(ch);
-		}
+		if (ch != ERR)
+				dealKeyPress(ch);
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(g_tick_ms));
 	}
@@ -113,7 +112,7 @@ void prepare()
 	}
 
 	set_tabsize(LEADING_ZEROS + 1);
-	nocbreak();
+	//nocbreak();
 	noecho();
 	nodelay(stdscr, TRUE);
 	g_conf = {};

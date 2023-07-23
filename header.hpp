@@ -18,7 +18,7 @@
 # define LEADING_ZEROS 3
 
 static bool g_showDebug = false;
-static bool g_showStatus = true;
+static int g_showStatus = 1;
 static bool g_colors = true;
 extern long displaySet;
 
