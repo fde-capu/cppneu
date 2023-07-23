@@ -1,19 +1,34 @@
 #include "Being.hpp"
 #include "randoms.hpp"
 
+Being::Being()
+{}
+
 void Being::on()
 {
 	inCount = {};
 	for (auto& pair : axon_table)
 		inCount[pair.second.slotOut]++;
 	bestAction = {};
-	for (auto& pair : neuron_table)
+	status("Being on: " + name);
+}
+
+void Being::addNeuron(t_config& u_)
+{
+	nextId(u_.UID);
+	if (!u_.name.length())
+		u_.name = "_" +
+			std::to_string(u_.UID) + "_";
+	NEURON n(u_);
+	neuron_table[n.neuron_UID] = n;
+	nameList[n.neuron_UID] = n.name;
+	if (n.isNeuron())
 	{
-		if (pair.second.isNeuron() && pair.second.type != T_QUIET)
-			bestAction.push_back(pair.second.neuron_UID);
-		if (pair.second.name.length())
-			nameList[pair.second.neuron_UID] = pair.second.name;
+		count_neuron++;
+		if (n.type != T_QUIET)
+			bestAction.push_back(n.neuron_UID);
 	}
+	if (n.isBias()) count_bias++;
 }
 
 void Being::addAxon(t_config& u_)
@@ -52,18 +67,6 @@ void Being::addAxon(t_config& u_)
 		axon_table[g_Axon_UID++] = a;
 		count_axon++;
 	}
-}
-
-void Being::addNeuron(t_config& u_)
-{
-	nextId(u_.UID);
-	if (!u_.name.length())
-		u_.name = "_" +
-			std::to_string(u_.UID) + "_";
-	NEURON n(u_);
-	neuron_table[n.neuron_UID] = n;
-	if (n.isNeuron()) count_neuron++;
-	if (n.isBias()) count_bias++;
 }
 
 void Being::nextId(size_t& u_id) const

@@ -1,0 +1,26 @@
+name:vulcan windy river rest bones
+v Heart o01 d99 t 0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper  
+v Breath o01 d597837 t Empty Neutral Full  
+m Humor o233838 d899623 s Crappy Bad Medium Ok Good Enthusiastic Incredible  
+m Pleasure o499776 d654149 s 
+m Pain o596219 d925645 s 
+b CustomBiasName o1.0 d384707 o 0:100:humity Clear Cloudy Rain Storm  
+b _6_ o936316 d940326 s 
+b _7_ o512323 d518201 s 
+b _8_ o15159 d119662 s 
+b _9_ o639687 d779678 s 
+q _10_ o53102 d989221 s 
+q _11_ o539419 d323995 s 
+q _12_ o483622 d360294 s 
+x _10_-241557-_10_
+x Humor-863496-Pain
+x Heart-094507-Pain
+x _7_-889979-Heart
+x CustomBiasName-066855-_12_
+x _11_-316736-Pleasure
+x Pleasure-028684-Pleasure
+x CustomBiasName-842779-Pleasure
+x _11_-789054-Heart
+x _12_-906746-_10_
+x Pleasure-1.0-Heart
+x Heart-555-Breath

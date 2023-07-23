@@ -211,3 +211,38 @@ void prompt(const std::string& question, std::string& var)
 		return ;
 	}
 }
+
+std::string funnyName(const std::string& base)
+{
+	size_t p;
+	std::string out = "";
+
+	char ch = 0;
+	int fullname = randomValue<int>(2, 4);
+	while (fullname--)
+	{
+		while (true)
+		{
+			p = randomValue<size_t>(0, base.length() - 2);
+			if (ch)
+			{
+				while (base.at(p) != ch)
+					p = randomValue<size_t>(0, base.length() - 2);
+				p++;
+			}
+			if (!ch)
+			{
+				while (base.at(p) < 'A' || base.at(p) > 'Z')
+					p = randomValue<size_t>(0, base.length() - 2);
+			}
+			ch = base.at(p);
+			if (ch == ' ')
+				break ;
+			out.push_back(ch);
+		}
+		if (fullname)
+			out.push_back(ch);
+	}
+
+	return out;
+}

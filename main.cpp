@@ -9,7 +9,9 @@ std::vector<t_config> g_conf = {};
 bool g_quit = false;
 bool g_running = false;
 size_t g_tick_ms = DEFAULT_TICK_MS;
+
 long displaySet;
+std::string baseNames;
 
 Being g_being;
 
@@ -83,6 +85,8 @@ void sysconfig(std::string sys_conf)
 		kv = split(line, ':');
 		if (kv[0] == "displaySet")
 			displaySet = std::atol(kv[1].c_str());
+		if (kv[0] == "baseNames")
+			baseNames = kv[1];
 	}
 }
 
@@ -96,6 +100,7 @@ void config(std::string config_file)
 		else
 			g_being.addNeuron(g_conf[i]);
 	}
+	g_being.name = funnyName(baseNames);
 	g_being.on();
 }
 
@@ -140,7 +145,8 @@ void sysSave() {
 	std::ofstream fn(DEFAULT_SYS_CONFIG_FILE);
 	if (fn.is_open())
 	{
-		fn << "displaySet:" << displaySet;
+		fn << "displaySet:" << displaySet << std::endl;
+		fn << "baseNames:" << baseNames << std::endl;
 		fn.close();
 	}
 }

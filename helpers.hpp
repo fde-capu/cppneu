@@ -5,6 +5,7 @@
 # include "types.hpp"
 # include "header.hpp"
 # include "defines.hpp"
+# include "randoms.hpp"
 
 std::string tobin(zo n);
 std::string floatUp(zo n, size_t digitis = LEADING_ZEROS, bool mark = false);
@@ -61,5 +62,7 @@ bool isAllDigits(const std::string& s);
 std::fstream loadFile(const char* u_fn);
 
 void prompt(const std::string& question, std::string& var);
+
+std::string funnyName(const std::string&);
 
 #endif

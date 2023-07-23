@@ -4,9 +4,9 @@
 size_t Being::g_Neuron_UID = 0;
 size_t Being::g_Axon_UID = 0;
 
-void Being::poke(const std::string& name)
+void Being::poke(const std::string& nname)
 {
-	neuronByName(name).poke();
+	neuronByName(nname).poke();
 }
 
 void Being::extraFiringProcess(NEURON& n)
@@ -115,21 +115,24 @@ std::string Being::readable()
 	return ss.str();
 }
 
-void Being::save(const char* u_fn)
+void Being::save()
 {
-	std::string name(u_fn);
-	prompt("Name:", name);
-	if (!name.length())
+	std::string f_name(name);
+	prompt("Name:", f_name);
+	if (!f_name.length())
 	{
 		status("Save aborted.");
 		return ;
 	}
-	std::ofstream fn(name.c_str());
+	std::string filename =
+		std::string(SAVE_DIRECTORY)
+		+ std::string("/") + f_name;
+	std::ofstream fn(filename.c_str());
 	if (fn.is_open())
 	{
 		fn << readable();
 		fn.close();
-		status("File saved: " + name);
+		status("File saved: " + filename);
 	}
 	else
 	{

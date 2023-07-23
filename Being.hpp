@@ -51,8 +51,10 @@ class Being {
 		bool bias_switch = true;
 		void switchBias();
 
-		void save(const char* u_fn = "save1.md");
+		void save();
 		std::string name;
+
+		Being();
 };
 
 #endif
