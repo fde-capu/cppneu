@@ -4,13 +4,20 @@
 Being::Being()
 {}
 
+std::string Being::getHeader()
+{
+	std::stringstream ss;
+	ss << name << " " << count_neuron << "N " <<
+		count_axon << "A " << count_bias << "B";
+	return ss.str();
+}
+
 void Being::on()
 {
 	inCount = {};
 	for (auto& pair : axon_table)
 		inCount[pair.second.slotOut]++;
 	bestAction = {};
-	status("Being on: " + name);
 }
 
 void Being::addNeuron(t_config& u_)

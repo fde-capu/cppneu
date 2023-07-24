@@ -56,6 +56,8 @@ class Being {
 
 		Being();
 		virtual ~Being();
+
+		std::string getHeader();
 };
 
 #endif

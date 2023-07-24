@@ -216,25 +216,21 @@ std::string funnyName(const std::string& base)
 {
 	size_t p;
 	std::string out = "";
-
-	char ch = 0;
+	char ch;
 	int fullname = randomValue<int>(2, 4);
+
 	while (fullname--)
 	{
+		ch = 0;
 		while (true)
 		{
-			p = randomValue<size_t>(0, base.length() - 2);
-			if (ch)
-			{
-				while (base.at(p) != ch)
-					p = randomValue<size_t>(0, base.length() - 2);
-				p++;
-			}
 			if (!ch)
-			{
-				while (base.at(p) < 'A' || base.at(p) > 'Z')
-					p = randomValue<size_t>(0, base.length() - 2);
-			}
+				do { p = randomValue<size_t>(0, base.length() - 2); }
+					while (base.at(p) < 'A' || base.at(p) > 'Z');
+			if (ch && randomValue<int>(0, 1))
+				do { p = randomValue<size_t>(0, base.length() - 2); }
+					while (base.at(p) != ch);
+			p += ch && p < base.length() - 1 ? 1 : 0;
 			ch = base.at(p);
 			if (ch == ' ')
 				break ;

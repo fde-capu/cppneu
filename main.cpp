@@ -154,5 +154,8 @@ void sysSave() {
 		fn << "displaySet:" << displaySet << std::endl;
 		fn << "baseNames:" << baseNames << std::endl;
 		fn.close();
+		status("System configuration saved.");
 	}
+	else
+		status("Failed to save system configuration.");
 }

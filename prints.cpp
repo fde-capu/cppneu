@@ -25,7 +25,7 @@ bool canDisplay(const NEURON& n)
 void printHeader(Being& b)
 {
 	if (!(displaySet & DISPLAY_HEADER)) return ;
-	printw("%zuN %zuA %zuB\n", b.count_neuron, b.count_axon, b.count_bias);
+	printw("%s\n", b.getHeader().c_str());
 }
 
 void printAllCharacters(Being& b)
