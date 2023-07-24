@@ -50,6 +50,8 @@ void switchBias();
 std::string zeroDotOut(zo n);
 void poke();
 void createNewBeing();
+void nextBeing();
+void previousBeing();
 void save();
 void sysSave();
 void loadConf(const char* u_fn);

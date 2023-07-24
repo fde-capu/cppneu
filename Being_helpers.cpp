@@ -23,12 +23,12 @@ void Being::on()
 	bestAction = {};
 }
 
-void Being::nextId(size_t& u_id) const
+void Being::nextId(size_t& u_id)
 {
 	if (u_id && neuron_table.count(u_id))
 	{
-		std::cerr << "Warning: overwriting Neuron "
-			<< u_id << "." << std::endl;
+		warn("Warning: overwriting Neuron " +
+			std::to_string(u_id) + ".");
 	}
 	else
 	{

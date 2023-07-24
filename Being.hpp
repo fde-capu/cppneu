@@ -8,8 +8,8 @@
 
 class Being {
 	public:
-		static size_t g_Neuron_UID;
-		static size_t g_Axon_UID;
+		size_t g_Neuron_UID;
+		size_t g_Axon_UID;
 
 		std::map<size_t, NEURON> neuron_table = {};
 		std::map<size_t, Axon> axon_table = {};
@@ -39,7 +39,7 @@ class Being {
 		size_t randomNeuronWithInput();
 
 		virtual std::string readable();
-		void nextId(size_t&) const;
+		void nextId(size_t&);
 
 		void on();
 		std::map<size_t, std::string> nameList = {};

@@ -1,9 +1,6 @@
 #include "Being.hpp"
 #include "randoms.hpp"
 
-size_t Being::g_Neuron_UID = 0;
-size_t Being::g_Axon_UID = 0;
-
 void Being::addNeuron(t_config& u_)
 {
 	nextId(u_.UID);
@@ -20,7 +17,6 @@ void Being::addNeuron(t_config& u_)
 			bestAction.push_back(n.neuron_UID);
 	}
 	if (n.isBias()) count_bias++;
-	status(std::to_string(n.neuron_UID) + " " + n.name + " created.");
 }
 
 void Being::addAxon(t_config& u_)
@@ -29,10 +25,10 @@ void Being::addAxon(t_config& u_)
 	|| (u_.slotOut != ST_MAX && !neuron_table.count(u_.slotOut)))
 	{
 		warn("Warning: invalid slot, axon " + \
-		std::to_string(u_.slotIn) + "-" +
-		std::to_string(u_.multiplier) + "-" +
-		std::to_string(u_.slotOut) +	\
-		" ignored.");
+			std::to_string(u_.slotIn) + "-" +
+			std::to_string(u_.multiplier) + "-" +
+			std::to_string(u_.slotOut) +	\
+			" ignored.");
 		return ;
 	}
 	Axon a(
