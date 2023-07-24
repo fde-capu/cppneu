@@ -25,6 +25,7 @@ extern long displaySet;
 
 void debug(const std::string& s);
 void status(const std::string& s);
+void warn(const std::string& s);
 
 template <typename T>
 void debug(std::string s, T any)

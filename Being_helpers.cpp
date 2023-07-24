@@ -2,7 +2,10 @@
 #include "randoms.hpp"
 
 Being::Being()
-{}
+{
+	Being::g_Axon_UID = 0;
+	Being::g_Neuron_UID = 0;
+}
 
 std::string Being::getHeader()
 {
@@ -18,62 +21,6 @@ void Being::on()
 	for (auto& pair : axon_table)
 		inCount[pair.second.slotOut]++;
 	bestAction = {};
-}
-
-void Being::addNeuron(t_config& u_)
-{
-	nextId(u_.UID);
-	if (!u_.name.length())
-		u_.name = "_" +
-			std::to_string(u_.UID) + "_";
-	NEURON n(u_);
-	neuron_table[n.neuron_UID] = n;
-	nameList[n.neuron_UID] = n.name;
-	if (n.isNeuron())
-	{
-		count_neuron++;
-		if (n.type != T_QUIET)
-			bestAction.push_back(n.neuron_UID);
-	}
-	if (n.isBias()) count_bias++;
-}
-
-void Being::addAxon(t_config& u_)
-{
-	if ((u_.slotIn != ST_MAX && !neuron_table.count(u_.slotIn))
-	|| (u_.slotOut != ST_MAX && !neuron_table.count(u_.slotOut)))
-	{
-		std::cerr << "Warning: invalid slot, axon " << \
-		u_.slotIn << "-" << u_.multiplier << "-" << u_.slotOut <<	\
-		" ignored.";
-		return ;
-	}
-	Axon a(
-		u_.slotIn != ST_MAX ?
-			u_.slotIn : randomNeuronWithOutput(),
-		u_.slotOut != ST_MAX ?
-			u_.slotOut : randomNeuronWithInput(),
-		u_.multiplier ? u_.multiplier : randomZeroOne()
-	);
-	bool merge = false;
-	for (auto& pair : axon_table)
-	{
-		if (pair.second.slotIn == a.slotIn
-		&&	pair.second.slotOut == a.slotOut)
-		{
-			size_t div = ++axonMergeCount[pair.first] + 1;
-			pair.second.multiplier = \
-					(pair.second.multiplier / div * (div - 1))
-					+ (a.multiplier / div);
-			merge = true;
-			break ;
-		}
-	}
-	if (!merge)
-	{
-		axon_table[g_Axon_UID++] = a;
-		count_axon++;
-	}
 }
 
 void Being::nextId(size_t& u_id) const

@@ -99,6 +99,12 @@ void status(const std::string& s)
 	g_status.push_back(s);
 }
 
+void warn(const std::string& s)
+{
+	status(s);
+	std::cerr << s;
+}
+
 void statusAppend(const std::string& s)
 {
 	g_status.back() += s;
