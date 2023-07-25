@@ -11,7 +11,7 @@ SRCS	=	main.cpp Being.cpp randoms.cpp helpers.cpp \
 HEAD	=	Makefile header.hpp Being.hpp defines.hpp randoms.hpp \
 				Neuron.hpp DynamicNeuron.hpp menu.hpp TypesNeuron.hpp \
 				MetaNeuron.hpp prints.hpp parser.hpp Axon.hpp types.hpp \
-				InteractiveNeuron.hpp extern.hpp
+				InteractiveNeuron.hpp extern.hpp helpers.hpp
 SHELL	=	/bin/sh
 CC		=	clang++ -Wfatal-errors -std=c++20 -Wc++20-extensions -pthread
 CCFLAGS	=	-Wall -Werror -Wextra -g -Wfatal-errors

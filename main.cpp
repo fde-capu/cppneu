@@ -125,7 +125,8 @@ void prepare()
 	g_conf = {};
 }
 
-int main() {
+int main()
+{
 	prepare();
 	sysconfig(DEFAULT_SYS_CONFIG_FILE);
 	loadConf(DEFAULT_CONFIG_FILE);
@@ -146,7 +147,8 @@ void nextBeing()
 void previousBeing()
 { curb = curb == 0 ? g_being.size() - 1 : curb - 1; }
 
-void poke() {
+void poke()
+{
 	g_being[curb].poke("CustomBiasName");
 }
 
@@ -154,7 +156,13 @@ void save() {
 	g_being[curb].save();
 }
 
-void sysSave() {
+void chooseBeing()
+{
+	select("Select:", g_being, curb);
+}
+
+void sysSave()
+{
 	std::ofstream fn(DEFAULT_SYS_CONFIG_FILE);
 	if (fn.is_open())
 	{

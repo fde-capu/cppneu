@@ -56,6 +56,7 @@ void save();
 void sysSave();
 void loadConf(const char* u_fn);
 void saveConf(const char* u_fn);
+void chooseBeing();
 
 # define EPSILON 0.00000001
 # define FLOAT_MARK "$"

@@ -207,8 +207,7 @@ void prompt(const std::string& question, std::string& var)
 			refresh();
 			continue ;
 		}
-		var = "";
-		return ;
+		SLEEP_REST
 	}
 }
 

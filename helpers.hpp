@@ -60,9 +60,57 @@ bool isAllDigits(const std::string& s);
 # define DNC + 32
 
 std::fstream loadFile(const char* u_fn);
+std::string funnyName(const std::string&);
 
 void prompt(const std::string& question, std::string& var);
 
-std::string funnyName(const std::string&);
+# define SLEEP_REST std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+template <typename T>
+void select(const std::string& header, const std::vector<T>& gb, size_t& s)
+{
+	int ch;
+	size_t i;
+	size_t chosen = ST_MAX;
+	while (chosen == ST_MAX)
+	{
+		i = 0;
+		clear();
+		printw("%s\n", header.c_str());
+		for (const T& b : gb)
+		{
+			if (i == s)
+				REVERSE
+			printw("%zu\t%s\n", i, b.name.c_str());
+			if (i == s)
+				UNREVERSE
+			i++;
+		}
+		printw("ch>%d\n", ch);
+		refresh();
+		while (true)
+		{
+			ch = getch();
+			if (ch == ERR)
+				continue ;
+			if (ch == '\n')
+			{
+				chosen = s;
+				return ;
+			}
+			if (ch == 66 || ch == 'j')
+			{
+				s = s == gb.size() - 1 ? 0 : s + 1;
+				break ;
+			}
+			if (ch == 65 || ch == 'k')
+			{
+				s = s == 0 ? gb.size() - 1 : s - 1;
+				break ;
+			}
+			SLEEP_REST
+		}
+	}
+}
 
 #endif
