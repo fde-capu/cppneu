@@ -158,7 +158,10 @@ void save() {
 
 void chooseBeing()
 {
-	select("Select:", g_being, curb);
+	std::vector<std::string> beingList = {};
+	for (const Being& b : g_being)
+		beingList.push_back(b.name);
+	select("Select:", beingList, curb);
 }
 
 void sysSave()

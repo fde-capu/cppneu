@@ -1,4 +1,5 @@
 #include "helpers.hpp"
+#include <boost/algorithm/string.hpp>
 
 std::string tobin(zo n)
 {
@@ -181,6 +182,7 @@ void prompt(const std::string& question, std::string& var)
 	refresh();
 	while (true)
 	{
+		SLEEP_REST
 		ch = getch();
 		if (ch == ERR)
 			continue ;
@@ -207,8 +209,129 @@ void prompt(const std::string& question, std::string& var)
 			refresh();
 			continue ;
 		}
-		SLEEP_REST
 	}
+}
+
+std::string to_lower(const std::string& upper)
+{
+	std::string lower(upper);
+	for (size_t i = 0; i < lower.size(); ++i)
+		lower[i] = std::tolower(static_cast<unsigned char>(lower[i]));
+	return lower;
+}
+
+void select(const std::string& header, const std::vector<std::string>& name_list, size_t& s)
+{
+	size_t cancel(s);
+	int ch;
+	std::string search = "";
+	size_t i;
+	size_t chosen = ST_MAX;
+	bool found;
+	bool search_mark = false;
+	while (chosen == ST_MAX)
+	{
+		found = false;
+		while (search.length())
+		{
+			i = 0;
+			for (const std::string& b : name_list)
+			{
+				if (
+							to_lower(b).find(to_lower(search)) != std::string::npos
+					||	std::to_string(i).find(search) != std::string::npos
+				)
+				{
+					s = i;
+					found = true;
+					break ;
+				}
+				i++;
+			}
+			if (found)
+				break ;
+			search.pop_back();
+		}
+
+		clear();
+		printw("%s", header.c_str());
+		if (search_mark || search.length())
+		{
+			printw(" /%s_\n", search.c_str());
+		}
+		else
+			printw("\n");
+
+		i = 0;
+		for (const std::string& b : name_list)
+		{
+			if (i == s)
+				REVERSE
+			printw("%zu\t%s\n", i, b.c_str());
+			if (i == s)
+				UNREVERSE
+			i++;
+		}
+//		printw("ch>%d\n", ch);
+		refresh();
+
+		while (true)
+		{
+			SLEEP_REST
+			ch = getch();
+			if (ch == ERR)
+				continue ;
+			if (ch == 27)
+			{
+				ch = getch();
+				if (ch == -1)
+				{
+					chosen = cancel;
+					break ;
+				}
+				if (ch == '[')
+				{
+					ch = getch();
+					if (ch == 'A' || ch == 'B') // up or dn
+					{
+						s = ch == 'A' ?
+								(s == 0 ? name_list.size() - 1 : s - 1)
+							:	(s == name_list.size() - 1 ? 0 : s + 1);
+						search = "";
+						search_mark = false;
+						break ;
+					}
+				}
+			}
+			if (ch == '/' && !search.length())
+			{
+				search_mark = true;
+				break ;
+			}
+			if (ch >= ' ' && ch <= '~')
+			{
+				search.push_back(ch);
+				break ;
+			}
+			if (ch == '\b' || ch == KEY_BACKSPACE || ch == 127)
+			{
+				if (!search.length())
+				{
+					search_mark = false;
+					break ;
+				}
+				search.pop_back();
+				break ;
+			}
+			if (ch == '\n')
+			{
+				chosen = s;
+				break ;
+			}
+		}
+
+	}
+	s = chosen;
 }
 
 std::string funnyName(const std::string& base)
