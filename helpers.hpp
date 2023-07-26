@@ -64,19 +64,49 @@ std::string funnyName(const std::string&);
 
 void prompt(const std::string& question, std::string& var);
 
-# define SLEEP_REST std::this_thread::sleep_for(std::chrono::milliseconds(10));
+# define SLEEP_REST std::this_thread::sleep_for(std::chrono::milliseconds(50));
 
 template <typename T>
 void select(const std::string& header, const std::vector<T>& gb, size_t& s)
 {
+	size_t cancel(s);
 	int ch;
+	std::string search = "";
 	size_t i;
 	size_t chosen = ST_MAX;
+	bool found;
 	while (chosen == ST_MAX)
 	{
-		i = 0;
+		found = false;
+		while (search.length())
+		{
+			i = 0;
+			for (const T& b : gb)
+			{
+				if (
+							b.name.find(search) != std::string::npos
+					||	std::to_string(i).find(search) != std::string::npos
+				)
+				{
+					s = i;
+					found = true;
+					break ;
+				}
+				i++;
+			}
+			if (found)
+				break ;
+			search.pop_back();
+		}
+
 		clear();
-		printw("%s\n", header.c_str());
+		printw("%s", header.c_str());
+		if (search.length())
+			printw(" /%s_\n", search.c_str());
+		else
+			printw("\n");
+
+		i = 0;
 		for (const T& b : gb)
 		{
 			if (i == s)
@@ -88,29 +118,62 @@ void select(const std::string& header, const std::vector<T>& gb, size_t& s)
 		}
 		printw("ch>%d\n", ch);
 		refresh();
+
 		while (true)
 		{
 			ch = getch();
 			if (ch == ERR)
 				continue ;
+
+			if (ch == 27)
+			{
+				ch = getch();
+				if (ch == -1)
+				{
+					chosen = cancel;
+					break ;
+				}
+				if (ch == '[')
+				{
+					ch = getch();
+					if (ch == 'A')
+					{
+						s = s == 0 ? gb.size() - 1 : s - 1;
+						search = "";
+						break ;
+					}
+					if (ch == 'B')
+					{
+						s = s == gb.size() - 1 ? 0 : s + 1;
+						search = "";
+						break ;
+					}
+				}
+			}
+			if (ch == '/' && !search.length())
+				continue ;
+			if (ch >= ' ' && ch <= '~')
+			{
+				search.push_back(ch);
+				break ;
+			}
+			if (ch == '\b' || ch == KEY_BACKSPACE || ch == 127)
+			{
+				if (!search.length())
+					continue ;
+				search.pop_back();
+				break ;
+			}
 			if (ch == '\n')
 			{
 				chosen = s;
-				return ;
-			}
-			if (ch == 66 || ch == 'j')
-			{
-				s = s == gb.size() - 1 ? 0 : s + 1;
-				break ;
-			}
-			if (ch == 65 || ch == 'k')
-			{
-				s = s == 0 ? gb.size() - 1 : s - 1;
 				break ;
 			}
 			SLEEP_REST
 		}
+
 	}
+	s = chosen;
 }
 
 #endif
