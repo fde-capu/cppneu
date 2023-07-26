@@ -56,9 +56,6 @@ std::string removeZerosFromEnd(std::string float000);
 
 bool isAllDigits(const std::string& s);
 
-# define UPC - 32
-# define DNC + 32
-
 std::fstream loadFile(const char* u_fn);
 std::string funnyName(const std::string&);
 

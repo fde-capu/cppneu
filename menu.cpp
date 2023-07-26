@@ -26,10 +26,10 @@ void menuHighlight(const std::string& entry, char key, bool underline = false, b
 	char p;
 	bool high;
 	bool key_match;
+	bool highlighted = false;
 
 	key_match =
-		( entry.find(key) != std::string::npos
-		|| entry.find(key DNC) != std::string::npos );
+		( to_lower(entry).find(std::tolower(key)) != std::string::npos );
 
 	if (key && !key_match)
 	{
@@ -42,8 +42,9 @@ void menuHighlight(const std::string& entry, char key, bool underline = false, b
 	for (size_t i = 0; i < entry.length(); i++)
 	{
 		p = entry.at(i);
-		p = key && p UPC == key ? key : p;
-		high = p == key;
+		p = std::tolower(p) == std::tolower(key) ? key : p;
+		high = p == key && !highlighted;
+		highlighted = high ? true : highlighted;
 		if (high) BOLD;
 		if (high && underline) UNDERLINE;
 		printw("%c", p);
