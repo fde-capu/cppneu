@@ -10,7 +10,7 @@ Neurons form entities, beings. They can actively drive the their own evolution b
 
 The program operates in real-time. A text-based interface is provided to allow for operations, interference and monitoring of the ecosystem status. This way, the user can experience events first-hand. Everything can be configured, generated and manipulated before or during the run: neurons, beings, objects, behaviors, actions, situations and circumstances. The interface also enables users to assume the roles of any being, bringing a somewhat immersive play.
 
-cppneu is an ongoing project, continuously developed and improved. It is about adapting uderstaings of neuroscience concepts, behaviournal algorithms, and self development. It will continue to evolve and adapt, just like the beings within the cppneu ecosystem.
+cppneu is an ongoing project, continuously developed and improved. It is about adapting to code understandings of concepts from neuroscience, behaviournal algorithms, and self development. It will continue to evolve and adapt, just like the beings within the cppneu ecosystem.
 
 ---
 
