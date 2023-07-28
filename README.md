@@ -8,7 +8,7 @@ Some design choices for this model are: neurons connect through layerless sparse
 
 Neurons form entities, beings. They can actively drive the their own evolution by interacting with each other, generating complexity and scenarios, adding to the overall dynamism. As they interplay, they make use of a reward/correction mechanism that alows them to decide to incentivize behaviors that yield certain outcomes, encouraging others to repeat actions. Beings will carry individual traits and characteristics, act different on each input and scenario, and adapt their performance as they live.
 
-The program operates in real-time. A text-based interface is provided to allow for operations, interference and monitoring as the ecosystem status. This way, the user can experience events first-hand. Everything can be configured, generated and manipulated before or during the run: neurons, beings, objects, behaviors, actions, situations and circumstances. The interface also enables users to assume the roles of any being, bringing a somewhat immersive play.
+The program operates in real-time. A text-based interface is provided to allow for operations, interference and monitoring of the ecosystem status. This way, the user can experience events first-hand. Everything can be configured, generated and manipulated before or during the run: neurons, beings, objects, behaviors, actions, situations and circumstances. The interface also enables users to assume the roles of any being, bringing a somewhat immersive play.
 
 cppneu is an ongoing project, continuously developed and improved. It is about adapting uderstaings of neuroscience concepts, behaviournal algorithms, and self development. It will continue to evolve and adapt, just like the beings within the cppneu ecosystem.
 
