@@ -12,7 +12,7 @@ InteractiveNeuron::InteractiveNeuron(t_config u_)
 		u_.type
 	),
 	MetaNeuron(u_)
-{};
+{}
 
 void InteractiveNeuron::poke()
 {

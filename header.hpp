@@ -13,7 +13,7 @@
 
 # define SAVE_DIRECTORY "saves"
 # define PRECISION_DIGITS 8
-# define ASCII_BAR_LENGTH 12
+# define ASCII_BAR_LENGTH 10
 # define DEFAULT_TICK_MS 100
 
 # define LEADING_ZEROS 3

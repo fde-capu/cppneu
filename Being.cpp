@@ -159,6 +159,17 @@ void Being::processAxons()
 	}
 }
 
+std::string Being::readable()
+{
+	std::stringstream ss;
+		ss << "name:" << name << std::endl;
+	for (auto& pair : neuron_table)
+		ss << pair.second.readable() << std::endl;
+	for (auto& pair : axon_table)
+		ss << pair.second.readable(nameList) << std::endl;
+	return ss.str();
+}
+
 void Being::save()
 {
 	std::string f_name(name);
@@ -183,3 +194,6 @@ void Being::save()
 		status("Failed to save.");
 	}
 }
+
+Being::~Being()
+{}
