@@ -88,3 +88,16 @@ void Being::readInput(NEURON& n) {
 
 void Being::switchBias()
 { bias_switch = !bias_switch; }
+
+std::string Being::readable()
+{
+	std::stringstream ss;
+		ss << "name:" << name << std::endl;
+	for (auto& pair : neuron_table)
+		ss << pair.second.readable() << std::endl;
+	for (auto& pair : axon_table)
+		ss << pair.second.readable(nameList) << std::endl;
+	return ss.str();
+}
+
+Being::~Being(){}

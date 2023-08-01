@@ -7,11 +7,13 @@ ARGS	=
 SRCS	=	main.cpp Being.cpp randoms.cpp helpers.cpp \
 				Neuron.cpp DynamicNeuron.cpp menu.cpp parser.cpp \
 				TypesNeuron.cpp MetaNeuron.cpp prints.cpp Axon.cpp \
-				InteractiveNeuron.cpp Being_helpers.cpp
+				InteractiveNeuron.cpp Being_helpers.cpp \
+				RegulatorNeuron.cpp
 HEAD	=	Makefile header.hpp Being.hpp defines.hpp randoms.hpp \
 				Neuron.hpp DynamicNeuron.hpp menu.hpp TypesNeuron.hpp \
 				MetaNeuron.hpp prints.hpp parser.hpp Axon.hpp types.hpp \
-				InteractiveNeuron.hpp extern.hpp helpers.hpp
+				InteractiveNeuron.hpp extern.hpp helpers.hpp \
+				RegulatorNeuron.hpp
 SHELL	=	/bin/sh
 CC		=	clang++ -Wfatal-errors -std=c++20 -Wc++20-extensions -pthread
 CCFLAGS	=	-Wall -Werror -Wextra -g -Wfatal-errors

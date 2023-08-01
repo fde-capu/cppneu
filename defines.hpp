@@ -4,8 +4,8 @@
 # include "extern.hpp"
 # include "types.hpp"
 
-# define LAST_NEURON_IMPLEMENTATION "InteractiveNeuron.hpp"
-# define NEURON InteractiveNeuron
+# define LAST_NEURON_IMPLEMENTATION "RegulatorNeuron.hpp"
+# define NEURON RegulatorNeuron
 
 # define T_PHYSICAL 'p'
 # define T_VITAL 'v'
