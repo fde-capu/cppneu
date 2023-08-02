@@ -6,6 +6,7 @@
 #include "defines.hpp"
 
 std::vector<n_config> g_conf = {};
+b_config g_bconf;
 bool g_quit = false;
 bool g_running = false;
 size_t g_tick_ms = DEFAULT_TICK_MS;
@@ -102,7 +103,7 @@ void config()
 		else
 			g_being[curb].addNeuron(g_conf[i]);
 	}
-	g_being[curb].name = funnyName(baseNames);
+	g_being[curb].name = g_bconf.name.length() ? g_bconf.name : funnyName(baseNames);
 	g_being[curb].on();
 }
 

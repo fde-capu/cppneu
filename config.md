@@ -1,3 +1,5 @@
+name:Herile Conallida Mopkh
+
  Heart o01 d99 v t 0:260:bpm Frozen Slow Normal Peaced Accelerated Fast Hyper
  Breath o01 v t Empty Neutral Full
  Humor Crappy Bad Medium Ok Good Enthusiastic Incredible

@@ -42,6 +42,7 @@
 extern bool g_quit;
 extern bool g_running;
 extern std::vector<n_config> g_conf;
+extern b_config g_bconf;
 extern size_t g_tick_ms;
 
 void doQuit();

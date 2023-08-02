@@ -24,6 +24,11 @@ typedef struct NeuronConfig
 	zo multiplier;
 } n_config;
 
+typedef struct BeingConfig
+{
+	std::string name;
+} b_config;
+
 std::ostream& operator<< (std::ostream&, n_config const&);
 
 #endif

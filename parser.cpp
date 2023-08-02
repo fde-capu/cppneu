@@ -29,6 +29,15 @@ void parseReset()
 	named = false;
 }
 
+bool looksLikeBeingSetup(const std::string& s)
+{
+	std::vector<std::string> kv =
+		split(s, ':');
+	if (kv[0] == "name")
+		return g_bconf.name = kv[1], true;
+	return false;
+}
+
 bool looksLikeScale(const std::string& s)
 {
 	size_t div = 0;
@@ -152,9 +161,7 @@ void autoGen(const std::string& l)
 	if (make == "neuron")
 		set.type = T_QUIET;
 	while (a--)
-	{
 		g_conf.push_back(set);
-	}
 }
 
 //	 /^\c{ }1\d+$/
@@ -223,10 +230,11 @@ bool looksLikeAxon(const std::string& l)
 
 void parse(const std::string& l)
 {
-	if (looksLikeAutoGen(l))
-		return ;
-	if (looksLikeAxon(l))
-		return ;
+	if	(
+			looksLikeBeingSetup(l)
+	||	looksLikeAutoGen(l)
+	||	looksLikeAxon(l)
+			) return ;
 
 	parseReset();
 	std::vector<std::string> spl = readSplit(l);
