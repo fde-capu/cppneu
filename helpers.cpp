@@ -390,26 +390,21 @@ size_t rtou(const std::string& roman) {
 
 	for (auto it = roman.rbegin(); it != roman.rend(); ++it) {
 		size_t curr = roman_map[*it];
-		if (curr == 0) {
+		if (curr == 0)
 			return 0;
-		}
-		if (curr < prev && (prev / curr) > 10) {
+		if (curr < prev && (prev / curr) > 10)
 			return 0;
-		}
-		if (curr == prev) {
+		if (curr == prev)
+		{
 			count++;
-			if (count == 4 || (count == 2 && (curr == 5 || curr == 50 || curr == 500))) {
+			if (count == 4 || (count == 2 && (curr == 5 || curr == 50 || curr == 500)))
 				return 0;
-			}
-		} else {
+		} else
 			count = 1;
-		}
-		if (curr < prev) {
+		if (curr < prev)
 			result -= curr;
-		} else {
+		else
 			result += curr;
-		}
-
 		prev = curr;
 	}
 	return result;
