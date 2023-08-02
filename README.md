@@ -18,6 +18,8 @@ cppneu is an ongoing project, continuously developed and improved. It is about a
 ## uF notation
 For cases >= 0.0, < 1.0, "xxxx" represents "0.xxxx". For 1.0, use "1.0".
 
+---
+
 # Syntax for Neurons
 
 ## Name 
@@ -55,6 +57,8 @@ Check and set defaults on header.h.
 | `s` | short threshold |
 | `t` | threshold |
 
+---
+
 # Syntax for Axons
 `x in-val-out`:
 
@@ -64,9 +68,15 @@ Check and set defaults on header.h.
 | val | uF notation multiplier |
 | out | UID or Name |
 
+---
+
 # Syntax for auto generation
 
 `b n` - Make n new bias  
 `x n` - Make n new axons
 
+---
 
+# Syntax for Beings
+
+`name:String string string ...` - sets the name.
