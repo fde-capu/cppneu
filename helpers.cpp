@@ -378,26 +378,59 @@ std::string funnyName(const std::string& base)
 	return out;
 }
 
-size_t rtou(const std::string& roman)
-{
-	size_t i = 0;
-	size_t out = 0;
+size_t rtou(const std::string& roman) {
+    std::unordered_map<char, size_t> roman_map = {
+        {'I', 1}, {'V', 5}, {'X', 10}, {'L', 50},
+        {'C', 100}, {'D', 500}, {'M', 1000}
+    };
 
-	while (i < roman.length())
-	{
-		if (roman.at(i) == 'I')
-			out++;
-		else
-			return 0;
-		i++;
-	}
+    size_t result = 0;
+    size_t prev = 0;
+    size_t count = 0;
 
-	return out;
+    for (auto it = roman.rbegin(); it != roman.rend(); ++it) {
+        size_t curr = roman_map[*it];
+        if (curr == 0) {
+            return 0;
+        }
+        if (curr < prev && (prev / curr) > 10) {
+            return 0;
+        }
+        if (curr == prev) {
+            count++;
+            if (count == 4 || (count == 2 && (curr == 5 || curr == 50 || curr == 500))) {
+                return 0;
+            }
+        } else {
+            count = 1;
+        }
+        if (curr < prev) {
+            result -= curr;
+        } else {
+            result += curr;
+        }
+
+        prev = curr;
+    }
+    return result;
 }
 
 std::string utor(size_t algebric)
 {
-	return std::string(algebric, 'I');
+	std::vector<std::pair<size_t, std::string>> roman = {
+		{1000, "M"}, {900, "CM"}, {500, "D"}, {400, "CD"},
+		{100, "C"}, {90, "XC"}, {50, "L"}, {40, "XL"},
+		{10, "X"}, {9, "IX"}, {5, "V"}, {4, "IV"}, {1, "I"}
+	};
+
+	std::string result;
+	for (auto& pair : roman) {
+		while (algebric >= pair.first) {
+			result += pair.second;
+			algebric -= pair.first;
+		}
+	}
+	return result;
 }
 
 void nextRomanName(std::string& name)
