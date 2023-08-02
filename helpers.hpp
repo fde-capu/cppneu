@@ -19,6 +19,7 @@ std::vector<std::string> split(const std::string &s, char delimiter);
 void hard_trim(std::string& line);
 zo max();
 std::string to_string(std::vector<std::string>);
+void nextRomanName(std::string& name);
 
 template <typename T>
 void toggleBit(T& d, T b)

@@ -125,6 +125,19 @@ std::vector<std::string> readSplit
 	return o;
 }
 
+std::string join(const std::vector<std::string>& vec, char spacer)
+{
+	std::string out = "";
+	size_t i = 0;
+	while (i < vec.size())
+	{
+		out += vec[i];
+		if (++i < vec.size())
+			out += std::string(1, spacer);
+	}
+	return out;
+}
+
 std::vector<std::string> split(const std::string &s, char delimiter)
 {
 		std::vector<std::string> tokens;
@@ -363,4 +376,36 @@ std::string funnyName(const std::string& base)
 	}
 
 	return out;
+}
+
+size_t rtou(const std::string& roman)
+{
+	size_t i = 0;
+	size_t out = 0;
+
+	while (i < roman.length())
+	{
+		if (roman.at(i) == 'I')
+			out++;
+		else
+			return 0;
+		i++;
+	}
+
+	return out;
+}
+
+std::string utor(size_t algebric)
+{
+	return std::string(algebric, 'I');
+}
+
+void nextRomanName(std::string& name)
+{
+	std::vector<std::string> ns = split(name, ' ');
+	size_t r = rtou(ns.back());
+	if (r)
+		ns.pop_back();
+	ns.push_back(utor(++r));
+	name = join(ns, ' ');
 }

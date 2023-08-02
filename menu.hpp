@@ -41,9 +41,9 @@ g_menu_tree =
 	{'.', {"next", &nextBeing}},
 	{',', {"previous", &previousBeing}},
 	{'P', {"pause", &toggleRunning}},
+	{'l', {"list", []() -> void { chooseBeing(); }}},
 }},
 { "main", {
-	{'l', {"list", []() -> void { chooseBeing(); }}},
 	{'d', {"display", []() -> void { gotoMenu("display"); }}},
 	{'p', {"poke", []() -> void { poke(); }}},
 	{'s', {"save", []() -> void { save(); }}},

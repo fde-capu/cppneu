@@ -3,7 +3,7 @@
 
 static size_t g_UID = 0;
 size_t UID;
-std::string name;
+std::string n_name;
 char type;
 char expressor;
 int scaleMin;
@@ -12,12 +12,17 @@ std::string unit;
 std::vector<std::string> scale;
 zo damp;
 zo originalThreshold;
-bool named;
+bool n_named;
+
+void beingReset()
+{
+	g_bconf.name = "";
+}
 
 void parseReset()
 {
 	UID = g_UID++;
-	name = std::to_string(UID);
+	n_name = std::to_string(UID);
 	type = 0;
 	expressor = 0;
 	scaleMin = g_default_set.scaleMin;
@@ -26,7 +31,7 @@ void parseReset()
 	scale = g_default_set.scale;
 	damp = 0;
 	originalThreshold = g_default_set.originalThreshold;
-	named = false;
+	n_named = false;
 }
 
 bool looksLikeBeingSetup(const std::string& s)
@@ -70,7 +75,7 @@ bool looksLikeScale(const std::string& s)
 
 bool thenItsScaleName(const std::string& s)
 {
-	if (!named) return false;
+	if (!n_named) return false;
 	scale.push_back(s);
 	return true;
 }
@@ -88,10 +93,10 @@ bool looksLikeName(const std::string& n)
 {
 	if (isGenericUFormat(n))
 		return false;
-	if (!named)
+	if (!n_named)
 	{
-		name = n;
-		named = true;
+		n_name = n;
+		n_named = true;
 		return true;
 	}
 	return false;
@@ -253,8 +258,8 @@ void parse(const std::string& l)
 				if (expressor)
 					std::cerr << "Multiple expressors: " << l << std::endl;
 				expressor = s.at(0);
-				if (!named)
-					name += std::string(expressor, 1);
+				if (!n_named)
+					n_name += std::string(expressor, 1);
 			}
 			
 			if (
@@ -269,8 +274,8 @@ void parse(const std::string& l)
 				if (type)
 					std::cerr << "Type given more than once: " << l << std::endl;
 				type = s.at(0);
-				if (!named)
-					name = std::string(type, 1) + name;
+				if (!n_named)
+					n_name = std::string(type, 1) + n_name;
 			}
 		}
 
@@ -295,7 +300,7 @@ void parse(const std::string& l)
 
 	g_conf.push_back({
 		.UID = UID,
-		.name = name,
+		.name = n_name,
 		.type = type ? type : g_default_set.type,
 		.expressor = expressor ? expressor : g_default_set.expressor,
 		.scaleMin = scaleMin,
@@ -309,6 +314,7 @@ void parse(const std::string& l)
 
 void loadConf(const char* u_fn)
 {
+	beingReset();
 	std::fstream file_read = loadFile(u_fn);
 	std::string line;
 	while (std::getline(file_read, line))

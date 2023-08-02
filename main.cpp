@@ -92,6 +92,22 @@ void sysconfig(std::string sys_conf)
 	}
 }
 
+std::string& uniqueName()
+{
+	if (!g_bconf.name.length())
+		g_bconf.name = funnyName(baseNames);
+	for (const auto& b : g_being)
+	{
+		if (b.name == g_bconf.name)
+		{
+			nextRomanName(g_bconf.name);
+			warn(b.name + " already exist, renaming to " + g_bconf.name + ".");
+			return uniqueName();
+		}
+	}
+	return g_bconf.name;
+}
+
 void config()
 {
 	Being newBeing;
@@ -103,7 +119,7 @@ void config()
 		else
 			g_being[curb].addNeuron(g_conf[i]);
 	}
-	g_being[curb].name = g_bconf.name.length() ? g_bconf.name : funnyName(baseNames);
+	g_being[curb].name = uniqueName();
 	g_being[curb].on();
 }
 
