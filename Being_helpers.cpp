@@ -3,8 +3,8 @@
 
 Being::Being()
 {
-	Being::g_Axon_UID = 0;
-	Being::g_Neuron_UID = 0;
+	g_Axon_UID = 0;
+	g_Neuron_UID = 0;
 }
 
 std::string Being::getHeader()

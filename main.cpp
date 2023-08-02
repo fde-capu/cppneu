@@ -155,6 +155,7 @@ int main()
 }
 
 void createNewBeing() {
+	loadConf(DEFAULT_CONFIG_FILE);
 	config();
 }
 

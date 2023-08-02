@@ -17,6 +17,7 @@ bool n_named;
 void beingReset()
 {
 	g_bconf.name = "";
+	g_conf = {};
 }
 
 void parseReset()
