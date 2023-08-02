@@ -4,7 +4,7 @@
 # include "types.hpp"
 # include "header.hpp"
 
-t_config g_default_set =
+n_config g_default_set =
 {
 		.name = "",
 		.type = DEFAULT_NEURON_TYPE,
@@ -17,14 +17,14 @@ t_config g_default_set =
 		.originalThreshold = 0.0,
 };
 
-t_config g_bias_set =
+n_config g_bias_set =
 {
 		.type = T_BIAS,
 		.expressor = DEFAULT_EXPRESSOR,
 		.damp = -1.0,
 };
 
-t_config g_axon_set =
+n_config g_axon_set =
 {
 		.type = T_AXON
 };

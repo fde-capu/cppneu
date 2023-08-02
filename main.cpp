@@ -5,7 +5,7 @@
 #include "helpers.hpp"
 #include "defines.hpp"
 
-std::vector<t_config> g_conf = {};
+std::vector<n_config> g_conf = {};
 bool g_quit = false;
 bool g_running = false;
 size_t g_tick_ms = DEFAULT_TICK_MS;
@@ -16,9 +16,9 @@ std::string baseNames;
 std::vector<Being> g_being;
 size_t curb = 0;
 
-std::ostream& operator<< (std::ostream& o, t_config const& self)
+std::ostream& operator<< (std::ostream& o, n_config const& self)
 {
-	o << "t_config {" <<
+	o << "n_config {" <<
 		 " UID: " << self.UID <<
 		", type: " << self.type <<
 		", name: " << self.name <<

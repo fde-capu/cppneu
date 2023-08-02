@@ -2,7 +2,7 @@
 
 InteractiveNeuron::InteractiveNeuron(){};
 
-InteractiveNeuron::InteractiveNeuron(t_config u_)
+InteractiveNeuron::InteractiveNeuron(n_config u_)
 :
 	Neuron(),
 	DynamicNeuron(

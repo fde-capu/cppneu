@@ -145,7 +145,7 @@ void autoGen(const std::string& l)
 	}
 
 	size_t a = readSizeT(l, 2);
-	t_config set =
+	n_config set =
 		make == "bias" ? g_bias_set :
 		make == "axon" ? g_axon_set :
 		g_default_set;
@@ -206,7 +206,7 @@ bool looksLikeAxon(const std::string& l)
 	std::vector<std::string> newAxon = split(spl[1], '-');
 	if (newAxon.size() == 3)
 	{
-		t_config u_axon = g_axon_set;
+		n_config u_axon = g_axon_set;
 		u_axon.slotIn = idOrIdByName(newAxon[0]);
 		u_axon.multiplier = readZO(newAxon[1]);
 		u_axon.slotOut = idOrIdByName(newAxon[2]);

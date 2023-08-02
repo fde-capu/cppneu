@@ -1,7 +1,7 @@
 #include "Being.hpp"
 #include "randoms.hpp"
 
-void Being::addNeuron(t_config& u_)
+void Being::addNeuron(n_config& u_)
 {
 	nextId(u_.UID);
 	if (!u_.name.length())
@@ -19,7 +19,7 @@ void Being::addNeuron(t_config& u_)
 	if (n.isBias()) count_bias++;
 }
 
-void Being::addAxon(t_config& u_)
+void Being::addAxon(n_config& u_)
 {
 	if ((u_.slotIn != ST_MAX && !neuron_table.count(u_.slotIn))
 	|| (u_.slotOut != ST_MAX && !neuron_table.count(u_.slotOut)))

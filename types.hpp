@@ -7,7 +7,7 @@
 # define zo float
 # define ST_MAX std::numeric_limits<size_t>::max()
 
-typedef struct TypeBeingConfig
+typedef struct NeuronConfig
 {
 	size_t UID;
 	std::string name;
@@ -22,8 +22,8 @@ typedef struct TypeBeingConfig
 	size_t slotIn = ST_MAX;
 	size_t slotOut = ST_MAX;
 	zo multiplier;
-} t_config;
+} n_config;
 
-std::ostream& operator<< (std::ostream&, t_config const&);
+std::ostream& operator<< (std::ostream&, n_config const&);
 
 #endif

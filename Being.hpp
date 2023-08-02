@@ -25,8 +25,8 @@ class Being {
 		size_t count_axon = 0;
 		size_t count_bias = 0;
 
-		void addAxon(t_config& u_);
-		void addNeuron(t_config& u_);
+		void addAxon(n_config& u_);
+		void addNeuron(n_config& u_);
 
 		void process();
 		void balanceAxons();

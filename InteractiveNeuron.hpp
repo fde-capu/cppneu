@@ -13,7 +13,7 @@ class InteractiveNeuron: public virtual MetaNeuron
 		bool isPoked();
 
 	public:
-		InteractiveNeuron(t_config);
+		InteractiveNeuron(n_config);
 		InteractiveNeuron();
 		InteractiveNeuron(InteractiveNeuron const&);
 		InteractiveNeuron& operator= (InteractiveNeuron const&);

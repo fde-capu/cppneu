@@ -5,7 +5,7 @@
 MetaNeuron::MetaNeuron(){}
 
 MetaNeuron::MetaNeuron(
-	t_config u_
+	n_config u_
 )
 :
 	Neuron(),
