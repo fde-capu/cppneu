@@ -1,6 +1,7 @@
 #ifndef NEURON_HPP
 # define NEURON_HPP
 
+# include "header.hpp"
 # include "types.hpp"
 
 class Neuron

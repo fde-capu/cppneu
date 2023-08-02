@@ -116,26 +116,6 @@ void uRead(T& v, const std::string& s)
 		v = readZO(s.substr(1));
 }
 
-bool looksLikeId(const std::string& s)
-{
-	if (!(	uFormat(s, ID_CHAR)
-			||	uFormat(s, T_BIAS)
-			||	uFormat(s, T_NEURON)
-	)) return false;
-
-	type = s.at(0) != ID_CHAR ? s.at(0) : type;
-	type = type == T_NEURON ? 0 : type;
-	size_t new_UID = readSizeT(s, 1);	
-	if (!idTaken(new_UID))
-		UID = new_UID;
-	else
-	{
-		std::cerr << "Conflict id: " << s << "." << std::endl;
-		return false;
-	}
-	return true;
-}
-
 bool looksLikeOriginalThreshold(const std::string &s)
 {
 	if (!uFormat(s, 'o')) return false;
@@ -292,7 +272,6 @@ void parse(const std::string& l)
 			if (looksLikeScale(s)) continue ; // min:max:unit
 			if (looksLikeDamp(s)) continue ; // dnnn
 			if (looksLikeOriginalThreshold(s)) continue ; // onnn
-			if (looksLikeId(s)) continue ; // innn, bnnn, nnnn
 			if (thenItsScaleName(s)) continue ; // Other strings (sequenctialy)
 			std::cerr << "Error: id '" << s << "' on '" << l << "'. Not created." << std::endl;
 			g_UID--;

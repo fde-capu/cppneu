@@ -8,6 +8,8 @@
 
 class Being {
 	public:
+		std::string name;
+
 		size_t g_Neuron_UID;
 		size_t g_Axon_UID;
 
@@ -52,7 +54,6 @@ class Being {
 		void switchBias();
 
 		void save();
-		std::string name;
 
 		Being();
 		virtual ~Being();

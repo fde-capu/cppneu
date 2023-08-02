@@ -14,46 +14,49 @@ cppneu is an ongoing project, continuously developed and improved. It is about a
 
 ---
 
-# Syntax notes for individual neuron definition
+# Syntax notes:
+## uF notation
+For cases >= 0.0, < 1.0, "xxxx" represents "0.xxxx". For 1.0, use "1.0".
 
-## String 
-The first string must be the name. All rest is optional. Check header.h for defaults.
+# Syntax for Neurons
+
+## Name 
+There must be a string for the name.
+All rest is optional.
+Check and set defaults on header.h.
 
 ## Verbal scale
-string string string ...
+`string string string ...`
 
-## Custom measurable scale
-min:max:unit 
+## Measurable scale
+`min:max:unit`
 
 ## Id
-ixxxx  id (xxxx as integer), same as nxxxx, or bxxxx for bias.
+`ixxxx`  id (xxxx as integer), same as nxxxx, or bxxxx for bias.
 
 ## Types
 
 | | |
 |---|---|
-| n | neuron |
-| v | vital |
-| a | action |
-| m | measure |
-| p | physical |
-| b | bias |
-| q | quiet |
+| `n` | neuron |
+| `v` | vital |
+| `a` | action |
+| `m` | measure |
+| `p` | physical |
+| `b` | bias |
+| `q` | quiet |
 
 ## Expressors
 
 | | |
 |---|---|
-| c | current |
-| o | original threshold |
-| s | short threshold |
-| t | threshold |
+| `c` | current |
+| `o` | original threshold |
+| `s` | short threshold |
+| `t` | threshold |
 
-## uF notation
-For cases >= 0.0, < 1.0, "xxxx" represents "0.xxxx". For 1.0, use "1.0".
-
-## Axons
-`in:val:out`, where:
+# Syntax for Axons
+`x in-val-out`:
 
 | | |
 | --- | --- |
@@ -61,7 +64,9 @@ For cases >= 0.0, < 1.0, "xxxx" represents "0.xxxx". For 1.0, use "1.0".
 | val | uF notation multiplier |
 | out | UID or Name |
 
-## Auto generation
+# Syntax for auto generation
 
-b n - Make n new bias  
-x n - Make n new axons
+`b n` - Make n new bias  
+`x n` - Make n new axons
+
+
