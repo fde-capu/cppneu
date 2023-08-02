@@ -379,40 +379,40 @@ std::string funnyName(const std::string& base)
 }
 
 size_t rtou(const std::string& roman) {
-    std::unordered_map<char, size_t> roman_map = {
-        {'I', 1}, {'V', 5}, {'X', 10}, {'L', 50},
-        {'C', 100}, {'D', 500}, {'M', 1000}
-    };
+	std::unordered_map<char, size_t> roman_map = {
+		{'I', 1}, {'V', 5}, {'X', 10}, {'L', 50},
+		{'C', 100}, {'D', 500}, {'M', 1000}
+	};
 
-    size_t result = 0;
-    size_t prev = 0;
-    size_t count = 0;
+	size_t result = 0;
+	size_t prev = 0;
+	size_t count = 0;
 
-    for (auto it = roman.rbegin(); it != roman.rend(); ++it) {
-        size_t curr = roman_map[*it];
-        if (curr == 0) {
-            return 0;
-        }
-        if (curr < prev && (prev / curr) > 10) {
-            return 0;
-        }
-        if (curr == prev) {
-            count++;
-            if (count == 4 || (count == 2 && (curr == 5 || curr == 50 || curr == 500))) {
-                return 0;
-            }
-        } else {
-            count = 1;
-        }
-        if (curr < prev) {
-            result -= curr;
-        } else {
-            result += curr;
-        }
+	for (auto it = roman.rbegin(); it != roman.rend(); ++it) {
+		size_t curr = roman_map[*it];
+		if (curr == 0) {
+			return 0;
+		}
+		if (curr < prev && (prev / curr) > 10) {
+			return 0;
+		}
+		if (curr == prev) {
+			count++;
+			if (count == 4 || (count == 2 && (curr == 5 || curr == 50 || curr == 500))) {
+				return 0;
+			}
+		} else {
+			count = 1;
+		}
+		if (curr < prev) {
+			result -= curr;
+		} else {
+			result += curr;
+		}
 
-        prev = curr;
-    }
-    return result;
+		prev = curr;
+	}
+	return result;
 }
 
 std::string utor(size_t algebric)
