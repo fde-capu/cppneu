@@ -28,7 +28,7 @@ std::string TypesNeuron::readable() const
 	return readOut;
 }
 
-bool TypesNeuron::isNeuron()
+bool TypesNeuron::isNeuron() const
 { return
 				type == T_PHYSICAL
 		||	type == T_VITAL
@@ -40,7 +40,7 @@ bool TypesNeuron::isNeuron()
 bool TypesNeuron::isBias() const
 { return type == T_BIAS; }
 
-bool TypesNeuron::hasInput()
+bool TypesNeuron::hasInput() const
 { return
 				type == T_PHYSICAL
 		||	type == T_VITAL
@@ -49,7 +49,7 @@ bool TypesNeuron::hasInput()
 		||	type == T_QUIET
 ;}
 
-bool TypesNeuron::hasOutput()
+bool TypesNeuron::hasOutput() const
 { return hasInput() || isBias(); }
 
 TypesNeuron::~TypesNeuron() {}

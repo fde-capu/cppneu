@@ -2,7 +2,6 @@
 # define TYPESNEURON_HPP
 
 # include "DynamicNeuron.hpp"
-# include "header.hpp"
 
 class TypesNeuron: public virtual DynamicNeuron
 {
@@ -13,10 +12,10 @@ class TypesNeuron: public virtual DynamicNeuron
 		TypesNeuron(int type = DEFAULT_NEURON_TYPE);
 		TypesNeuron(TypesNeuron const&);
 		TypesNeuron& operator= (TypesNeuron const&);
-		bool isNeuron();
+		bool isNeuron() const;
 		bool isBias() const;
-		bool hasInput();
-		bool hasOutput();
+		bool hasInput() const;
+		bool hasOutput() const;
 		virtual std::string readable() const;
 		virtual ~TypesNeuron();
 };

@@ -53,6 +53,7 @@ ixxxx  id (xxxx as integer), same as nxxxx, or bxxxx for bias.
 For cases >= 0.0, < 1.0, "xxxx" represents "0.xxxx". For 1.0, use "1.0".
 
 ## Axons
+`in:val:out`, where:
 
 | | |
 | --- | --- |

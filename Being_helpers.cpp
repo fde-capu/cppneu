@@ -88,3 +88,41 @@ void Being::readInput(NEURON& n) {
 
 void Being::switchBias()
 { bias_switch = !bias_switch; }
+
+void Being::save()
+{
+	std::string f_name(name);
+	prompt("Name:", f_name);
+	if (!f_name.length())
+	{
+		status("Save aborted.");
+		return ;
+	}
+	std::string filename =
+		std::string(SAVE_DIRECTORY)
+		+ std::string("/") + f_name;
+	std::ofstream fn(filename.c_str());
+	if (fn.is_open())
+	{
+		fn << readable();
+		fn.close();
+		status("File saved: " + filename);
+	}
+	else
+	{
+		status("Failed to save.");
+	}
+}
+
+std::string Being::readable()
+{
+	std::stringstream ss;
+		ss << "name:" << name << std::endl;
+	for (auto& pair : neuron_table)
+		ss << pair.second.readable() << std::endl;
+	for (auto& pair : axon_table)
+		ss << pair.second.readable(nameList) << std::endl;
+	return ss.str();
+}
+
+Being::~Being(){};
