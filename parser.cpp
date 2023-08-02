@@ -18,6 +18,7 @@ void beingReset()
 {
 	g_bconf.name = "";
 	g_conf = {};
+	g_UID = 0;
 }
 
 void parseReset()
