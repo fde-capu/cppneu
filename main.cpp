@@ -159,10 +159,10 @@ void createNewBeing() {
 	config();
 }
 
-void nextBeing()
+void previousBeing()
 { curb = curb + 1 == g_being.size() ? 0 : curb + 1; }
 
-void previousBeing()
+void nextBeing()
 { curb = curb == 0 ? g_being.size() - 1 : curb - 1; }
 
 void poke()
