@@ -15,7 +15,7 @@ void gotoMenu(std::string u_menu)
 
 void menuInit()
 {
-	gotoMenu("main");
+	gotoMenu(FIRST_MENU);
 }
 
 void menuHighlight(const std::string& entry, char key, bool underline = false, bool divisor = true)
@@ -119,12 +119,28 @@ void printDebug()
 
 void printStatus()
 {
+	static size_t status_time = 0;
+	static size_t status_size = 0;
+
 	if (g_showStatus == 3)
 		g_showStatus = 0;
 	if (!g_status.size())
 		return ;
 	if (g_showStatus == 1)
+	{
+		if (g_status.size() == status_size)
+		{
+			status_time++;
+			if (status_time > 100)
+				g_status.push_back("");
+		}
+		else
+		{
+			status_time = 0;
+			status_size = g_status.size();
+		}
 		printw("%s\n", (g_status.back()).c_str());
+	}
 	if (g_showStatus == 2)
 	{
 		for (auto s : g_status)

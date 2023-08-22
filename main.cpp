@@ -55,7 +55,10 @@ void run()
 			printMenu();
 			printDebug();
 			printStatus();
-			printScreen(g_being[curb]);
+			for (size_t i = 0; i <= curb; i++)
+			{
+				printScreen(g_being[curb]);
+			}
 			refresh();
 		}
 
@@ -167,7 +170,7 @@ void nextBeing()
 
 void poke()
 {
-	g_being[curb].poke("CustomBiasName");
+	g_being[curb].poke("Noise");
 }
 
 void save() {

@@ -14,16 +14,18 @@
 
 # i0 b top m o o0
 
- b CustomBiasName o1.0 o Clear Cloudy Rain Storm 0:100:humity
+ b Atmosphere s Clear Cloudy Rain Storm 0:100:humity
+ b Smell o0.1 s
+ b Noise o0.1 c Quiet Noisy Loud Unbearable 0:100:db
 
 # n neuron o99 d0 c
 # n neuron2 o03 d0 c
- b 4
+ b 0
 
  n 3
 
  x 10
 
 # x 2-1.0-1
- x Pleasure-1.0-Heart
- x Heart-555-Breath
+# x Pleasure-1.0-Heart
+# x Heart-555-Breath
