@@ -29,7 +29,8 @@ void menuHighlight(const std::string& entry, char key, bool underline = false, b
 	bool highlighted = false;
 
 	key_match =
-		( to_lower(entry).find(std::tolower(key)) != std::string::npos );
+		( to_lower(entry).find(std::tolower(key))
+			!= std::string::npos );
 
 	if (key && !key_match)
 	{
@@ -42,7 +43,8 @@ void menuHighlight(const std::string& entry, char key, bool underline = false, b
 	for (size_t i = 0; i < entry.length(); i++)
 	{
 		p = entry.at(i);
-		p = std::tolower(p) == std::tolower(key) ? key : p;
+		p = std::tolower(p) == std::tolower(key) 
+			&& !highlighted ? key : p;
 		high = p == key && !highlighted;
 		highlighted = high ? true : highlighted;
 		if (high) BOLD;

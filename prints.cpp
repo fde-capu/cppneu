@@ -5,6 +5,7 @@
 void printScreen(Being& b)
 {
 	printHeader(b);
+	UNBOLD
 	printAllCharacters(b);
 	printAllDescriptions(b);
 	printAllBars(b);

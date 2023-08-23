@@ -33,27 +33,31 @@ static std::map<std::string, std::map<char, DescriptionFunction> >
 g_menu_tree = 
 {
 { "global", {
-	{'!', {"debug", &toggleShowDebug}},
-	{'t', {"status", &toggleShowStatus}},
-	{'?', {"menu", &toggleShowMenu}},
 	{'q', {"quit", &doQuit}},
+	{'S', {"system", []() -> void { gotoMenu("system"); }}},
+	{'?', {"menu", &toggleShowMenu}},
+	{'P', {"pause", &toggleRunning}},
+}},
+{ "main", {
+	{'p', {"poke", []() -> void { poke(); }}},
+	{'s', {"save", []() -> void { save(); }}},
 	{'n', {"new", &createNewBeing}},
 	{',', {"previous", &previousBeing}},
 	{'.', {"next", &nextBeing}},
-	{'P', {"pause", &toggleRunning}},
 	{'l', {"list", []() -> void { chooseBeing(); }}},
 }},
-{ "main", {
+{ "system", {
+	{'m', {"<-", []() -> void { gotoMenu("main"); }}},
+	{'t', {"status", &toggleShowStatus}},
 	{'d', {"display", []() -> void { gotoMenu("display"); }}},
-	{'p', {"poke", []() -> void { poke(); }}},
-	{'s', {"save", []() -> void { save(); }}},
 	{'y', {"system_save", []() -> void { sysSave(); }}},
 	{'b', {"bias_on/off", []() -> void { switchBias(); }}},
 	{'=', {"speed_down", []() -> void { increment(g_tick_ms, 10); }}},
 	{'-', {"speed_up", []() -> void { decrement(g_tick_ms, g_tick_ms >= 20 ? 10 : 0); }}},
+	{'!', {"debug", &toggleShowDebug}},
 }},
 { "display", {
-	{'d', {"<-", []() -> void { gotoMenu("main"); }}},
+	{'d', {"<-", []() -> void { gotoMenu("system"); }}},
 	{'b', {"bar", []() -> void { gotoMenu("bar"); }}},
 	{'i', {"bias", []() -> void { setDisplay(DISPLAY_BIAS); }}},
 	{'h', {"header", []() -> void { setDisplay(DISPLAY_HEADER); }}},

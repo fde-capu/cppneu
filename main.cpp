@@ -48,17 +48,25 @@ void run()
 	{
 		if (g_running)
 		{
-
-			g_being[curb].process();
+			for (size_t i = 0; i < g_being.size(); i++)
+				g_being[i].process();
 
 			clear();
 			printMenu();
 			printDebug();
 			printStatus();
-			for (size_t i = 0; i <= curb; i++)
+
+			for (size_t i = 0; i < g_being.size(); i++)
 			{
-				printScreen(g_being[curb]);
+				printw("\n");
+				if (i == curb)
+				{
+					BOLD
+					printw("> ");
+				}
+				printScreen(g_being[i]);
 			}
+
 			refresh();
 		}
 
@@ -163,10 +171,10 @@ void createNewBeing() {
 }
 
 void previousBeing()
-{ curb = curb + 1 == g_being.size() ? 0 : curb + 1; }
+{ curb = curb == 0 ? g_being.size() - 1 : curb - 1; }
 
 void nextBeing()
-{ curb = curb == 0 ? g_being.size() - 1 : curb - 1; }
+{ curb = curb + 1 == g_being.size() ? 0 : curb + 1; }
 
 void poke()
 {
